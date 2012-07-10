@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuanLy", "QuanLy\QuanLy.vcproj", "{73198BE1-71C4-4F23-B724-5828B95C720C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73198BE1-71C4-4F23-B724-5828B95C720C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{73198BE1-71C4-4F23-B724-5828B95C720C}.Debug|Win32.Build.0 = Debug|Win32
+		{73198BE1-71C4-4F23-B724-5828B95C720C}.Release|Win32.ActiveCfg = Release|Win32
+		{73198BE1-71C4-4F23-B724-5828B95C720C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
