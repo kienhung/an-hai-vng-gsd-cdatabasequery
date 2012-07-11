@@ -196,6 +196,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\StringConverter.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -212,6 +216,10 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.h"
 				>
 			</File>
 			<File
