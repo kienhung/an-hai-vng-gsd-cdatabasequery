@@ -1,5 +1,5 @@
 //////////////
-1. list<NHANVIEN> GetALL();
+1. size_t GetALL(list<NHANVIEN>*);
 2. bool AddNhanVien(NHANVIEN );
 3. bool UpdateNhanVien(NHANVIEN );
 3. bool DeleteNhanVien(int maNhanVien);
