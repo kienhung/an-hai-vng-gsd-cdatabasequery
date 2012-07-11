@@ -3,6 +3,7 @@
 //
 #pragma once
 #include "NhanVien.h"
+#include "ThemDlg.h"
 
 // CQuanLyDlg dialog
 class CQuanLyDlg : public CDialog

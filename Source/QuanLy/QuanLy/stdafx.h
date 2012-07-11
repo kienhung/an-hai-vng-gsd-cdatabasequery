@@ -5,6 +5,7 @@
 
 #pragma once
 
+#define _ATL_APARTMENT_THREADED 
 #ifndef _SECURE_ATL
 #define _SECURE_ATL 1
 #endif
@@ -58,3 +59,7 @@
 #endif
 
 
+
+#include <atlbase.h>
+#include <atlcom.h>
+#include <atlctl.h>
