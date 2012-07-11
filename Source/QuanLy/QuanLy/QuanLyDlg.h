@@ -1,9 +1,8 @@
 
 // QuanLyDlg.h : header file
 //
-
 #pragma once
-
+#include "NhanVien.h"
 
 // CQuanLyDlg dialog
 class CQuanLyDlg : public CDialog
@@ -22,6 +21,8 @@ public:
 // Implementation
 protected:
 	void InitListCtrlCols();
+	void UpdateListNhanVien();
+	void InsertItemNhanVien(const NHANVIEN &nhanVien, int iIndex);
 
 	HICON m_hIcon;
 	
