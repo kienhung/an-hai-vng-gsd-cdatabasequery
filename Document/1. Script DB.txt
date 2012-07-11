@@ -1,17 +1,16 @@
-﻿DROP TABLE IF EXISTS `quanlynhanvien`.`phongban`;
-CREATE TABLE  `quanlynhanvien`.`phongban` (
-  `MaPhong` TINYINT unsigned NOT NULL auto_increment,
-  `TenPhong` varchar(50) character set latin1 NOT NULL,
+﻿
+CREATE TABLE `phongban` (
+  `MaPhong` tinyint(3) unsigned NOT NULL auto_increment,
+  `TenPhong` varchar(50) NOT NULL,
   PRIMARY KEY  (`MaPhong`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `quanlynhanvien`.`nhanvien`;
-CREATE TABLE  `quanlynhanvien`.`nhanvien` (
-  `MaNhanVien` INT unsigned NOT NULL auto_increment,
-  `TenNhanVien` varchar(50) character set latin1 NOT NULL,
-  `GioiTinh` TINYINT NOT NULL,
-  `DiaChi` varchar(100) character set latin1 NOT NULL,
-  `SoDienThoai` varchar(20) character set latin1 NOT NULL,
+CREATE TABLE `nhanvien` (
+  `MaNhanVien` int(10) unsigned NOT NULL auto_increment,
+  `TenNhanVien` varchar(50) NOT NULL,
+  `GioiTinh` tinyint(4) NOT NULL,
+  `DiaChi` varchar(100) NOT NULL,
+  `SoDienThoai` varchar(20) NOT NULL,
   `MaPhong` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY  (`MaNhanVien`),
   KEY `FK_nhanvien_phongban` (`MaPhong`),
@@ -20,10 +19,10 @@ CREATE TABLE  `quanlynhanvien`.`nhanvien` (
 
 
 
+
 INSERT INTO PHONGBAN(MAPHONG, TENPHONG) VALUES (1, 'Game Software Development');
 INSERT INTO PHONGBAN(MAPHONG, TENPHONG) VALUES (2, 'Game System Operation');
 INSERT INTO PHONGBAN(MAPHONG, TENPHONG) VALUES (3, 'Web Operation');
-
 
 
 
