@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "QuanLy.h"
 #include "QuanLyDlg.h"
+#include <initguid.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -12,6 +13,15 @@
 
 
 // CQuanLyApp
+
+
+class CQuanLyModule :
+	public CAtlMfcModule
+{
+public:
+	DECLARE_REGISTRY_APPID_RESOURCEID(IDR_QUANLY, "{3AECA472-660B-4833-90E6-7FA76874A780}");};
+
+CQuanLyModule _AtlModule;
 
 BEGIN_MESSAGE_MAP(CQuanLyApp, CWinAppEx)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
@@ -36,6 +46,7 @@ CQuanLyApp theApp;
 
 BOOL CQuanLyApp::InitInstance()
 {
+	AfxOleInit();
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -49,6 +60,35 @@ BOOL CQuanLyApp::InitInstance()
 	CWinAppEx::InitInstance();
 
 	AfxEnableControlContainer();
+	// Parse command line for standard shell commands, DDE, file open
+	CCommandLineInfo cmdInfo;
+	ParseCommandLine(cmdInfo);
+	#if !defined(_WIN32_WCE) || defined(_CE_DCOM)
+	// Register class factories via CoRegisterClassObject().
+	if (FAILED(_AtlModule.RegisterClassObjects(CLSCTX_LOCAL_SERVER, REGCLS_MULTIPLEUSE)))
+		return FALSE;
+	#endif // !defined(_WIN32_WCE) || defined(_CE_DCOM)
+	// App was launched with /Embedding or /Automation switch.
+	// Run app as automation server.
+	if (cmdInfo.m_bRunEmbedded || cmdInfo.m_bRunAutomated)
+	{
+		// Don't show the main window
+		return TRUE;
+	}
+	// App was launched with /Unregserver or /Unregister switch.
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::AppUnregister)
+	{
+		_AtlModule.UpdateRegistryAppId(FALSE);
+		_AtlModule.UnregisterServer(TRUE);
+		return FALSE;
+	}
+	// App was launched with /Register or /Regserver switch.
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::AppRegister)
+	{
+		_AtlModule.UpdateRegistryAppId(TRUE);
+		_AtlModule.RegisterServer(TRUE);
+		return FALSE;
+	}
 
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
@@ -76,4 +116,12 @@ BOOL CQuanLyApp::InitInstance()
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
+}
+
+BOOL CQuanLyApp::ExitInstance(void)
+{
+#if !defined(_WIN32_WCE) || defined(_CE_DCOM)
+	_AtlModule.RevokeClassObjects();
+#endif
+	return CWinApp::ExitInstance();
 }

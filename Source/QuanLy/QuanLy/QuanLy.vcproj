@@ -22,6 +22,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
+			UseOfATL="1"
 			CharacterSet="1"
 			>
 			<Tool
@@ -67,6 +68,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				RegisterOutput="true"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -100,6 +102,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="2"
+			UseOfATL="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -147,6 +150,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				RegisterOutput="true"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -213,6 +217,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\ThemDlg.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -237,6 +245,10 @@
 			</File>
 			<File
 				RelativePath=".\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ThemDlg.h"
 				>
 			</File>
 		</Filter>

@@ -9,6 +9,7 @@
 #endif
 
 #include "resource.h"		// main symbols
+#include "mysqlnhanviendao.h"
 
 
 // CQuanLyApp:
@@ -27,6 +28,7 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+	BOOL ExitInstance(void);
 };
 
 extern CQuanLyApp theApp;
