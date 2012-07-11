@@ -6,9 +6,9 @@
 typedef struct	
 {
 	int iMaNhanVien;
-	char strTenNhanVien[MAX_NAME +1];
-	char cGioiTinh;
-	char strSoDienThoai[MAX_PHONE +1];
-	char strDiaChi[MAX_ADDRESS +1];
-	char strTenPhongBan[MAX_NAME +1];
+	TCHAR strTenNhanVien[MAX_NAME +1];
+	TCHAR cGioiTinh;
+	TCHAR strSoDienThoai[MAX_PHONE +1];
+	TCHAR strDiaChi[MAX_ADDRESS +1];
+	TCHAR strTenPhongBan[MAX_NAME +1];
 }NHANVIEN;
