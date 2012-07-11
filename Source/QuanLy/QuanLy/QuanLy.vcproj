@@ -258,6 +258,14 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="ViewModel"
+			>
+			<File
+				RelativePath=".\NhanVien.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
