@@ -12,3 +12,9 @@ typedef struct
 	TCHAR strDiaChi[MAX_ADDRESS +1];
 	TCHAR strTenPhongBan[MAX_NAME +1];
 }NHANVIEN;
+
+typedef struct
+{
+	int iMaPhongBan;
+	TCHAR strTenPhongBan[MAX_NAME +1];
+}PHONGBAN;
