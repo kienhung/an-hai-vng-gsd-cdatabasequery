@@ -1,6 +1,6 @@
 #pragma once
 #include "nhanviendao.h"
-#include "SimpleDAO.h"
+#include "MySQLDataAccessHelper.h"
 
 class CMySqlNhanVienDAO :
 	public CNhanVienDAO
