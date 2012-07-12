@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "MySQLDataAccessHelper.h"
 #include "MyException.h"
-
+/*
 CMySQLDataAccessHelper::CMySQLDataAccessHelper(const char *strUser, const char *strPassword, const char *strServerAddress, const char *strDatabase, unsigned int uiPort)
 {
 	m_mySQLConnection = mysql_init(NULL);
@@ -43,7 +43,7 @@ void CMySQLDataAccessHelper::ExecuteNonQuery(const char *strQuery) {
 		throw new CMyException("Failure to execute query", MY_SQL);
 	}
 }
-
+*/
 bool CMySQLDataAccessHelper::CheckUser(const char *strUser, const char *strPassword, const char *strServerAddress, const char *strDatabase, unsigned int uiPort) {
 
 	return true;
