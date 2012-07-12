@@ -5,8 +5,15 @@
 #include "stdafx.h"
 #include "QuanLy.h"
 #include "QuanLyDlg.h"
+#include "KetNoiDlg.h"
+#include "StringConverter.h"
+#include "MySQLDataAccessHelper.h"
 #include <initguid.h>
 
+
+#include <direct.h> // for getcwd
+#include <stdlib.h>// for MAX_PATH
+#pragma warning(disable: 4996)
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -98,7 +105,34 @@ BOOL CQuanLyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	if(!ConnectString.m_bIsConnected)
+	{
+		while(true)
+		{
+			CKetNoiDlg* dlgKetNoi = new CKetNoiDlg();
+			INT_PTR iRes = dlgKetNoi->DoModal();
+			if(iRes == IDOK)
+			{
+				if(Connect())
+				{
+					delete[] dlgKetNoi;
+					break;
+				}
+				else
+				{
+					delete[] dlgKetNoi;
+					MessageBox(NULL, _T("that bai"), _T("thong bao"), 0);
+					
+				}
+			}
+			else if(iRes == IDCANCEL)
+			{
+				delete[] dlgKetNoi;
+				return FALSE;
+			}
 
+		}
+	}
 	CQuanLyDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -117,7 +151,47 @@ BOOL CQuanLyApp::InitInstance()
 	//  application, rather than start the application's message pump.
 	return FALSE;
 }
-
+bool CQuanLyApp::Connect()
+{
+	char *path = NULL;
+	size_t size = 0;
+	path= getcwd(path,size);
+	strcat(path, "\\ketnoi.dat");
+	CStringConverter Convert;
+	CFile cfile_KetNoi;
+	
+	
+	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeCreate| CFile::modeReadWrite);
+	try
+	{
+		cfile_KetNoi.Read(&ConnectString, sizeof(ConnectString));
+		if(!ConnectString.m_bIsConnected)
+		{
+			if(CMySQLDataAccessHelper::CheckUser(ConnectString.m_strUsername,
+											ConnectString.m_strPasssword, 
+											ConnectString.m_strServerAddress, 
+											ConnectString.m_strDatabaseName))
+			{
+				cfile_KetNoi.Close();
+				return true;
+			}
+			else
+			{
+				cfile_KetNoi.Close();
+				return false;
+			}
+			
+		}
+		//cfile_KetNoi.Write(&ConnectString, sizeof(ConnectString));
+	}catch(CFileException ex)
+	{	
+		if(cfile_KetNoi != NULL)
+			cfile_KetNoi.Close();
+		return false;
+	}
+	cfile_KetNoi.Close();
+	return false;
+}
 BOOL CQuanLyApp::ExitInstance(void)
 {
 #if !defined(_WIN32_WCE) || defined(_CE_DCOM)

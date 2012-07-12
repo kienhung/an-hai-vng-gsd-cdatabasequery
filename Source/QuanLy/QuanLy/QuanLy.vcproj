@@ -190,6 +190,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\KetNoiDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MyException.cpp"
 				>
 			</File>
@@ -222,6 +226,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\StringConverter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ThemDlg.cpp"
 				>
 			</File>
@@ -231,6 +239,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\KetNoiDlg.h"
+				>
+			</File>
 			<File
 				RelativePath=".\MyException.h"
 				>
@@ -249,6 +261,10 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.h"
 				>
 			</File>
 			<File
@@ -282,6 +298,14 @@
 			Name="ViewModel"
 			>
 			<File
+				RelativePath=".\MySQLDataAccessHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDataAccessHelper.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MySqlNhanVienDAO.cpp"
 				>
 			</File>
@@ -301,6 +325,10 @@
 				RelativePath=".\NhanVienDAO.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="Data"
+			>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
