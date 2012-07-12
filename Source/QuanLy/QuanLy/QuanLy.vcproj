@@ -316,6 +316,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MySqlPhongBanDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySqlPhongBanDAO.h"
+				>
+			</File>
+			<File
 				RelativePath=".\NhanVien.h"
 				>
 			</File>
@@ -325,6 +333,14 @@
 			</File>
 			<File
 				RelativePath=".\NhanVienDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PhongBanDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\PhongBanDAO.h"
 				>
 			</File>
 		</Filter>

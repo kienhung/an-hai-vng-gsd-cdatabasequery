@@ -115,19 +115,18 @@ BOOL CQuanLyApp::InitInstance()
 			{
 				if(Connect())
 				{
-					delete[] dlgKetNoi;
+					
 					break;
 				}
 				else
 				{
-					delete[] dlgKetNoi;
 					MessageBox(NULL, _T("that bai"), _T("thong bao"), 0);
 					
 				}
 			}
 			else if(iRes == IDCANCEL)
 			{
-				delete[] dlgKetNoi;
+				
 				return FALSE;
 			}
 
