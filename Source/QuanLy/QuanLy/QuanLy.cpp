@@ -105,6 +105,7 @@ BOOL CQuanLyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	//Connect();
 	if(!ConnectString.m_bIsConnected)
 	{
 		while(true)
@@ -115,18 +116,17 @@ BOOL CQuanLyApp::InitInstance()
 			{
 				if(Connect())
 				{
-					
+					WriteLoginToFile();
+					//MessageBox(NULL, _T("dang nhap thanh cong"), _T("thong bao"), 0);
 					break;
 				}
 				else
 				{
 					MessageBox(NULL, _T("that bai"), _T("thong bao"), 0);
-					
 				}
 			}
 			else if(iRes == IDCANCEL)
 			{
-				
 				return FALSE;
 			}
 
@@ -139,6 +139,7 @@ BOOL CQuanLyApp::InitInstance()
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		
 	}
 	else if (nResponse == IDCANCEL)
 	{
@@ -159,27 +160,24 @@ bool CQuanLyApp::Connect()
 	CStringConverter Convert;
 	CFile cfile_KetNoi;
 	
-	
-	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeCreate| CFile::modeReadWrite);
+	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeNoTruncate| CFile::modeRead);
 	try
 	{
 		cfile_KetNoi.Read(&ConnectString, sizeof(ConnectString));
-		if(!ConnectString.m_bIsConnected)
-		{
-			if(CMySQLDataAccessHelper::CheckUser(ConnectString.m_strUsername,
+		if(CMySQLDataAccessHelper::CheckUser(ConnectString.m_strUsername,
 											ConnectString.m_strPasssword, 
 											ConnectString.m_strServerAddress, 
 											ConnectString.m_strDatabaseName))
-			{
-				cfile_KetNoi.Close();
-				return true;
-			}
-			else
-			{
-				cfile_KetNoi.Close();
-				return false;
-			}
-			
+		{
+			cfile_KetNoi.Close();
+			ConnectString.m_bIsConnected = true;
+			return true;
+		}
+		else
+		{
+			ConnectString.m_bIsConnected = true;
+			cfile_KetNoi.Close();
+			return false;
 		}
 		//cfile_KetNoi.Write(&ConnectString, sizeof(ConnectString));
 	}catch(CFileException ex)
@@ -188,8 +186,21 @@ bool CQuanLyApp::Connect()
 			cfile_KetNoi.Close();
 		return false;
 	}
-	cfile_KetNoi.Close();
+	if(cfile_KetNoi != NULL)
+		cfile_KetNoi.Close();
 	return false;
+}
+void CQuanLyApp::WriteLoginToFile()
+{
+	char *path = NULL;
+	size_t size = 0;
+	path= getcwd(path,size);
+	strcat(path, "\\ketnoi.dat");
+	CStringConverter Convert;
+	CFile cfile_KetNoi;
+	
+	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeCreate| CFile::modeWrite);
+	cfile_KetNoi.Write(&ConnectString, sizeof(ConnectString));
 }
 BOOL CQuanLyApp::ExitInstance(void)
 {

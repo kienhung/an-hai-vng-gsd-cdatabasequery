@@ -32,6 +32,7 @@ public:
 	public:
 	virtual BOOL InitInstance();
 	bool Connect();
+	void WriteLoginToFile();
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
