@@ -20,10 +20,13 @@ public:
 	CString m_strGioiTinh;
 	CString m_strSoDienThoai;
 	CString m_strDiaChi;
+
 	bool m_bIsEdit;
 	int m_iMaNhanVien;
 protected:
 	NHANVIEN InitNhanVien();
+	void AddNhanVien();
+	void UpdateNhanVien();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
