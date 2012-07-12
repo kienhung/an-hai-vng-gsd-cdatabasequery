@@ -1,16 +1,16 @@
 ﻿
 CREATE TABLE `phongban` (
   `MaPhong` tinyint(3) unsigned NOT NULL auto_increment,
-  `TenPhong` varchar(50) NOT NULL,
+  `TenPhong` varchar(100) NOT NULL,
   PRIMARY KEY  (`MaPhong`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nhanvien` (
   `MaNhanVien` int(10) unsigned NOT NULL auto_increment,
-  `TenNhanVien` varchar(50) NOT NULL,
+  `TenNhanVien` varchar(100) NOT NULL,
   `GioiTinh` tinyint(4) NOT NULL,
-  `DiaChi` varchar(100) NOT NULL,
-  `SoDienThoai` varchar(20) NOT NULL,
+  `DiaChi` varchar(200) NOT NULL,
+  `SoDienThoai` varchar(40) NOT NULL,
   `MaPhong` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY  (`MaNhanVien`),
   KEY `FK_nhanvien_phongban` (`MaPhong`),
