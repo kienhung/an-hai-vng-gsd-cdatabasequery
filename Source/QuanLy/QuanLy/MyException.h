@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-enum ExceptionCode {MY_SQL};
+enum ExceptionCode {MY_SQL, NULL_POINTER};
 
 class CMyException : exception
 {
