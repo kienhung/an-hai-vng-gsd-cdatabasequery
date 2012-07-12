@@ -46,6 +46,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)mysql\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -70,6 +71,7 @@
 				Name="VCLinkerTool"
 				RegisterOutput="true"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
