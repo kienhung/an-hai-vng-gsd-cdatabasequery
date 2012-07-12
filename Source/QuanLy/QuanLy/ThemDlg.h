@@ -9,7 +9,7 @@ class CThemDlg : public CDialog
 	DECLARE_DYNAMIC(CThemDlg)
 
 public:
-	CThemDlg(CWnd* pParent = NULL);   // standard constructor
+	CThemDlg(NHANVIEN* nhanVien = NULL, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CThemDlg();
 
 // Dialog Data
@@ -20,6 +20,8 @@ public:
 	CString m_strGioiTinh;
 	CString m_strSoDienThoai;
 	CString m_strDiaChi;
+	bool m_bIsEdit;
+	int m_iMaNhanVien;
 protected:
 	NHANVIEN InitNhanVien();
 
