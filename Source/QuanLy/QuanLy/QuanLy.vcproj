@@ -308,6 +308,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MySQLDatabaseBuilder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDatabaseBuilder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MySqlNhanVienDAO.cpp"
 				>
 			</File>

@@ -29,12 +29,6 @@ void CKetNoiDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDT_PASSWORD, m_strPassword);
 	DDV_MaxChars(pDX, m_strPassword, MAX_LENGTH);
 
-	DDX_Text(pDX, IDC_EDT_SERVERADDRESS, m_strServerAddress);
-	DDV_MaxChars(pDX, m_strServerAddress, MAX_LENGTH);
-
-	DDX_Text(pDX, IDC_EDT_DATABASENAME, m_strDatabaseName);
-	DDV_MaxChars(pDX, m_strDatabaseName, MAX_LENGTH);
-
 }
 
 
@@ -58,8 +52,6 @@ void CKetNoiDlg::UpdateConnectData()
 	
 	strcpy(pApp->ConnectString.m_strUsername, CStringToArrChar(m_strUsername));
 	strcpy(pApp->ConnectString.m_strPasssword, CStringToArrChar(m_strPassword));
-	strcpy(pApp->ConnectString.m_strServerAddress, CStringToArrChar(m_strServerAddress));
-	strcpy(pApp->ConnectString.m_strDatabaseName, CStringToArrChar(m_strDatabaseName));
 }
 char* CKetNoiDlg::CStringToArrChar(CString cStrSource)
 {

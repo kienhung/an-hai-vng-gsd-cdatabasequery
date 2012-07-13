@@ -22,6 +22,7 @@ typedef struct
 		char m_strPasssword[MAX_LENGTH];
 		char m_strServerAddress[MAX_LENGTH];
 		char m_strDatabaseName[MAX_LENGTH];
+		bool m_bBuild;
 	}CONNECTSTRING;
 class CQuanLyApp : public CWinAppEx
 {
