@@ -9,8 +9,7 @@
 #include "StringConverter.h"
 #include "MySQLDataAccessHelper.h"
 #include <initguid.h>
-
-
+#include <fstream>
 #include <direct.h> // for getcwd
 #include <stdlib.h>// for MAX_PATH
 #pragma warning(disable: 4996)
@@ -105,33 +104,37 @@ BOOL CQuanLyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-	//Connect();
+
+	ConnectFromFile();
 	if(!ConnectString.m_bIsConnected)
 	{
 		while(true)
 		{
-			CKetNoiDlg* dlgKetNoi = new CKetNoiDlg();
-			INT_PTR iRes = dlgKetNoi->DoModal();
+			CKetNoiDlg dlgKetNoi;
+			INT_PTR iRes = dlgKetNoi.DoModal();
 			if(iRes == IDOK)
 			{
 				if(Connect())
 				{
 					WriteLoginToFile();
-					//MessageBox(NULL, _T("dang nhap thanh cong"), _T("thong bao"), 0);
 					break;
 				}
 				else
 				{
-					MessageBox(NULL, _T("that bai"), _T("thong bao"), 0);
 				}
 			}
 			else if(iRes == IDCANCEL)
 			{
 				return FALSE;
 			}
-
 		}
 	}
+	/*ConnectString.m_bIsConnected = true;
+	strcpy(ConnectString.m_strUsername, "root");
+	strcpy(ConnectString.m_strPasssword, "hai");
+	strcpy(ConnectString.m_strServerAddress, "localhost");
+	strcpy(ConnectString.m_strDatabaseName, "quanlynhanvien");
+	WriteLoginToFile();*/
 	CQuanLyDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -153,54 +156,71 @@ BOOL CQuanLyApp::InitInstance()
 }
 bool CQuanLyApp::Connect()
 {
-	char *path = NULL;
-	size_t size = 0;
-	path= getcwd(path,size);
-	strcat(path, "\\ketnoi.dat");
-	CStringConverter Convert;
-	CFile cfile_KetNoi;
-	
-	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeNoTruncate| CFile::modeRead);
-	try
+	if(CMySQLDataAccessHelper::CheckUser(ConnectString.m_strUsername,
+											ConnectString.m_strPasssword, 
+											ConnectString.m_strServerAddress, 
+											ConnectString.m_strDatabaseName))
 	{
-		cfile_KetNoi.Read(&ConnectString, sizeof(ConnectString));
+		ConnectString.m_bIsConnected = true;
+		return true;
+	}
+	else
+	{
+		ConnectString.m_bIsConnected = false;
+		return false;
+	}
+}
+
+bool CQuanLyApp::ConnectFromFile()
+{
+	char *ptrpath = NULL;
+	size_t size = 0;
+	ptrpath = getcwd(ptrpath,size);
+	char strPath[MAX_PATH];
+	strcpy(strPath, ptrpath);
+	strcat(strPath, "\\ketnoi.dat");
+	
+	fstream fKetNoi(strPath, ios::in| ios::binary);
+	
+	if(fKetNoi)
+	{
+		fKetNoi.read(reinterpret_cast<char *>(&ConnectString), sizeof(CONNECTSTRING));
+			
 		if(CMySQLDataAccessHelper::CheckUser(ConnectString.m_strUsername,
 											ConnectString.m_strPasssword, 
 											ConnectString.m_strServerAddress, 
 											ConnectString.m_strDatabaseName))
 		{
-			cfile_KetNoi.Close();
-			ConnectString.m_bIsConnected = true;
+		ConnectString.m_bIsConnected = true;
+			fKetNoi.close();
 			return true;
 		}
 		else
 		{
-			ConnectString.m_bIsConnected = true;
-			cfile_KetNoi.Close();
+			ConnectString.m_bIsConnected = false;	
+			fKetNoi.close();
 			return false;
 		}
-		//cfile_KetNoi.Write(&ConnectString, sizeof(ConnectString));
-	}catch(CFileException ex)
-	{	
-		if(cfile_KetNoi != NULL)
-			cfile_KetNoi.Close();
-		return false;
 	}
-	if(cfile_KetNoi != NULL)
-		cfile_KetNoi.Close();
+	if(fKetNoi != NULL)
+		fKetNoi.close();
 	return false;
 }
 void CQuanLyApp::WriteLoginToFile()
 {
-	char *path = NULL;
+	char *ptrpath = NULL;
 	size_t size = 0;
-	path= getcwd(path,size);
-	strcat(path, "\\ketnoi.dat");
+	ptrpath = getcwd(ptrpath,size);
+	char strPath[MAX_PATH];
+	strcpy(strPath, ptrpath);
+	strcat(strPath, "\\ketnoi.dat");
+	ptrpath = &strPath[0];
 	CStringConverter Convert;
 	CFile cfile_KetNoi;
-	
-	cfile_KetNoi.Open(Convert.UTF8ToUnicode(path), CFile::modeCreate| CFile::modeWrite);
-	cfile_KetNoi.Write(&ConnectString, sizeof(ConnectString));
+	cfile_KetNoi.Open(Convert.UTF8ToUnicode(ptrpath), CFile::modeCreate| CFile::modeWrite);
+	cfile_KetNoi.Write(&ConnectString, sizeof(CONNECTSTRING));
+	cfile_KetNoi.Close();
+
 }
 BOOL CQuanLyApp::ExitInstance(void)
 {

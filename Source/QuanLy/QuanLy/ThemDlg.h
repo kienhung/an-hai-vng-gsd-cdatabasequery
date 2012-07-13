@@ -17,7 +17,7 @@ public:
 	enum { IDD = IDD_THEM_DIALOG };
 	CComboBox m_cbbPhongBan;
 	CComboBox m_cbbGioiTinh;
-
+	CButton m_btnOK;
 	CString m_strTenNhanVien;
 	CString m_strPhongBan;
 	CString m_strGioiTinh;
