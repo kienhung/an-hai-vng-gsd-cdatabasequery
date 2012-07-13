@@ -51,7 +51,7 @@ bool CMySQLDataAccessHelper::CheckUser(const char *strUser, const char *strPassw
 		return false;
 	}
 	bool bFresult = true;
-	if (NULL ==	mysql_real_connect(mySQLConnection, strServerAddress, strUser, strPassword, strDatabase, uiPort, NULL, 0)) {
+	if (NULL ==	mysql_real_connect(mySQLConnection, strServerAddress, strUser, strPassword, NULL, uiPort, NULL, 0)) {
 		bFresult = false;
 	}
 	mysql_close(mySQLConnection);

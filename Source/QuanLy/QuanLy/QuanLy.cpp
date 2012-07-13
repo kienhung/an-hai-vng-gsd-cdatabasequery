@@ -12,6 +12,8 @@
 #include <fstream>
 #include <direct.h> // for getcwd
 #include <stdlib.h>// for MAX_PATH
+#include "MySQLDatabaseBuilder.h"
+
 #pragma warning(disable: 4996)
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -105,6 +107,8 @@ BOOL CQuanLyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+	strcpy(ConnectString.m_strServerAddress, "localhost");
+	strcpy(ConnectString.m_strDatabaseName, "quanlynhanvien");
 	ConnectFromFile();
 	if(!ConnectString.m_bIsConnected)
 	{
@@ -116,6 +120,17 @@ BOOL CQuanLyApp::InitInstance()
 			{
 				if(Connect())
 				{
+					if(!ConnectString.m_bBuild)
+					{
+						CMySQLDatabaseBuilder sqlDatabaseBuilder(ConnectString.m_strUsername,
+																 ConnectString.m_strPasssword,
+																 ConnectString.m_strServerAddress,
+																 ConnectString.m_strDatabaseName
+																 );
+
+						sqlDatabaseBuilder.Build();
+						ConnectString.m_bBuild = true;
+					}
 					WriteLoginToFile();
 					break;
 				}
@@ -129,12 +144,10 @@ BOOL CQuanLyApp::InitInstance()
 			}
 		}
 	}
-	/*ConnectString.m_bIsConnected = true;
-	strcpy(ConnectString.m_strUsername, "root");
-	strcpy(ConnectString.m_strPasssword, "hai");
+	
 	strcpy(ConnectString.m_strServerAddress, "localhost");
 	strcpy(ConnectString.m_strDatabaseName, "quanlynhanvien");
-	WriteLoginToFile();*/
+	
 	CQuanLyDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -191,7 +204,7 @@ bool CQuanLyApp::ConnectFromFile()
 											ConnectString.m_strServerAddress, 
 											ConnectString.m_strDatabaseName))
 		{
-		ConnectString.m_bIsConnected = true;
+			ConnectString.m_bIsConnected = true;
 			fKetNoi.close();
 			return true;
 		}

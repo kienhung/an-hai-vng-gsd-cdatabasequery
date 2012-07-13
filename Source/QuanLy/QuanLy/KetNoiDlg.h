@@ -15,8 +15,6 @@ public:
 	enum { IDD = IDD_KETNOI_DIALOG };
 	CString m_strUsername;
 	CString m_strPassword;
-	CString m_strServerAddress;
-	CString m_strDatabaseName;
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	void UpdateConnectData();
