@@ -32,6 +32,7 @@ public:
 	public:
 	virtual BOOL InitInstance();
 	bool Connect();
+	bool ConnectFromFile();
 	void WriteLoginToFile();
 // Implementation
 

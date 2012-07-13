@@ -36,4 +36,9 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnAdd();
 	afx_msg void OnBnClickedBtnEdit();
+	afx_msg void OnBnClickedBtnDelete();
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+	afx_msg void OnPopupThem();
+	afx_msg void OnPopupXoa();
+	afx_msg void OnPopupSua();
 };
