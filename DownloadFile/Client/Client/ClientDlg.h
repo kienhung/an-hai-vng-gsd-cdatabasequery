@@ -2,7 +2,7 @@
 //
 
 #pragma once
-
+#include "ListCtrlEx.h"
 
 // CClientDlg dialog
 class CClientDlg : public CDialog
@@ -20,6 +20,8 @@ public:
 
 // Implementation
 protected:
+	CListCtrlEx m_LstDownload;
+
 	HICON m_hIcon;
 	UINT m_uiServerPort;
 
