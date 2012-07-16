@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ListCtrlEx.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MessageHandler.cpp"
 				>
 			</File>
@@ -233,6 +237,10 @@
 			</File>
 			<File
 				RelativePath=".\ClientDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ListCtrlEx.h"
 				>
 			</File>
 			<File
