@@ -10,10 +10,20 @@
 IMPLEMENT_DYNAMIC(CListCtrlEx, CListCtrl)
 CListCtrlEx::CListCtrlEx() : m_iProgressColumn(0)
 {
+	//pControl = NULL;
 }
 
 CListCtrlEx::~CListCtrlEx()
 {
+	OnDestroy();
+	/*
+	int Count = (int)m_ProgressList.GetCount();
+	for(int i = 0; i < Count; i++)
+	{
+		CProgressCtrl* pControl = m_ProgressList.GetAt(0);
+		//delete pControl;
+	}
+	*/
 }
 
 
@@ -30,21 +40,23 @@ void CListCtrlEx::OnPaint()
 {
 	// TODO: Add your message handler code here
 	// Do not call CListCtrl::OnPaint() for painting messages
-
+	
 	int Top = GetTopIndex();
 	int Total = GetItemCount();
 	int PerPage = GetCountPerPage();
 	int LastItem = ((Top+PerPage)>Total)?Total:Top+PerPage;
 
 	//Remove all progressbar to add it back
-	int Count = (int)m_ProgressList.GetCount();
-	for(int i = 0; i < Count; i++)
-	{
-		CProgressCtrl* pControl = m_ProgressList.GetAt(0);
-		pControl->DestroyWindow();
-		m_ProgressList.RemoveAt(0);
-	}
-
+	//int Count = (int)m_ProgressList.GetCount();
+	//for(int i = 0; i < Count; i++)
+	//{
+	//	CProgressCtrl* pControl = m_ProgressList.GetAt(0);
+	//	
+	//	m_ProgressList.RemoveAt(0);
+	//	//pControl->DestroyWindow();
+	//	delete pControl;
+	//}
+	
 	CHeaderCtrl* pHeader = GetHeaderCtrl();
 	for(int i = Top; i < LastItem; i++)
 	{
@@ -62,22 +74,39 @@ void CListCtrlEx::OnPaint()
 		rt.left = ColRt.left+1;
 		rt.right = ColRt.right-1;
 
-		// create the progress control and set their position
-		CProgressCtrl* pControl = new CProgressCtrl();
+
+		/*if (pControl != NULL) {
+			m_ProgressList.RemoveAt(i);
+			i--;
+			delete pControl;
+		}*/
+
+		CProgressCtrl *pControl = new CProgressCtrl;
 		pControl->Create(NULL, rt, this, IDC_PROGRESS_LIST + i);
 
 		CString Data = GetItemText(i, 2);
 		int Percent = _wtoi(Data);
 
-		// set the position on the control
 		pControl->SetPos(Percent);
 		pControl->ShowWindow(SW_SHOWNORMAL);
 
 		// add them to the list
 		m_ProgressList.Add(pControl);
 	}
-
+	
 	CListCtrl::OnPaint();
+}
+void CListCtrlEx::OnDestroy()
+{
+    int nCount = this->GetItemCount();
+    CProgressCtrl* pCtrl;
+    for(int i = 0; i < nCount; i++)
+    {
+        pCtrl = (CProgressCtrl*)this->GetItemData(i);
+        if (NULL != pCtrl)
+            delete pCtrl;
+        this->SetItemData(i, 0);
+    }
 }
 
 void CListCtrlEx::InitProgressColumn(int iColNum/*=0*/)
@@ -120,7 +149,9 @@ void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName,unsigned __
 
 }
 
-void CListCtrlEx::UpdateStatusDownload(int iIndex, LPCTSTR strStatus)
+void CListCtrlEx::UpdateStatusDownload(int iIndex, int iStatus)
 {
+	CString strStatus;
+	strStatus.Format(_T("%d"), iStatus);
 	SetItemText(iIndex, 2, strStatus);
 }

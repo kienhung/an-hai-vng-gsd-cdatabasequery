@@ -4,6 +4,7 @@
 #pragma once
 #include "ListCtrlEx.h"
 
+
 // CClientDlg dialog
 class CClientDlg : public CDialog
 {
@@ -33,4 +34,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnConnect();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

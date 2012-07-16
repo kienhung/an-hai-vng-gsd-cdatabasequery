@@ -264,6 +264,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ThreadData.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ThreadFunction.h"
 				>
 			</File>
