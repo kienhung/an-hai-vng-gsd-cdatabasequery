@@ -52,7 +52,7 @@ BOOL CHttpDownloaderAppDlg::OnInitDialog()
 	
 	m_edtURL = (CEdit*)GetDlgItem(IDC_EDIT_URL);
 	m_edtURL->SetLimitText(MAX_URL_LENGTH - 1);
-	m_edtURL->SetWindowText(_T("vng.com.vn"));
+	m_edtURL->SetWindowText(_T("google.com.vn"));
 
 	m_edtFileName = (CEdit*)GetDlgItem(IDC_EDIT_FILENAME);
 	m_edtFileName->SetLimitText(MAX_FILE_NAME - 1);

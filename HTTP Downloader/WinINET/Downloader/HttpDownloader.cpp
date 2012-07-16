@@ -81,6 +81,9 @@ bool CHttpDownloader::SetURL(const TCHAR* strURL) {
 	cstrURL.Replace(_T("http://"), _T(""));
 	cstrURL.Replace(_T("https://"), _T(""));
 	cstrURL.Remove(L'/');
+	if (cstrURL.Find(_T("www.")) == -1) {
+		cstrURL = _T("www.") + cstrURL;
+	}
 
 	if (0 == lstrcmpi(cstrURL.GetBuffer(), m_strURL)) {
 		return false;
@@ -88,7 +91,7 @@ bool CHttpDownloader::SetURL(const TCHAR* strURL) {
 	_tcscpy_s(m_strURL, MAX_URL_LENGTH, cstrURL.GetBuffer());
 
 	CleanUp();
-	m_pHttpConnection = m_internetSession.GetHttpConnection(m_strURL, m_nPort); //throw CInternetException
+	m_pHttpConnection = m_internetSession.GetHttpConnection(cstrURL.GetBuffer(), m_nPort); //throw CInternetException
 
 	return TRUE;
 }
