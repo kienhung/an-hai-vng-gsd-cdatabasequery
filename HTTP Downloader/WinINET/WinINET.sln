@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Downloader", "Downloader\Downloader.vcproj", "{3872A99D-6134-4A81-9F34-3C8EA9752E59}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HttpDownloaderApp", "HttpDownloaderApp\HttpDownloaderApp.vcproj", "{48D7CE1A-AB4A-4EE6-8C27-15652EE2D5EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3872A99D-6134-4A81-9F34-3C8EA9752E59}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3872A99D-6134-4A81-9F34-3C8EA9752E59}.Debug|Win32.Build.0 = Debug|Win32
+		{3872A99D-6134-4A81-9F34-3C8EA9752E59}.Release|Win32.ActiveCfg = Release|Win32
+		{3872A99D-6134-4A81-9F34-3C8EA9752E59}.Release|Win32.Build.0 = Release|Win32
+		{48D7CE1A-AB4A-4EE6-8C27-15652EE2D5EA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{48D7CE1A-AB4A-4EE6-8C27-15652EE2D5EA}.Debug|Win32.Build.0 = Debug|Win32
+		{48D7CE1A-AB4A-4EE6-8C27-15652EE2D5EA}.Release|Win32.ActiveCfg = Release|Win32
+		{48D7CE1A-AB4A-4EE6-8C27-15652EE2D5EA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
