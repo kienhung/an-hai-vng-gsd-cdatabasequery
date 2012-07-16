@@ -18,7 +18,7 @@ public:
 	virtual ~CListCtrlEx();
 	// initialize the column containing the bars
 	void InitProgressColumn(int iColNum = 0);
-	void InsertItemDownload(int iIndex, LPCTSTR strFileName, LPCTSTR strFileSize, LPCTSTR strStatus);
+	void InsertItemDownload(int iIndex, LPCTSTR strFileName, unsigned __int64 iFileSize, int iStatus);
 	void UpdateStatusDownload(int iIndex, LPCTSTR strStatus);
 protected:
 	DECLARE_MESSAGE_MAP()

@@ -85,8 +85,10 @@ void CListCtrlEx::InitProgressColumn(int iColNum/*=0*/)
 	m_iProgressColumn = iColNum;
 }
 
-void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName, LPCTSTR strFileSize, LPCTSTR strStatus)
+void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName,unsigned __int64 iFileSize, int iStatus )
 {
+	/*LPCTSTR strFileSize, LPCTSTR strStatus*/
+
 	LVITEM lvItemDownload;
 	lvItemDownload.mask = LVIF_TEXT | LVIF_STATE;
 	lvItemDownload.state = LVIS_OVERLAYMASK;
@@ -99,12 +101,18 @@ void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName, LPCTSTR st
 	lvItemDownload.pszText = (LPTSTR)(LPCTSTR)(strFileName);
 	InsertItem(&lvItemDownload);
 
+	CString strFileSize;
+	strFileSize.Format(_T("%I64u"), iFileSize);
+	
+
 	// Insert file size.
 	lvItemDownload.iSubItem = 1;
-	lvItemDownload.pszText = (LPTSTR)(LPCTSTR)(strFileSize);
+	lvItemDownload.pszText = (LPTSTR)(LPCTSTR)(strFileSize.GetBuffer());
 	SetItem(&lvItemDownload);
 	
-	
+	CString strStatus;
+	strStatus.Format(_T("%d"), iStatus);
+
 	// Insert status download.
 	lvItemDownload.iSubItem = 2;
 	lvItemDownload.pszText = (LPTSTR)(LPCTSTR)(strStatus);
