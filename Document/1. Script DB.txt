@@ -1,14 +1,14 @@
 ﻿
 CREATE TABLE `phongban` (
-  `MaPhong` tinyint(3) unsigned NOT NULL auto_increment,
+  `MaPhong` tinyint unsigned NOT NULL auto_increment,
   `TenPhong` varchar(100) NOT NULL,
   PRIMARY KEY  (`MaPhong`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `nhanvien` (
-  `MaNhanVien` int(10) unsigned NOT NULL auto_increment,
+  `MaNhanVien` int unsigned NOT NULL auto_increment,
   `TenNhanVien` varchar(100) NOT NULL,
-  `GioiTinh` tinyint(4) NOT NULL,
+  `GioiTinh` tinyint NOT NULL,
   `DiaChi` varchar(200) NOT NULL,
   `SoDienThoai` varchar(40) NOT NULL,
   `MaPhong` tinyint(3) unsigned NOT NULL,
