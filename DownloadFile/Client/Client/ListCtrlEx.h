@@ -19,6 +19,7 @@ public:
 	// initialize the column containing the bars
 	void InitProgressColumn(int iColNum = 0);
 	void InsertItemDownload(int iIndex, LPCTSTR strFileName, LPCTSTR strFileSize, LPCTSTR strStatus);
+	void UpdateStatusDownload(int iIndex, LPCTSTR strStatus);
 protected:
 	DECLARE_MESSAGE_MAP()
 public:

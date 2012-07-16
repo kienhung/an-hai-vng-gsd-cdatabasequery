@@ -111,3 +111,8 @@ void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName, LPCTSTR st
 	SetItem(&lvItemDownload);
 
 }
+
+void CListCtrlEx::UpdateStatusDownload(int iIndex, LPCTSTR strStatus)
+{
+	SetItemText(iIndex, 2, strStatus);
+}
