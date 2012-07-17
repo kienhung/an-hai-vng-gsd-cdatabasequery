@@ -17,7 +17,10 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-
+	
+	CString m_strServerFileName;
+	CString m_strClientFileName;
+	CString m_strSavePath;
 
 // Implementation
 protected:
@@ -27,6 +30,7 @@ protected:
 	UINT m_uiServerPort;
 
 	BOOL GetIPAddressString(char *pcBuffer, size_t stMaxLength);
+	void DownloadFile();
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
@@ -35,4 +39,6 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnConnect();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	
+	afx_msg void OnBnClickedBtn();
 };

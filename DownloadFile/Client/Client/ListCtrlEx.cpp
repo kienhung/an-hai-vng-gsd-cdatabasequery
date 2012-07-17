@@ -10,20 +10,18 @@
 IMPLEMENT_DYNAMIC(CListCtrlEx, CListCtrl)
 CListCtrlEx::CListCtrlEx() : m_iProgressColumn(0)
 {
-	//pControl = NULL;
 }
 
 CListCtrlEx::~CListCtrlEx()
 {
-	OnDestroy();
-	/*
-	int Count = (int)m_ProgressList.GetCount();
-	for(int i = 0; i < Count; i++)
+	int Count = (int) m_ProgressList.size();
+	for(int i = Count - 1; i >= 0; i--)
 	{
-		CProgressCtrl* pControl = m_ProgressList.GetAt(0);
-		//delete pControl;
+		CProgressCtrl* pControl = m_ProgressList[i];
+		m_ProgressList.pop_back();
+		pControl->DestroyWindow();
+		delete pControl;
 	}
-	*/
 }
 
 
@@ -40,73 +38,8 @@ void CListCtrlEx::OnPaint()
 {
 	// TODO: Add your message handler code here
 	// Do not call CListCtrl::OnPaint() for painting messages
-	
-	int Top = GetTopIndex();
-	int Total = GetItemCount();
-	int PerPage = GetCountPerPage();
-	int LastItem = ((Top+PerPage)>Total)?Total:Top+PerPage;
-
-	//Remove all progressbar to add it back
-	//int Count = (int)m_ProgressList.GetCount();
-	//for(int i = 0; i < Count; i++)
-	//{
-	//	CProgressCtrl* pControl = m_ProgressList.GetAt(0);
-	//	
-	//	m_ProgressList.RemoveAt(0);
-	//	//pControl->DestroyWindow();
-	//	delete pControl;
-	//}
-	
-	CHeaderCtrl* pHeader = GetHeaderCtrl();
-	for(int i = Top; i < LastItem; i++)
-	{
-		CRect ColRt;
-		pHeader->GetItemRect(m_iProgressColumn, &ColRt);
-		// get the rect
-		CRect rt;
-		GetItemRect(i, &rt, LVIR_LABEL);
-		rt.top += 1;
-		rt.bottom -= 1;
-		rt.left += ColRt.left;
-		int Width = ColRt.Width();
-		rt.right = rt.left + Width - 4;
-		
-		rt.left = ColRt.left+1;
-		rt.right = ColRt.right-1;
-
-
-		/*if (pControl != NULL) {
-			m_ProgressList.RemoveAt(i);
-			i--;
-			delete pControl;
-		}*/
-
-		CProgressCtrl *pControl = new CProgressCtrl;
-		pControl->Create(NULL, rt, this, IDC_PROGRESS_LIST + i);
-
-		CString Data = GetItemText(i, 2);
-		int Percent = _wtoi(Data);
-
-		pControl->SetPos(Percent);
-		pControl->ShowWindow(SW_SHOWNORMAL);
-
-		// add them to the list
-		m_ProgressList.Add(pControl);
-	}
-	
 	CListCtrl::OnPaint();
-}
-void CListCtrlEx::OnDestroy()
-{
-    int nCount = this->GetItemCount();
-    CProgressCtrl* pCtrl;
-    for(int i = 0; i < nCount; i++)
-    {
-        pCtrl = (CProgressCtrl*)this->GetItemData(i);
-        if (NULL != pCtrl)
-            delete pCtrl;
-        this->SetItemData(i, 0);
-    }
+	
 }
 
 void CListCtrlEx::InitProgressColumn(int iColNum/*=0*/)
@@ -145,13 +78,70 @@ void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName,unsigned __
 	// Insert status download.
 	lvItemDownload.iSubItem = 2;
 	lvItemDownload.pszText = (LPTSTR)(LPCTSTR)(strStatus);
+	
 	SetItem(&lvItemDownload);
+	
 
+	InsertProgresCtrl(iIndex, iStatus);
+		
+	
+}
+void CListCtrlEx::InsertProgresCtrl(int iIndex, int iStatus)
+{
+	CHeaderCtrl* pHeader = GetHeaderCtrl();
+	
+	CRect ColRt;
+	pHeader->GetItemRect(m_iProgressColumn, &ColRt);
+	 //get the rect
+	CRect rt;
+	GetItemRect(iIndex, &rt, LVIR_LABEL);
+	rt.top += 1;
+	rt.bottom -= 1;
+	rt.left += ColRt.left;
+	int Width = ColRt.Width();
+	rt.right = rt.left + Width - 4;
+	
+	rt.left = ColRt.left+1;
+	rt.right = ColRt.right-1;
+
+	CProgressCtrl *pControl = new CProgressCtrl;
+	pControl->Create(WS_CHILD|WS_VISIBLE, rt, this, IDC_PROGRESS_LIST + iIndex);
+	pControl->SetRange(0, 100);
+	pControl->SetPos(iStatus);
+	pControl->ShowWindow(SW_SHOWNOACTIVATE);
+	
+	 //add them to the list
+	m_ProgressList.push_back(pControl);
 }
 
 void CListCtrlEx::UpdateStatusDownload(int iIndex, int iStatus)
 {
 	CString strStatus;
-	strStatus.Format(_T("%d"), iStatus);
-	SetItemText(iIndex, 2, strStatus);
+	strStatus.Format(_T("%d%%"), iStatus);
+	m_ProgressList[iIndex]->SetWindowText(strStatus.GetBuffer());
+	m_ProgressList[iIndex]->SetMarquee(false, 1);
+	m_ProgressList[iIndex]->SetPos(iStatus);
+	m_ProgressList[iIndex]->Invalidate(TRUE);
+	if(iStatus >= 100)
+	{
+		SetItemText(iIndex, 2, strStatus);
+	}
+	
+
+	CHeaderCtrl* pHeader=GetHeaderCtrl();
+	CRect ColRt;
+	pHeader->GetItemRect(m_iProgressColumn,&ColRt);
+	CRect rt;
+	GetItemRect(iIndex, &rt, LVIR_LABEL);
+	rt.top += 1;
+	rt.bottom -= 1;
+	rt.left += ColRt.left;
+	int Width = ColRt.Width();
+	rt.right = rt.left + Width - 4;
+	rt.left = ColRt.left +1 ;
+	rt.right = ColRt.right-1;
+	
+	m_ProgressList[iIndex]->MoveWindow(&rt, TRUE);
+		
+	
 }

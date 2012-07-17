@@ -22,7 +22,7 @@ public:
 // Overrides
 	public:
 	virtual BOOL InitInstance();
-
+	CString m_strRootPath;
 // Implementation
 
 	DECLARE_MESSAGE_MAP()

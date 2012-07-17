@@ -17,7 +17,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-
+	CEdit m_edtPath;
 protected:
 	HICON m_hIcon;
 	UINT m_uiPort;
@@ -25,9 +25,8 @@ protected:
 	SOCKET m_sListener;
 
 	virtual BOOL OnInitDialog();
-	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam );
 
-	BOOL ProcessSocketMessage(WPARAM wParam, LPARAM lParam);
+
 
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -35,5 +34,8 @@ protected:
 	BOOL InitListener();
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButton2();
+
+	afx_msg void OnEnChangeEdit1();
+	afx_msg void OnBnClickedBtnBrowse();
+	afx_msg void OnBnClickedBtnOk();
 };
