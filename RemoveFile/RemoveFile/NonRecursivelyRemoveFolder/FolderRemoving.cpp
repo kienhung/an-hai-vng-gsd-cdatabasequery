@@ -85,8 +85,10 @@ BOOL CFolderRemoving::NonRecursivelyRemove(const TCHAR strPath[]) {
 
 void CFolderRemoving::AddChildsToItemsStack(const TCHAR strPath[]) {
 
-	TCHAR *ptcFirstFile = NULL;
+	size_t uiLength = lstrlen(strPath) + 3;
+	TCHAR *ptcFirstFile = new TCHAR[uiLength];
 	
+	_tcscpy_s(ptcFirstFile, uiLength, 
 
 	//ZeroMemory(strDir, MAX_PATH);
 }
