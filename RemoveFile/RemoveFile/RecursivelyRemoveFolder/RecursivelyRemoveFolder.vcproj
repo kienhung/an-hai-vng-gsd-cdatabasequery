@@ -198,10 +198,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RemoveFolder.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -237,10 +233,6 @@
 			</File>
 			<File
 				RelativePath=".\RecursivelyRemoveFolderDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RemoveFolder.h"
 				>
 			</File>
 			<File
