@@ -19,6 +19,8 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	CString m_strFolderPath;
 	CDuyetFile m_DuyetFile;
+
+	CString m_strFolderPathToCheck;
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -32,4 +34,6 @@ public:
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnBnClickedBtnDuyet();
 	afx_msg void OnBnClickedBtnWritetofile();
+	afx_msg void OnBnClickedBtnBrowsetocheck();
+	afx_msg void OnBnClickedBtnCheck();
 };

@@ -18,8 +18,19 @@ public:
 	CDuyetFile(void);
 	~CDuyetFile(void);
 	void ClearList();
+	void FormatPath(const TCHAR *strPath);
 	bool ApproveFolder(const TCHAR *strPath);
 	void ApproveFolderToList(const TCHAR *strPath);
 	void WriteToFile();
 	void WriteElementToFile(const INFOFILE& infoFile, const HANDLE &hFile);
+
+	void WriteToFileText();
+	void WriteElementToFileText(const INFOFILE& infoFile, const HANDLE &hFile);
+	
+	vector<INFOFILE> ReadFileToList(const TCHAR* strPath);
+	vector<INFOFILE> ReadTextFileToList(const TCHAR* strPath);
+
+	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);
+	bool CompareTwoInfoFile(const INFOFILE* infoFileDest, const INFOFILE* infoFileSource);
+	vector<INFOFILE> CheckListFile(const TCHAR* strPath);
 };
