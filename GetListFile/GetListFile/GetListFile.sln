@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GetListFile", "GetListFile\GetListFile.vcproj", "{649EC14A-22E5-4221-9DCD-E05B0C922223}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{649EC14A-22E5-4221-9DCD-E05B0C922223}.Debug|Win32.ActiveCfg = Debug|Win32
+		{649EC14A-22E5-4221-9DCD-E05B0C922223}.Debug|Win32.Build.0 = Debug|Win32
+		{649EC14A-22E5-4221-9DCD-E05B0C922223}.Release|Win32.ActiveCfg = Release|Win32
+		{649EC14A-22E5-4221-9DCD-E05B0C922223}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
