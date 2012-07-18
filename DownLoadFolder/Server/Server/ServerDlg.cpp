@@ -127,12 +127,6 @@ void CServerDlg::OnDestroy()
 	if (m_hListenThread != NULL) {
 		CloseHandle(m_hListenThread);
 	}
-	
-	list<CConnectSocket*>::iterator it;
-	for (it = m_lstConnectSockets.begin(); it != m_lstConnectSockets.end(); ++it) {
-		delete *it;
-	}
-	m_lstConnectSockets.clear();
 }
 
 DWORD WINAPI CServerDlg::SocketListeningThreadFunction(LPVOID lpParam ) {
@@ -158,7 +152,6 @@ DWORD WINAPI CServerDlg::SocketListeningThreadFunction(LPVOID lpParam ) {
 			if (NULL != hThread) {
 
 				pConnectSocket->SetThreadHandle(hThread);
-				pServerDlg->m_lstConnectSockets.push_back(pConnectSocket);
 				::OutputDebugStringA("cap nhat du lieu cho thread\n");
 				ResumeThread(hThread);
 
@@ -179,50 +172,46 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 	CServerDlg *pServerDlg = pConnectSocket->GetDlg();
 
 	int iMessageType;
-	size_t uiLength;
+	int uiLength;
 
+	::OutputDebugStringA("cho nhan header\n");
 	if (pConnectSocket->GetMessageHeader(&iMessageType, &uiLength) == FALSE) {
-		return 1;
+		return pConnectSocket->Destroy();
 	}
 
+	::OutputDebugStringA("da nhan duoc header header\n");
 	switch (iMessageType) {
 		case FILE_LIST_REQUEST:
-			return pServerDlg ->ProcessFileListRequest(pConnectSocket, uiLength);
+
+			::OutputDebugStringA("process file list resuqest\n");
+			pServerDlg ->ProcessFileListRequest(pConnectSocket, uiLength);
 			break;
+
 		case DOWNLOAD_FILE:
 			::OutputDebugStringA("download file\n");
 			break;
 	}
 
 	::OutputDebugStringA("thoat thread download\n");
-	return 0;
+
+	
+	return pConnectSocket->Destroy();
 }
 
-void  CServerDlg::DestroySocket(CConnectSocket* pConnectSocket) {
-	delete pConnectSocket;
-	m_lstConnectSockets.remove(pConnectSocket);
-}
 
-int CServerDlg::ProcessFileListRequest(CConnectSocket* pConnectSocket, size_t uiLength) {
-	//CString folderSize;
-	//folderSize.Format(_T("File co kich thuoc %u\n"), uiLength);
-	//::OutputDebugString(folderSize);
 
+int CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiLength )
+{
+
+	::OutputDebugStringA("nha vao ProcessFileListRequest \n");
 	const TCHAR * strFolderName = pConnectSocket->RecevieFolderName(uiLength);
 	if (strFolderName != NULL) {
 		::OutputDebugString(strFolderName);
+		::OutputDebugStringA("\n");
 	}
 
+	//MESSAGE_HEADER messageHeader;
+	
 	return 1;
 }
 
-	/*
-
-	const TCHAR * strFolderName = pConnectSocket->RecevieFolderName();
-
-	if (NULL == strFolderName) {
-		return 1;
-	}
-	
-	::OutputDebugString(strFolderName);
-	*/

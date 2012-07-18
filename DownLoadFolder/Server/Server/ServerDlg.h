@@ -28,13 +28,9 @@ protected:
 	UINT m_uiPort;
 
 	SOCKET m_sListener;
-	list<CConnectSocket*> m_lstConnectSockets;
 	HANDLE m_hListenThread;
 
 	CString m_strRootFolder;
-
-
-	
 
 	BOOL InitListener();
 	virtual BOOL OnInitDialog();
@@ -43,6 +39,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnDestroy();
-	int ProcessFileListRequest(CConnectSocket* pConnectSocket, size_t uiLength);
+	int ProcessFileListRequest(CConnectSocket* pConnectSocket, int uiLength);
 	void DestroySocket(CConnectSocket* pConnectSocket);
 };
