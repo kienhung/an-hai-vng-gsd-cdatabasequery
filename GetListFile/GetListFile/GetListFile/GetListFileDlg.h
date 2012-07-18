@@ -31,4 +31,5 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnBnClickedBtnDuyet();
+	afx_msg void OnBnClickedBtnWritetofile();
 };
