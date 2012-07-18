@@ -16,10 +16,11 @@ public:
 
 	CConnectSocket(SOCKET sConnectSocket, CServerDlg *pdlgServer);
 	void SetThreadHandle(HANDLE hThread);
-	const TCHAR* RecevieFolderName(size_t uiLength);
+	const TCHAR* RecevieFolderName(int uiLength);
 
 	CServerDlg * GetDlg();
-	BOOL GetMessageHeader(int *piMessageType, size_t *puiMessageLength = NULL);
+	BOOL GetMessageHeader(int *piMessageType, int *puiMessageLength = NULL);
+	int Destroy();
 
 	~CConnectSocket(void);
 };
