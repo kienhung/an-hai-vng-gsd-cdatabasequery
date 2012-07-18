@@ -28,6 +28,9 @@ void CGetListFileDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Text(pDX, IDC_EDT_FOLDERPATH, m_strFolderPath);
 	DDV_MaxChars(pDX, m_strFolderPath, MAX_PATH);
+
+	DDX_Text(pDX, IDC_EDT_PATHTOCHECK, m_strFolderPathToCheck);
+	DDV_MaxChars(pDX, m_strFolderPathToCheck, MAX_PATH);
 }
 
 BEGIN_MESSAGE_MAP(CGetListFileDlg, CDialog)
@@ -37,6 +40,8 @@ BEGIN_MESSAGE_MAP(CGetListFileDlg, CDialog)
 	ON_BN_CLICKED(IDC_BTN_BROWSE, &CGetListFileDlg::OnBnClickedBtnBrowse)
 	ON_BN_CLICKED(IDC_BTN_DUYET, &CGetListFileDlg::OnBnClickedBtnDuyet)
 	ON_BN_CLICKED(IDC_BTN_WRITETOFILE, &CGetListFileDlg::OnBnClickedBtnWritetofile)
+	ON_BN_CLICKED(IDC_BTN_BROWSETOCHECK, &CGetListFileDlg::OnBnClickedBtnBrowsetocheck)
+	ON_BN_CLICKED(IDC_BTN_CHECK, &CGetListFileDlg::OnBnClickedBtnCheck)
 END_MESSAGE_MAP()
 
 
@@ -130,4 +135,36 @@ void CGetListFileDlg::OnBnClickedBtnWritetofile()
 {
 	// TODO: Add your control notification handler code here
 	m_DuyetFile.WriteToFile();
+	//m_DuyetFile.WriteToFileText();
+}
+
+void CGetListFileDlg::OnBnClickedBtnBrowsetocheck()
+{
+	// TODO: Add your control notification handler code here
+	BROWSEINFO browseInfo;
+	ZeroMemory(&browseInfo, sizeof(BROWSEINFO));
+
+	TCHAR strTitle[] = _T("Choosing a folder to save your file");
+	browseInfo.lpszTitle = strTitle;
+
+	LPITEMIDLIST pItemIDList = SHBrowseForFolder(&browseInfo);
+
+	if (NULL != pItemIDList) {
+
+		TCHAR strPATH[MAX_PATH] = {0};
+		if (FALSE != SHGetPathFromIDList(pItemIDList, strPATH)) {
+
+			m_strFolderPathToCheck = strPATH;
+			UpdateData(FALSE);
+		}
+		::CoTaskMemFree(pItemIDList);
+	}
+}
+
+void CGetListFileDlg::OnBnClickedBtnCheck()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	m_DuyetFile.CheckListFile(m_strFolderPathToCheck + _T("\\*"));
+	
 }
