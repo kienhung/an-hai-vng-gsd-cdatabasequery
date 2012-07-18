@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CGetListFileDlg, CDialog)
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_BTN_BROWSE, &CGetListFileDlg::OnBnClickedBtnBrowse)
 	ON_BN_CLICKED(IDC_BTN_DUYET, &CGetListFileDlg::OnBnClickedBtnDuyet)
+	ON_BN_CLICKED(IDC_BTN_WRITETOFILE, &CGetListFileDlg::OnBnClickedBtnWritetofile)
 END_MESSAGE_MAP()
 
 
@@ -121,6 +122,12 @@ void CGetListFileDlg::OnBnClickedBtnDuyet()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	m_DuyetFile.ApproveFolder(m_strFolderPath + _T("\\*"));
+	m_DuyetFile.ApproveFolderToList(m_strFolderPath + _T("\\*"));
 	return;
+}
+
+void CGetListFileDlg::OnBnClickedBtnWritetofile()
+{
+	// TODO: Add your control notification handler code here
+	m_DuyetFile.WriteToFile();
 }
