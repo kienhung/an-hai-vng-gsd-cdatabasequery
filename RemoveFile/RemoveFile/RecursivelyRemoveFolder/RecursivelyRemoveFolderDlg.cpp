@@ -6,6 +6,7 @@
 #include "RecursivelyRemoveFolder.h"
 #include "RecursivelyRemoveFolderDlg.h"
 #include "RemoveFolder.h"
+#include "FolderRemoving.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -121,10 +122,13 @@ void CRecursivelyRemoveFolderDlg::OnBnClickedBtnRemove()
 		TCHAR strPath[MAX_PATH] = {0};
 		m_edtFolder->GetWindowText(strPath, MAX_PATH);
 
-		if (TRUE == RemoveFolder(strPath)) {
+		CFolderRemoving folderRemoving;
+
+		if (TRUE == folderRemoving.RemoveFolder(strPath)) {
 			AfxMessageBox(_T("OK"), MB_ICONINFORMATION);
 		} else {
 			AfxMessageBox(_T("Fail"), MB_ICONSTOP);
 		}
 	}
+	
 }

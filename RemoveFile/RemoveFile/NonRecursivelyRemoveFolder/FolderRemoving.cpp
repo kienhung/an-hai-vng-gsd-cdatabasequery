@@ -88,7 +88,7 @@ void CFolderRemoving::AddChildsToItemsStack(const TCHAR strPath[]) {
 	size_t uiLength = lstrlen(strPath) + 3;
 	TCHAR *ptcFirstFile = new TCHAR[uiLength];
 	
-	_tcscpy_s(ptcFirstFile, uiLength, 
+	//_tcscpy_s(ptcFirstFile, uiLength, 
 
 	//ZeroMemory(strDir, MAX_PATH);
 }
