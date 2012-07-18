@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "RecursivelyRemoveFolder.h"
 #include "RecursivelyRemoveFolderDlg.h"
-#include "RemoveFolder.h"
 #include "FolderRemoving.h"
 
 #ifdef _DEBUG
