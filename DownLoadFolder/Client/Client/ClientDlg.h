@@ -32,7 +32,7 @@ protected:
 	CStringA m_ServerIpAddress;
 	CString m_SavingPath;
 
-	list<CConnectSocket*> m_lstConnectSockets;
+	//list<CConnectSocket*> m_lstConnectSockets;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
@@ -43,6 +43,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnDownload();
-	void DestroySocket(CConnectSocket* pConnectSocket);
 	afx_msg void OnDestroy();
 };

@@ -14,6 +14,7 @@ public:
 	void SetThreadHandle(HANDLE hThread);
 
 	BOOL SendFolderName(const TCHAR strFolderName[]);
+	int Destroy();
 	CClientDlg * GetDlg();
 
 	~CConnectSocket(void);
