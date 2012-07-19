@@ -6,4 +6,6 @@ public:
 	CFileServices(void);
 	~CFileServices(void);
 	unsigned __int64 GetFileSize(HANDLE hFile);
+	BOOL CreateFullPath(TCHAR strFullPath[], size_t uiMaxLength, const TCHAR strRoot[], const TCHAR strName[]);
+	BOOL CreateFilesListFilePath(TCHAR strFilesListFilePath[],  size_t uiMaxLength, const TCHAR strRoot[]);
 };

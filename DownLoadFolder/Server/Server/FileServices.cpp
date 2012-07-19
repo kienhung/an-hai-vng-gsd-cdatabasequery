@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "FileServices.h"
-
+#include <strsafe.h>
 CFileServices::CFileServices(void)
 {
 }
@@ -20,4 +20,27 @@ unsigned __int64 CFileServices::GetFileSize(HANDLE hFile) {
 		return bigIntFileSize.QuadPart;
 	}
 	return 0;
+}
+
+BOOL CFileServices:: CreateFullPath(TCHAR strFullPath[], size_t uiMaxLength, const TCHAR strRoot[], const TCHAR strName[]) {
+	
+	HRESULT hResult = StringCchPrintf(strFullPath, uiMaxLength, _T("%s\\%s"), strRoot,  strName);
+	
+	if (hResult == S_OK) {
+		return TRUE;
+	}	
+
+	return FALSE;
+}
+
+BOOL CreateFilesListFilePath(TCHAR strFilesListFilePath[],  size_t uiMaxLength, const TCHAR strRoot[]) {
+
+	SYSTEMTIME serverTime;
+	GetSystemTime(&serverTime);
+	HRESULT hResult = StringCchPrintf(strFilesListFilePath, uiMaxLength, _T("%s\\%d-%d-%d-%d-%d-%d-%d.ini"), strRoot,  serverTime.wDay, serverTime.wMonth, serverTime.wYear, serverTime.wHour, serverTime.wMinute, serverTime.wSecond, serverTime.wMilliseconds);
+	
+	if (hResult == S_OK) {
+		return TRUE;
+	}	
+	return FALSE;
 }
