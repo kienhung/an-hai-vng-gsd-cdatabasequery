@@ -19,7 +19,7 @@ public:
 	~CDuyetFile(void);
 	void ClearList();
 	void FormatPath(const TCHAR *strPath);
-	bool ApproveFolder(const TCHAR *strPath);
+	bool ApproveFolder(const TCHAR *strPath,const HANDLE *hFile);
 	void ApproveFolderToList(const TCHAR *strPath);
 	void WriteToFile();
 	void WriteElementToFile(const INFOFILE& infoFile, const HANDLE &hFile);
