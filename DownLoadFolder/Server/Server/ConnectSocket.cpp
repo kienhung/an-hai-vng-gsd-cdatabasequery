@@ -95,6 +95,7 @@ BOOL CConnectSocket::SendFile(HANDLE hFile) {
 	}
 
 	BOOL bResult = SendFileData(i64FileSize, hFile);
+
 	CloseHandle(hFile);
 
 	return bResult;

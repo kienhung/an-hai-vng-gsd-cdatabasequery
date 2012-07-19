@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DuyetFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FileServices.cpp"
 				>
 			</File>
@@ -229,6 +233,10 @@
 			>
 			<File
 				RelativePath=".\ConnectSocket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DuyetFile.h"
 				>
 			</File>
 			<File

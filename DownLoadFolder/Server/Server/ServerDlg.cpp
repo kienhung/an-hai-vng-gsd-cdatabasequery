@@ -6,7 +6,7 @@
 #include "Server.h"
 #include "ServerDlg.h"
 #include "ConnectSocket.h"
-
+#include "DuyetFile.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -213,7 +213,13 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	::OutputDebugString(strFolderName);
 	::OutputDebugStringA("\n");
 	
-	HANDLE hFile = ::CreateFile(_T("D:\\AnLNT\\VNG\\abc.ini"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	CDuyetFile duyetFile;
+	if(!duyetFile.ApproveFolderToList(_T("D:\\public\\Demo\\*"), _T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini")))
+	{
+		return FALSE;
+	}
+
+	HANDLE hFile = ::CreateFile(_T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
 
@@ -221,7 +227,7 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 		::OutputDebugStringA("Send File That Bai\n");
 		return FALSE;
 	}
-
+	::DeleteFile(_T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini"));
 	::OutputDebugStringA("Send File Thanh Cong\n");
 	return TRUE;
 }
