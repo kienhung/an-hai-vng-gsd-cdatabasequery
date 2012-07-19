@@ -29,8 +29,8 @@ protected:
 	CEdit *m_edtFolderName;
 
 	UINT m_uiPort;
-	CStringA m_ServerIpAddress;
-	CString m_SavingPath;
+	CStringA m_strServerIpAddress;
+	CString m_strSavingPath;
 
 	//list<CConnectSocket*> m_lstConnectSockets;
 
