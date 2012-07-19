@@ -7,6 +7,8 @@
 #include "ServerDlg.h"
 #include "ConnectSocket.h"
 #include "DuyetFile.h"
+#include "FileServices.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -204,22 +206,23 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiLength )
 {
 
-	::OutputDebugStringA("nha vao ProcessFileListRequest \n");
 	const TCHAR * strFolderName = pConnectSocket->RecevieFolderName(uiLength);
 	if (strFolderName == NULL) {
 		return FALSE;
 	}
 
-	::OutputDebugString(strFolderName);
-	::OutputDebugStringA("\n");
+	CFileServices fileServices;
+
+	TCHAR strFullFolderPath[MAX_PATH];
+	fileServices.CreateFullPath(strFullFolderPath, MAX_PATH, m_strRootFolder.GetBuffer(), strFolderName);
+
+	TCHAR strFilesListFilePath[MAX_PATH];
+	fileServices.CreateFilesListFilePath(strFilesListFilePath, MAX_PATH, m_strRootFolder.GetBuffer());
 	
 	CDuyetFile duyetFile;
-	if(!duyetFile.ApproveFolderToList(_T("D:\\public\\Demo\\*"), _T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini")))
-	{
-		return FALSE;
-	}
+	duyetFile.ApproveFolderToList(strFullFolderPath, strFilesListFilePath);
 
-	HANDLE hFile = ::CreateFile(_T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = ::CreateFile(strFilesListFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
 
@@ -227,7 +230,9 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 		::OutputDebugStringA("Send File That Bai\n");
 		return FALSE;
 	}
-	::DeleteFile(_T("D:\\public\\19_7_2012_14_37_15_192.168.1.1.ini"));
+
+	//::DeleteFile(strFilesListFilePath);
+
 	::OutputDebugStringA("Send File Thanh Cong\n");
 	return TRUE;
 }
