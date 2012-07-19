@@ -125,3 +125,4 @@ BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
 
 	return TRUE;
 }
+

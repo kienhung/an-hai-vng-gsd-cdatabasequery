@@ -15,7 +15,7 @@ class CClientDlg : public CDialog
 public:
 	CClientDlg(CWnd* pParent = NULL);	// standard constructor
 	static DWORD WINAPI FolderDownloadingThreadFunction(LPVOID lpParam );
-
+	static DWORD WINAPI FileDownloadingThreadFunction(LPVOID lpParam );
 // Dialog Data
 	enum { IDD = IDD_CLIENT_DIALOG };
 

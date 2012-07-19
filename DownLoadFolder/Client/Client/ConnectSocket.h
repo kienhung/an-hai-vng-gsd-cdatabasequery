@@ -8,13 +8,16 @@ protected:
 	SOCKET m_sConnectSocket;
 	HANDLE m_hThread;
 	CClientDlg *m_pdlgClient;
+
 public:
 
 	CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient);
+	CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient, const TCHAR *ptcSaveFolderPath, const TCHAR *pctFileName);
+
 	void SetThreadHandle(HANDLE hThread);
 	int Destroy();
 	CClientDlg * GetDlg();
-	~CConnectSocket(void);
+	virtual ~CConnectSocket(void);
 
 	BOOL SendFolderName(const TCHAR strFolderName[]);
 	BOOL ReceiveFile(const TCHAR strFileName[]);
