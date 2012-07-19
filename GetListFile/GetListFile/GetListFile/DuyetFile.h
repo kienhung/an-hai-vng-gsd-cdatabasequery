@@ -14,11 +14,12 @@ class CDuyetFile
 {
 private:
 	vector<INFOFILE> lstFile;
+	TCHAR strRootPath[MAX_PATH];
 public:
 	CDuyetFile(void);
 	~CDuyetFile(void);
 	void ClearList();
-	void FormatPath(const TCHAR *strPath);
+	const TCHAR* FormatPath(const TCHAR *strPath);
 	bool ApproveFolder(const TCHAR *strPath,const HANDLE *hFile);
 	void ApproveFolderToList(const TCHAR *strPath);
 	void WriteToFile();
@@ -27,10 +28,9 @@ public:
 	void WriteToFileText();
 	void WriteElementToFileText(const INFOFILE& infoFile, const HANDLE &hFile);
 	
-	vector<INFOFILE> ReadFileToList(const TCHAR* strPath);
+	/*vector<INFOFILE> ReadFileToList(const TCHAR* strPath);
 	vector<INFOFILE> ReadTextFileToList(const TCHAR* strPath);
 
-	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);
+	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);vector<INFOFILE> CheckListFile(const TCHAR* strPath);*/
 	bool CompareTwoInfoFile(const INFOFILE* infoFileDest, const INFOFILE* infoFileSource);
-	vector<INFOFILE> CheckListFile(const TCHAR* strPath);
 };

@@ -165,6 +165,6 @@ void CGetListFileDlg::OnBnClickedBtnCheck()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	m_DuyetFile.CheckListFile(m_strFolderPathToCheck + _T("\\*"));
+	//m_DuyetFile.CheckListFile(m_strFolderPathToCheck + _T("\\*"));
 	
 }
