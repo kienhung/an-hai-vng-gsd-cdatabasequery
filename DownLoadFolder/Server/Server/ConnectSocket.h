@@ -12,15 +12,18 @@ protected:
 	HANDLE m_hThread;
 
 	TCHAR *m_ptcFolderName;
-public:
 
+public:
 	CConnectSocket(SOCKET sConnectSocket, CServerDlg *pdlgServer);
 	void SetThreadHandle(HANDLE hThread);
-	const TCHAR* RecevieFolderName(int uiLength);
-
 	CServerDlg * GetDlg();
-	BOOL GetMessageHeader(int *piMessageType, int *puiMessageLength = NULL);
 	int Destroy();
 
+	const TCHAR* RecevieFolderName(int uiLength);
+	BOOL GetMessageHeader(int *piMessageType, int *puiMessageLength = NULL);
+	BOOL SendFile(HANDLE hFile);
 	~CConnectSocket(void);
+protected:
+	BOOL SendFileSize(unsigned __int64 *pui64Size);
+	BOOL SendFileData(unsigned __int64 ui64FileSize, HANDLE hFile);
 };
