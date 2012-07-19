@@ -213,7 +213,7 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	::OutputDebugString(strFolderName);
 	::OutputDebugStringA("\n");
 	
-	HANDLE hFile = ::CreateFile(_T("D:\\AnLNT\\rules.doc"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = ::CreateFile(_T("D:\\AnLNT\\VNG\\abc.ini"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
 

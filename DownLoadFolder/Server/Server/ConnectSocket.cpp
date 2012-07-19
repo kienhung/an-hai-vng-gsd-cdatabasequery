@@ -112,6 +112,22 @@ BOOL CConnectSocket::SendFileData(unsigned __int64 ui64FileSize, HANDLE hFile) {
 
 	::OutputDebugStringA("Nhay vao ham send file data\n");
 
+	const int BUFFER_LENGTH = 4096;
+	char strBuffer[BUFFER_LENGTH] = {0};
+	DWORD  dwBytesRead = 0;
+
+	do {
+		if (FALSE == ::ReadFile(hFile, strBuffer, BUFFER_LENGTH, &dwBytesRead, NULL)) {
+			return FALSE;
+		}
+
+		if (dwBytesRead > 0) {
+			
+			if (send(m_sConnectSocket, (char*)strBuffer, dwBytesRead, 0) == SOCKET_ERROR) {
+				return FALSE;
+			}
+		}
+	} while (dwBytesRead != 0);
 
 	return TRUE;
 }
