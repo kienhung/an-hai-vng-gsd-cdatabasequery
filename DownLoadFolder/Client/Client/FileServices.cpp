@@ -3,10 +3,14 @@
 #include <strsafe.h>
 CFileServices::CFileServices(void)
 {
+	m_ptcParentPath = NULL;
 }
 
 CFileServices::~CFileServices(void)
 {
+	if (m_ptcParentPath != NULL) {
+		delete []m_ptcParentPath;
+	}
 }
 
 unsigned __int64 CFileServices::GetFileSize(HANDLE hFile) {
@@ -59,8 +63,55 @@ BOOL CFileServices::IsDirectory(const TCHAR strPath[]) {
 
 }
 
-BOOL CFileServices::CreateDirectory(TCHAR strPath[]) {
+const TCHAR * CFileServices::GetParentPath( const TCHAR strPath[] )
+{
 
-	
-	return true;
+	int iLength = lstrlen(strPath);
+	int iIndex;
+
+	for (iIndex = iLength - 1; iIndex >= 0; iIndex--) {
+		if (strPath[iIndex] == L'\\') {
+			break;
+		}
+	}
+
+	if (iIndex < 0) {
+		return NULL;
+	}
+
+	if (NULL != m_ptcParentPath) {
+		delete[] m_ptcParentPath;
+	}
+
+	m_ptcParentPath = new TCHAR[iIndex + 1];
+
+	if (NULL == m_ptcParentPath) {
+		return NULL;
+	}
+	StringCchCopyN(m_ptcParentPath, iIndex + 1, strPath, iIndex);
+	return m_ptcParentPath;
+}
+
+BOOL CFileServices::CustomCreateDirectory(const TCHAR *strPath)
+{
+	if (IsDirectory(strPath) == TRUE) {
+		return TRUE;
+	}
+
+	if (::CreateDirectory(strPath, NULL) == TRUE) {
+		return TRUE;
+	}
+
+	CFileServices fileServices;
+	CONST TCHAR * ptcParentPath = fileServices.GetParentPath(strPath);
+
+	if (NULL == ptcParentPath) {
+		return FALSE;
+	}
+
+	if (CustomCreateDirectory(ptcParentPath) == TRUE) {
+		::CreateDirectory(strPath, NULL);
+		return TRUE;
+	}
+	return FALSE;
 }
