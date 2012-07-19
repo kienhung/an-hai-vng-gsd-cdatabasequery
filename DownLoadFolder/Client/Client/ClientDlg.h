@@ -32,9 +32,6 @@ protected:
 	CStringA m_strServerIpAddress;
 	CString m_strSavingPath;
 
-	//list<CConnectSocket*> m_lstConnectSockets;
-
-	// Generated message map functions
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
@@ -44,4 +41,5 @@ protected:
 public:
 	afx_msg void OnBnClickedBtnDownload();
 	afx_msg void OnDestroy();
+	SOCKET CreateConnectSocket();
 };
