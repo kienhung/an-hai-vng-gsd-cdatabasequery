@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileServices.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Server.cpp"
 				>
 			</File>
@@ -225,6 +229,10 @@
 			>
 			<File
 				RelativePath=".\ConnectSocket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileServices.h"
 				>
 			</File>
 			<File

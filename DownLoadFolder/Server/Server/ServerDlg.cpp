@@ -171,6 +171,7 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 	CConnectSocket *pConnectSocket = (CConnectSocket *)lpParam;
 	CServerDlg *pServerDlg = pConnectSocket->GetDlg();
 
+	int iExitCode = 0;
 	int iMessageType;
 	int uiLength;
 
@@ -200,18 +201,28 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 
 
 
-int CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiLength )
+BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiLength )
 {
 
 	::OutputDebugStringA("nha vao ProcessFileListRequest \n");
 	const TCHAR * strFolderName = pConnectSocket->RecevieFolderName(uiLength);
-	if (strFolderName != NULL) {
-		::OutputDebugString(strFolderName);
-		::OutputDebugStringA("\n");
+	if (strFolderName == NULL) {
+		return FALSE;
 	}
 
-	//MESSAGE_HEADER messageHeader;
+	::OutputDebugString(strFolderName);
+	::OutputDebugStringA("\n");
 	
-	return 1;
+	HANDLE hFile = ::CreateFile(_T("D:\\AnLNT\\rules.doc"), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
+
+	if (FALSE == isSendingFileSuccessful) {
+		::OutputDebugStringA("Send File That Bai\n");
+		return FALSE;
+	}
+
+	::OutputDebugStringA("Send File Thanh Cong\n");
+	return TRUE;
 }
 
