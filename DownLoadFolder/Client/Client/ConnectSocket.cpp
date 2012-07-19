@@ -98,5 +98,29 @@ BOOL CConnectSocket::ReceiveFileSize(unsigned __int64 *pui64Size) {
 
 BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
 	::OutputDebugStringA("Client: Nhay vao ham receiveFileData\n");
+
+	const int BUFFER_LENGTH = 4096;
+	char strBuffer[BUFFER_LENGTH] = {0};
+
+	int bytesReceived = 0;
+	DWORD dwBytesWritten = 0;
+
+	unsigned __int64 ui64Count = 0;
+
+	while (ui64Count < ui64Size) {
+
+		bytesReceived = recv(m_sConnectSocket, strBuffer, BUFFER_LENGTH, 0);
+
+		if (SOCKET_ERROR  == bytesReceived) {
+			return FALSE;
+		}
+
+		if (FALSE == ::WriteFile(hFile, strBuffer, bytesReceived, &dwBytesWritten, NULL)) {
+			return FALSE;
+		}
+
+		ui64Count += bytesReceived;
+	}
+
 	return TRUE;
 }
