@@ -133,28 +133,22 @@ void CServerDlg::OnDestroy()
 
 DWORD WINAPI CServerDlg::SocketListeningThreadFunction(LPVOID lpParam ) {
 
-	::OutputDebugStringA("Nhay vao thread listen\n");
 	CServerDlg *pServerDlg = (CServerDlg *)lpParam;
 
 	while (pServerDlg->m_sListener != INVALID_SOCKET) {
 
-		::OutputDebugStringA("cho ket noi\n");
 		SOCKET sConnectSocket = INVALID_SOCKET;
 		sConnectSocket = accept(pServerDlg->m_sListener, NULL, NULL);
 		
 
 		if (INVALID_SOCKET != sConnectSocket) {
 			
-			::OutputDebugStringA("co mot ket noi\n");
-
 			CConnectSocket *pConnectSocket = new CConnectSocket(sConnectSocket, pServerDlg);
-			::OutputDebugStringA("Tao thread\n");
 			HANDLE hThread = CreateThread(NULL, 0,  FolderDownloadingThreadFunction, pConnectSocket, CREATE_SUSPENDED, NULL);
 
 			if (NULL != hThread) {
 
 				pConnectSocket->SetThreadHandle(hThread);
-				::OutputDebugStringA("cap nhat du lieu cho thread\n");
 				ResumeThread(hThread);
 
 			} else {
@@ -168,8 +162,6 @@ DWORD WINAPI CServerDlg::SocketListeningThreadFunction(LPVOID lpParam ) {
 
 DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 
-	::OutputDebugStringA("nhay vao thread download\n");
-
 	CConnectSocket *pConnectSocket = (CConnectSocket *)lpParam;
 	CServerDlg *pServerDlg = pConnectSocket->GetDlg();
 
@@ -177,27 +169,21 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 	int iMessageType;
 	int uiLength;
 
-	::OutputDebugStringA("cho nhan header\n");
 	if (pConnectSocket->GetMessageHeader(&iMessageType, &uiLength) == FALSE) {
 		return pConnectSocket->Destroy();
 	}
 
-	::OutputDebugStringA("da nhan duoc header header\n");
 	switch (iMessageType) {
 		case FILE_LIST_REQUEST:
 
-			::OutputDebugStringA("process file list resuqest\n");
 			pServerDlg ->ProcessFileListRequest(pConnectSocket, uiLength);
 			break;
 
 		case DOWNLOAD_FILE:
-			::OutputDebugStringA("download file\n");
+			pServerDlg ->ProcessDownloadFile(pConnectSocket, uiLength);
 			break;
 	}
 
-	::OutputDebugStringA("thoat thread download\n");
-
-	
 	return pConnectSocket->Destroy();
 }
 
@@ -234,6 +220,12 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	//::DeleteFile(strFilesListFilePath);
 
 	::OutputDebugStringA("Send File Thanh Cong\n");
+	return TRUE;
+}
+
+BOOL CServerDlg::ProcessDownloadFile( CConnectSocket* pConnectSocket, int uiLength )
+{
+	::OutputDebugStringA("Process download file\n");
 	return TRUE;
 }
 
