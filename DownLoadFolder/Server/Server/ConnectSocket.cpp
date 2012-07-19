@@ -2,6 +2,7 @@
 #include "ConnectSocket.h"
 #include "ServerDlg.h"
 #include "Messages.h"
+#include "FileServices.h"
 
 CConnectSocket::~CConnectSocket(void)
 {
@@ -79,3 +80,38 @@ int CConnectSocket::Destroy()
 	return GetLastError();
 }
 
+BOOL CConnectSocket::SendFile(HANDLE hFile) {
+
+	CFileServices fileServices;
+	unsigned __int64 i64FileSize = fileServices.GetFileSize(hFile);
+
+	if (0 == i64FileSize) {
+		SendFileSize(&i64FileSize);
+		return FALSE;
+	}
+
+	if (FALSE == SendFileSize(&i64FileSize)) {
+		return FALSE;
+	}
+
+	BOOL bResult = SendFileData(i64FileSize, hFile);
+	CloseHandle(hFile);
+
+	return bResult;
+}
+
+BOOL CConnectSocket::SendFileSize(unsigned __int64 *pui64Size) {
+
+	if (SOCKET_ERROR == send(m_sConnectSocket, (char*)pui64Size, sizeof(unsigned __int64), 0)) {
+		return FALSE;
+	}
+	return TRUE;
+}
+
+BOOL CConnectSocket::SendFileData(unsigned __int64 ui64FileSize, HANDLE hFile) {
+
+	::OutputDebugStringA("Nhay vao ham send file data\n");
+
+
+	return TRUE;
+}
