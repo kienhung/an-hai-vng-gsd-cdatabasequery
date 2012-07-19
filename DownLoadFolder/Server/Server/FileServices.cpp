@@ -33,14 +33,28 @@ BOOL CFileServices:: CreateFullPath(TCHAR strFullPath[], size_t uiMaxLength, con
 	return FALSE;
 }
 
-BOOL CreateFilesListFilePath(TCHAR strFilesListFilePath[],  size_t uiMaxLength, const TCHAR strRoot[]) {
+BOOL CFileServices:: CreateFilesListFilePath(TCHAR strFilesListFilePath[],  size_t uiMaxLength, const TCHAR strRoot[]) {
 
 	SYSTEMTIME serverTime;
-	GetSystemTime(&serverTime);
+	GetLocalTime(&serverTime);
 	HRESULT hResult = StringCchPrintf(strFilesListFilePath, uiMaxLength, _T("%s\\%d-%d-%d-%d-%d-%d-%d.ini"), strRoot,  serverTime.wDay, serverTime.wMonth, serverTime.wYear, serverTime.wHour, serverTime.wMinute, serverTime.wSecond, serverTime.wMilliseconds);
 	
 	if (hResult == S_OK) {
 		return TRUE;
 	}	
 	return FALSE;
+}
+
+BOOL CFileServices::IsDirectory(const TCHAR strPath[]) {
+
+	DWORD dwFileAttributes = ::GetFileAttributes(strPath);
+	if (INVALID_FILE_ATTRIBUTES == dwFileAttributes ) {
+		return FALSE;
+	}
+
+	if (dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+		return TRUE;
+	}
+	return FALSE;
+
 }
