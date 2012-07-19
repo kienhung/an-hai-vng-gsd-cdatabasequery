@@ -39,6 +39,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnDestroy();
-	int ProcessFileListRequest(CConnectSocket* pConnectSocket, int uiLength);
+	BOOL ProcessFileListRequest(CConnectSocket* pConnectSocket, int uiLength);
 	void DestroySocket(CConnectSocket* pConnectSocket);
 };
