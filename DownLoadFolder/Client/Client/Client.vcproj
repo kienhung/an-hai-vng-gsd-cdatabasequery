@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DuyetFile.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -233,6 +237,10 @@
 			</File>
 			<File
 				RelativePath=".\ConnectSocket.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DuyetFile.h"
 				>
 			</File>
 			<File
