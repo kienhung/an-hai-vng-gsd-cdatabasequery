@@ -60,3 +60,43 @@ int CConnectSocket::Destroy()
 
 	return GetLastError();
 }
+
+BOOL CConnectSocket::ReceiveFile(const TCHAR strFileName[]) {
+
+	unsigned __int64 ui64Size = 0;
+
+	if (FALSE == ReceiveFileSize(&ui64Size)) {
+		return FALSE;
+	}
+
+	if (0 == ui64Size) {
+		return FALSE;
+	}
+
+	HANDLE hFile = ::CreateFile(strFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	
+	if (INVALID_HANDLE_VALUE == hFile) {
+		return FALSE;
+	}
+
+	BOOL bResult = ReceiveFileData(ui64Size, hFile);
+	CloseHandle(hFile);
+
+	return bResult;
+}
+
+BOOL CConnectSocket::ReceiveFileSize(unsigned __int64 *pui64Size) {
+
+	::OutputDebugStringA("Client: Cho nhat file size\n");
+	int bytesReceived = recv(m_sConnectSocket, (char*)pui64Size, sizeof(unsigned __int64), 0);
+
+	if (bytesReceived != sizeof(unsigned __int64)) {
+		return FALSE;
+	}
+	return TRUE;
+}
+
+BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
+	::OutputDebugStringA("Client: Nhay vao ham receiveFileData\n");
+	return TRUE;
+}
