@@ -210,6 +210,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ListCtrlEx.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -257,6 +261,10 @@
 			</File>
 			<File
 				RelativePath=".\FileServices.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ListCtrlEx.h"
 				>
 			</File>
 			<File

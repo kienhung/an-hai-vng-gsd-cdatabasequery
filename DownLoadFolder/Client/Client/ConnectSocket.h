@@ -8,9 +8,9 @@ protected:
 	SOCKET m_sConnectSocket;
 	HANDLE m_hThread;
 	CClientDlg *m_pdlgClient;
-
+	__int64	m_llLastWriteModified;
 public:
-
+	
 	CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient);
 	CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient, const TCHAR *ptcSaveFolderPath, const TCHAR *pctFileName);
 
@@ -21,7 +21,7 @@ public:
 
 	BOOL SendFileName(const TCHAR strFolderName[] ,int iType);
 	BOOL ReceiveFile(const TCHAR strFileName[]);
-
+	void SetLastWriteModified(const __int64* lastModified);
 protected:
 
 	BOOL ReceiveFileSize(unsigned __int64 *pui64Size);
