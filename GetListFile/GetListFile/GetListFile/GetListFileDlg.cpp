@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "GetListFile.h"
 #include "GetListFileDlg.h"
-
+#include "strsafe.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -166,5 +166,10 @@ void CGetListFileDlg::OnBnClickedBtnCheck()
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
 	//m_DuyetFile.CheckListFile(m_strFolderPathToCheck + _T("\\*"));
+	TCHAR strPath[MAX_PATH] = {0};
+
+	GetCurrentDirectory(MAX_PATH, strPath);
+	StringCchCat(strPath, MAX_PATH, _T("\\danhsach.ini"));
+	m_DuyetFile.ApproveFolderToDownload(m_strFolderPathToCheck, strPath);
 	
 }
