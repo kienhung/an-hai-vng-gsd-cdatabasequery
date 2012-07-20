@@ -70,7 +70,7 @@ BOOL CConnectSocket::ReceiveFile(const TCHAR strFileName[]) {
 	}
 
 	if (0 == ui64Size) {
-		AfxMessageBox(_T("Folder not found"), MB_ICONSTOP);
+		AfxMessageBox(_T("File not found"), MB_ICONSTOP);
 		return FALSE;
 	}
 
