@@ -19,7 +19,7 @@ void CConnectSocket:: SetThreadHandle(HANDLE hThread) {
 	m_hThread = hThread;
 }
 
-BOOL CConnectSocket:: SendFolderName(const TCHAR strFolderName[]) {
+BOOL CConnectSocket:: SendFileName(const TCHAR strFolderName[] ,int iType) {
 
 	if (lstrlen(strFolderName) + 1 > MAX_PATH) {
 		return FALSE;
@@ -28,7 +28,7 @@ BOOL CConnectSocket:: SendFolderName(const TCHAR strFolderName[]) {
 	MESSAGE_HEADER messageHeader;
 	ZeroMemory(&messageHeader, sizeof(MESSAGE_HEADER));
 
-	messageHeader.iType = FILE_LIST_REQUEST;
+	messageHeader.iType = iType;
 	messageHeader.uiLength = lstrlen(strFolderName);
 
 	if (SOCKET_ERROR == send(m_sConnectSocket, (char*)&messageHeader, sizeof(MESSAGE_HEADER), 0)) {
