@@ -25,6 +25,7 @@ protected:
 
 protected:
 	HICON m_hIcon;
+	CEdit* m_edtPath;
 	UINT m_uiPort;
 
 	SOCKET m_sListener;
@@ -42,4 +43,5 @@ public:
 	BOOL ProcessFileListRequest(CConnectSocket* pConnectSocket, int uiLength);
 	BOOL ProcessDownloadFile(CConnectSocket* pConnectSocket, int uiLength);
 	void DestroySocket(CConnectSocket* pConnectSocket);
+	afx_msg void OnBnClickedBtnBrowse();
 };
