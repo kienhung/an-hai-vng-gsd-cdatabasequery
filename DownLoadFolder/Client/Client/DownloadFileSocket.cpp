@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "DownloadFileSocket.h"
 #include <Strsafe.h>
+#include "Messages.h"
+#include "FileServices.h"
 
 CDownloadFileSocket::CDownloadFileSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient, const TCHAR *ptcSaveFolderPath, const TCHAR *ptcFileName)
 :CConnectSocket(sConnectSocket, pdlgClient)
@@ -25,8 +27,27 @@ CDownloadFileSocket::~CDownloadFileSocket(void)
 	}
 }
 
-BOOL CDownloadFileSocket::SendFileName( const TCHAR strFolderName[] )
-{
+BOOL CDownloadFileSocket::Request() {
+
+	if (FALSE == SendFileName(m_ptcFileName, DOWNLOAD_FILE)) {
+		::OutputDebugStringA("Send file name thanh cong\n");
+	} 
+	::OutputDebugStringA("Send file name thanh cong\n");
+	return TRUE;
+}
+
+BOOL CDownloadFileSocket::Receive() {
+
+	TCHAR strFilePath[MAX_PATH];
+	CFileServices fileServices;
+
+	fileServices.CreateFullPath(strFilePath, MAX_PATH, m_ptcSaveFolderPath, m_ptcFileName);
+	::OutputDebugStringA("Duong dan luu file la: ");
+	::OutputDebugString(strFilePath);
+	::OutputDebugStringA("\n");
+	if (FALSE == ReceiveFile(strFilePath)) {
+		return FALSE;
+	}
 
 	return TRUE;
 }
