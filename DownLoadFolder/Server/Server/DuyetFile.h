@@ -22,15 +22,9 @@ public:
 	const TCHAR* FormatPath(const TCHAR *strPath);
 	bool ApproveFolder(const TCHAR *strPath,const HANDLE *hFile);
 	bool ApproveFolderToList(const TCHAR *strPath, const TCHAR* strFileName);
-	void WriteToFile();
+	//void WriteToFile();
 	void WriteElementToFile(const INFOFILE& infoFile, const HANDLE &hFile);
 
-	void WriteToFileText();
+	//void WriteToFileText();
 	void WriteElementToFileText(const INFOFILE& infoFile, const HANDLE &hFile);
-	
-	/*vector<INFOFILE> ReadFileToList(const TCHAR* strPath);
-	vector<INFOFILE> ReadTextFileToList(const TCHAR* strPath);
-
-	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);vector<INFOFILE> CheckListFile(const TCHAR* strPath);*/
-	bool CompareTwoInfoFile(const INFOFILE* infoFileDest, const INFOFILE* infoFileSource);
 };
