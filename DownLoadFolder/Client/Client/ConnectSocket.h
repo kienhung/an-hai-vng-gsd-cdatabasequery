@@ -19,7 +19,7 @@ public:
 	CClientDlg * GetDlg();
 	virtual ~CConnectSocket(void);
 
-	BOOL SendFolderName(const TCHAR strFolderName[]);
+	BOOL SendFileName(const TCHAR strFolderName[] ,int iType);
 	BOOL ReceiveFile(const TCHAR strFileName[]);
 
 protected:
