@@ -35,5 +35,6 @@ public:
 	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);vector<INFOFILE> CheckListFile(const TCHAR* strPath);*/
 	void ApproveFolderToDownload(CClientDlg *pClientDlg, const TCHAR *strRootPath, const TCHAR* strFullPathBuild);
 	bool CompareTwoInfoFile(const INFOFILE* infoFileDest, const INFOFILE* infoFileSource);
-	INFOFILE ReadInfoFileFromText();
+	bool CompareTwoInfoFIle(const INFOFILE* infoFile);
+
 };
