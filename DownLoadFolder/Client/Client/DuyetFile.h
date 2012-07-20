@@ -1,5 +1,6 @@
 #pragma once
 #include "vector"
+#include "ClientDlg.h"
 using namespace std;
 
 typedef struct INFOFILE
@@ -32,7 +33,7 @@ public:
 	vector<INFOFILE> ReadTextFileToList(const TCHAR* strPath);
 
 	vector<INFOFILE> GetListFileToDownload(const TCHAR* strPath);vector<INFOFILE> CheckListFile(const TCHAR* strPath);*/
-	void ApproveFolderToDownload(const TCHAR *strRootPath, const TCHAR* strFullPathBuild);
+	void ApproveFolderToDownload(CClientDlg *pClientDlg, const TCHAR *strRootPath, const TCHAR* strFullPathBuild);
 	bool CompareTwoInfoFile(const INFOFILE* infoFileDest, const INFOFILE* infoFileSource);
 	INFOFILE ReadInfoFileFromText();
 };

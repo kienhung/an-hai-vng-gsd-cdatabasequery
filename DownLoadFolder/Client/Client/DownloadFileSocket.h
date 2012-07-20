@@ -11,5 +11,7 @@ public:
 	CDownloadFileSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient, const TCHAR *ptcSaveFolderPath, const TCHAR *ptcFileName);
 	virtual ~CDownloadFileSocket(void);
 
-	BOOL SendFileName(const TCHAR strFolderName[]);
+	BOOL Request();
+	BOOL Receive();
+	//BOOL SendFileName(const TCHAR strFolderName[]);
 };
