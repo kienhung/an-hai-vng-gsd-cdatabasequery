@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CServerDlg, CDialog)
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_BTN_BROWSE, &CServerDlg::OnBnClickedBtnBrowse)
 END_MESSAGE_MAP()
 
 
@@ -51,7 +52,12 @@ BOOL CServerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);
 
 	InitListener();
+
+	m_edtPath = (CEdit*)GetDlgItem(IDC_EDT_PATH);
+
 	m_strRootFolder = _T("D:\\Public");
+	m_edtPath->SetWindowText(m_strRootFolder);
+
 	return TRUE; 
 }
 
@@ -165,7 +171,6 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 	CConnectSocket *pConnectSocket = (CConnectSocket *)lpParam;
 	CServerDlg *pServerDlg = pConnectSocket->GetDlg();
 
-	int iExitCode = 0;
 	int iMessageType;
 	int uiLength;
 
@@ -174,12 +179,14 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 	}
 
 	switch (iMessageType) {
+
 		case FILE_LIST_REQUEST:
 
 			pServerDlg ->ProcessFileListRequest(pConnectSocket, uiLength);
 			break;
 
 		case DOWNLOAD_FILE:
+
 			pServerDlg ->ProcessDownloadFile(pConnectSocket, uiLength);
 			break;
 	}
@@ -213,19 +220,56 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
 
 	if (FALSE == isSendingFileSuccessful) {
-		::OutputDebugStringA("Send File That Bai\n");
 		return FALSE;
 	}
 
 	//::DeleteFile(strFilesListFilePath);
-
-	::OutputDebugStringA("Send File Thanh Cong\n");
 	return TRUE;
 }
 
 BOOL CServerDlg::ProcessDownloadFile( CConnectSocket* pConnectSocket, int uiLength )
 {
-	::OutputDebugStringA("Process download file\n");
+	const TCHAR * strFileName = pConnectSocket->RecevieFileName(uiLength);
+	if (strFileName == NULL) {
+		return FALSE;
+	}
+
+	TCHAR strFilePath[MAX_PATH];
+	CFileServices fileServices;
+	fileServices.CreateFullPath(strFilePath, MAX_PATH, m_strRootFolder.GetBuffer(), strFileName);
+
+	HANDLE hFile = ::CreateFile(strFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
+	
+	if (FALSE == isSendingFileSuccessful) {
+		return FALSE;
+	}
 	return TRUE;
 }
 
+
+void CServerDlg::OnBnClickedBtnBrowse()
+{
+	BROWSEINFO browseInfo;
+	ZeroMemory(&browseInfo, sizeof(BROWSEINFO));
+
+	TCHAR strTitle[] = _T("Choosing a folder to save your file");
+	browseInfo.lpszTitle = strTitle;
+
+	LPITEMIDLIST pItemIDList = ::SHBrowseForFolder(&browseInfo);
+
+	if (NULL != pItemIDList) {
+
+		TCHAR strPATH[MAX_PATH] = {0};
+
+		if (FALSE != ::SHGetPathFromIDList(pItemIDList, strPATH)) {
+
+			m_strRootFolder = strPATH;
+			m_edtPath->SetWindowText(m_strRootFolder);
+
+		}
+
+		::CoTaskMemFree(pItemIDList);
+	}
+}
