@@ -223,7 +223,7 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 		return FALSE;
 	}
 
-	//::DeleteFile(strFilesListFilePath);
+	::DeleteFile(strFilesListFilePath);
 	return TRUE;
 }
 

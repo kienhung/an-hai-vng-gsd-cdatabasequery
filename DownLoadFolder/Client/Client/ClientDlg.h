@@ -26,20 +26,22 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+
 	CEdit *m_edtFolderName;
+	CEdit *m_edtPath;
 
 	UINT m_uiPort;
-	CStringA m_strServerIpAddress;
-	CString m_strSavingPath;
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	BOOL GetIPAddressString(char *pcBuffer, size_t stMaxLength);
 	
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedBtnDownload();
 	afx_msg void OnDestroy();
 	SOCKET CreateConnectSocket();
+	afx_msg void OnBnClickedBtnBrowse();
 };
