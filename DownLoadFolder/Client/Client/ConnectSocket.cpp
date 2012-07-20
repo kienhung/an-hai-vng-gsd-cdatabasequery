@@ -2,7 +2,7 @@
 #include "ConnectSocket.h"
 #include "ClientDlg.h"
 #include "Messages.h"
-
+#include <windows.h>
 CConnectSocket::CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient)
 {
 	m_sConnectSocket = sConnectSocket;
@@ -122,7 +122,18 @@ BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
 
 		ui64Count += bytesReceived;
 	}
-
+	
+	
+	_LARGE_INTEGER lInt;
+	lInt.QuadPart = m_llLastWriteModified;
+	FILETIME fileTime;
+	fileTime.dwHighDateTime = lInt.HighPart;
+	fileTime.dwLowDateTime = lInt.LowPart;
+	SetFileTime(hFile, NULL, NULL, &fileTime);
 	return TRUE;
 }
 
+void CConnectSocket::SetLastWriteModified(const __int64* lastModified)
+{
+	m_llLastWriteModified = *lastModified;
+}

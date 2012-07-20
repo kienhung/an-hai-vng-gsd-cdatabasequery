@@ -4,6 +4,7 @@
 
 #pragma once
 #include "resource.h"
+#include "ListCtrlEx.h"
 #include <list>
 
 using namespace std;
@@ -11,6 +12,7 @@ class CConnectSocket;
 
 class CClientDlg : public CDialog
 {
+
 // Construction
 public:
 	CClientDlg(CWnd* pParent = NULL);	// standard constructor
@@ -29,7 +31,7 @@ protected:
 
 	CEdit *m_edtFolderName;
 	CEdit *m_edtPath;
-
+	CListCtrlEx m_lstDownload;
 	UINT m_uiPort;
 
 	virtual BOOL OnInitDialog();
