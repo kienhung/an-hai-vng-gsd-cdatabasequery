@@ -192,7 +192,7 @@ DWORD WINAPI CServerDlg::FolderDownloadingThreadFunction(LPVOID lpParam ) {
 BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiLength )
 {
 
-	const TCHAR * strFolderName = pConnectSocket->RecevieFolderName(uiLength);
+	const TCHAR * strFolderName = pConnectSocket->RecevieFileName(uiLength);
 	if (strFolderName == NULL) {
 		return FALSE;
 	}

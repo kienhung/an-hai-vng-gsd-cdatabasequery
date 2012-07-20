@@ -11,7 +11,7 @@ protected:
 	CServerDlg *m_dlgServer;
 	HANDLE m_hThread;
 
-	TCHAR *m_ptcFolderName;
+	TCHAR *m_ptcFileName;
 
 public:
 	CConnectSocket(SOCKET sConnectSocket, CServerDlg *pdlgServer);
@@ -19,7 +19,7 @@ public:
 	CServerDlg * GetDlg();
 	int Destroy();
 
-	const TCHAR* RecevieFolderName(int uiLength);
+	const TCHAR* RecevieFileName(int uiLength);
 	BOOL GetMessageHeader(int *piMessageType, int *puiMessageLength = NULL);
 	BOOL SendFile(HANDLE hFile);
 	~CConnectSocket(void);

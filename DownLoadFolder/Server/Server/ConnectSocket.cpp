@@ -6,8 +6,8 @@
 
 CConnectSocket::~CConnectSocket(void)
 {
-	if (m_ptcFolderName != NULL) {
-		delete []m_ptcFolderName;
+	if (m_ptcFileName != NULL) {
+		delete []m_ptcFileName;
 	}
 }
 
@@ -17,30 +17,30 @@ CConnectSocket::CConnectSocket(SOCKET sConnectSocket, CServerDlg *pdlgServer) {
 	m_dlgServer = pdlgServer;
 	m_hThread = NULL;
 
-	m_ptcFolderName = NULL;
+	m_ptcFileName = NULL;
 }
 
 void CConnectSocket::SetThreadHandle(HANDLE hThread) {
 	 m_hThread = hThread;
 }
 
-const TCHAR* CConnectSocket::RecevieFolderName( int uiLength )
+const TCHAR* CConnectSocket::RecevieFileName( int uiLength )
 {
-	m_ptcFolderName = new TCHAR[uiLength + 1];
+	m_ptcFileName = new TCHAR[uiLength + 1];
 
-	if (NULL == m_ptcFolderName) {
+	if (NULL == m_ptcFileName) {
 		return NULL;
 	}
 
 	int uiFolderNameBytesLength = uiLength*sizeof(TCHAR);
-	int bytesReceived = recv(m_sConnectSocket, (char*)m_ptcFolderName, uiFolderNameBytesLength , 0);
+	int bytesReceived = recv(m_sConnectSocket, (char*)m_ptcFileName, uiFolderNameBytesLength , 0);
 
 	if (bytesReceived != uiFolderNameBytesLength) {
 		return NULL;
 	}
 
-	m_ptcFolderName[uiLength] = 0;
-	return m_ptcFolderName;
+	m_ptcFileName[uiLength] = 0;
+	return m_ptcFileName;
 }
 
 BOOL CConnectSocket::GetMessageHeader( int *piMessageType, int *puiMessageLength /*= NULL*/ )
