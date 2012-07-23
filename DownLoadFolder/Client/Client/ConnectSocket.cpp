@@ -3,6 +3,10 @@
 #include "ClientDlg.h"
 #include "Messages.h"
 #include <windows.h>
+
+#pragma comment (lib, "Crypto/lib/Cryptography.lib")
+#include "Crypto/Decryption.h"
+
 CConnectSocket::CConnectSocket(SOCKET sConnectSocket, CClientDlg *pdlgClient)
 {
 	m_sConnectSocket = sConnectSocket;
