@@ -20,11 +20,11 @@ public:
 	virtual ~CConnectSocket(void);
 
 	BOOL SendFileName(const TCHAR strFolderName[] ,int iType);
-	BOOL ReceiveFile(const TCHAR strFileName[]);
+	virtual BOOL ReceiveFile(const TCHAR strFileName[]);
 	void SetLastWriteModified(const __int64* lastModified);
 protected:
 
 	BOOL ReceiveFileSize(unsigned __int64 *pui64Size);
-	BOOL ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile);
+	virtual BOOL ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile);
 
 };

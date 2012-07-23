@@ -107,7 +107,7 @@ BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
 	DWORD dwBytesWritten = 0;
 
 	unsigned __int64 ui64Count = 0;
-
+	//m_pdlgClient->UpdateStateItemDownload(
 	while (ui64Count < ui64Size) {
 
 		bytesReceived = recv(m_sConnectSocket, strBuffer, BUFFER_LENGTH, 0);

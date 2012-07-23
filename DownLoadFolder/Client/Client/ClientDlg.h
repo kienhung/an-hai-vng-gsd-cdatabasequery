@@ -18,6 +18,9 @@ public:
 	CClientDlg(CWnd* pParent = NULL);	// standard constructor
 	static DWORD WINAPI FolderDownloadingThreadFunction(LPVOID lpParam );
 	static DWORD WINAPI FileDownloadingThreadFunction(LPVOID lpParam );
+	void InsertItemDownload(int iIndex, LPCTSTR strFileName, unsigned __int64 iFileSize, int iStatus);
+	int GetCountItemDownload();
+	void UpdateStateItemDownload(const int *iIndex,const int *iPosition);
 // Dialog Data
 	enum { IDD = IDD_CLIENT_DIALOG };
 
@@ -42,6 +45,7 @@ protected:
 	
 	DECLARE_MESSAGE_MAP()
 public:
+	
 	afx_msg void OnBnClickedBtnDownload();
 	afx_msg void OnDestroy();
 	SOCKET CreateConnectSocket();
