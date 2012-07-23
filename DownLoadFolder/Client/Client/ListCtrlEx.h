@@ -23,6 +23,7 @@ class CListCtrlEx : public CListCtrl
 	int m_iProgressColumn;
 	vector<__int64> m_vtFileSize;
 	vector<__int64> m_vtSumSizeDownload;
+	
 public:
 	CListCtrlEx();
 	virtual ~CListCtrlEx();
