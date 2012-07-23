@@ -77,7 +77,7 @@ void CListCtrlEx::InsertItemDownload(int iIndex, LPCTSTR strFileName,unsigned __
 	
 	m_vtFileSize.push_back(iFileSize);
 	m_vtSumSizeDownload.push_back(0);
-
+	UpdateStatusDownload(iIndex, iStatus);
 	//CString strStatus;
 	//strStatus.Format(_T("%d"), iStatus);
 
@@ -112,7 +112,7 @@ void CListCtrlEx::InsertProgresCtrl(int iIndex, int iStatus)
 
 	CProgressCtrl *pControl = new CProgressCtrl;
 	pControl->Create(WS_CHILD|WS_VISIBLE, rt, this, IDC_PROGRESS_LIST + iIndex);
-	pControl->SetRange(0, 100);
+	pControl->SetRange(1, 100);
 	pControl->SetPos(iStatus);
 	pControl->ShowWindow(SW_SHOWNOACTIVATE);
 	
@@ -123,38 +123,20 @@ void CListCtrlEx::InsertProgresCtrl(int iIndex, int iStatus)
 
 void CListCtrlEx::UpdateStatusDownload(int iIndex, int iAddStatus)
 {
-	//CString strStatus;
-	//strStatus.Format(_T("%d%%"), iStatus);
-
-	/*m_ProgressList[iIndex]->SetWindowText(strStatus.GetBuffer());
-	m_ProgressList[iIndex]->SetMarquee(false, 1);
-	m_ProgressList[iIndex]->SetPos(iStatus);
-	m_ProgressList[iIndex]->Invalidate(TRUE);*/
-	///__int64 iSizeFile = _wtoi64(GetItemText(iIndex, 1));
-	
 	
 	CProgressCtrl* pCtrl;
 	pCtrl = (CProgressCtrl*)this->GetItemData(iIndex);
 	if(NULL != pCtrl)
 	{
 		m_vtSumSizeDownload[iIndex] += iAddStatus;
-		int iPer = (int)( (double)m_vtSumSizeDownload[iIndex]*100.0 / (double)m_vtFileSize[iIndex]);
-		pCtrl->SetPos(iPer);
+		if(m_vtSumSizeDownload[iIndex] >= m_vtFileSize[iIndex])
+			pCtrl->SetPos(100);
+		else
+		{
+			int iPer = (int)( (double)m_vtSumSizeDownload[iIndex]*100.0 / (double)m_vtFileSize[iIndex]);
+			pCtrl->SetPos(iPer);
+		}
 	}
-	/*CHeaderCtrl* pHeader = GetHeaderCtrl();
-	CRect ColRt;
-	pHeader->GetItemRect(m_iProgressColumn,&ColRt);
-	CRect rt;
-	GetItemRect(iIndex, &rt, LVIR_LABEL);
-	rt.top += 1;
-	rt.bottom -= 1;
-	rt.left += ColRt.left;
-	int Width = ColRt.Width();
-	rt.right = rt.left + Width - 4;
-	rt.left = ColRt.left +1 ;
-	rt.right = ColRt.right-1;
-
-	m_ProgressList[iIndex]->MoveWindow(&rt, TRUE);*/
 }
 
 void CListCtrlEx::OnCustomDraw( NMHDR* pNMHDR, LRESULT* pResult)
