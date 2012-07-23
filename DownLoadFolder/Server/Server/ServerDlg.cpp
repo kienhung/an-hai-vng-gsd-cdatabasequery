@@ -8,11 +8,14 @@
 #include "ConnectSocket.h"
 #include "DuyetFile.h"
 #include "FileServices.h"
+#include <strsafe.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+#pragma comment (lib, "Crypto/lib/Cryptography.lib")
+#include "Crypto/Encryption.h"
 
 // CServerDlg dialog
 
@@ -215,7 +218,15 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	CDuyetFile duyetFile;
 	duyetFile.ApproveFolderToList(strFullFolderPath, strFilesListFilePath);
 
-	HANDLE hFile = ::CreateFile(strFilesListFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	TCHAR strEncryptedFilesListFilePath[MAX_PATH];
+	StringCchPrintf(strEncryptedFilesListFilePath, MAX_PATH, _T("%s%s"), strFilesListFilePath, _T("Encrypted.ini"));
+
+	CEncryption encryption;
+	if (encryption.ExecuteFile(strFilesListFilePath, strEncryptedFilesListFilePath) == false) {
+		return false;
+	}
+	
+	HANDLE hFile = ::CreateFile(strEncryptedFilesListFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
 
@@ -223,7 +234,8 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 		return FALSE;
 	}
 
-	::DeleteFile(strFilesListFilePath);
+	//::DeleteFile(strFilesListFilePath);
+	//::DeleteFile(strEncryptedFilesListFilePath);
 	return TRUE;
 }
 
