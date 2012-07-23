@@ -218,6 +218,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyMutex.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -277,6 +281,10 @@
 			</File>
 			<File
 				RelativePath=".\MyCriticalSection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyMutex.h"
 				>
 			</File>
 			<File

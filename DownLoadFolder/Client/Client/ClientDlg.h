@@ -6,11 +6,11 @@
 #include "resource.h"
 #include "ListCtrlEx.h"
 #include "MyCriticalSection.h"
-#include <list>
-
+#include "MyMutex.h"
+#include <vector>
 using namespace std;
 class CConnectSocket;
-#define synchronized(M)  for(Lock M##_lock = M; M##_lock; M##_lock.setUnlock())
+
 class CClientDlg : public CDialog
 {
 	
@@ -28,7 +28,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-
+	
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -36,8 +36,9 @@ protected:
 	CEdit *m_edtFolderName;
 	CEdit *m_edtPath;
 	CListCtrlEx m_lstDownload;
-	CMutex m_Mutex;
-	CMyCriticalSection m_cs;
+	
+	vector<CMyMutex*> m_vtMutex;
+	vector<CMyCriticalSection> m_vtcs;
 	UINT m_uiPort;
 
 	virtual BOOL OnInitDialog();
@@ -48,7 +49,7 @@ protected:
 	
 	DECLARE_MESSAGE_MAP()
 public:
-	
+	CString GetFolderDownload();
 	afx_msg void OnBnClickedBtnDownload();
 	afx_msg void OnDestroy();
 	SOCKET CreateConnectSocket();
