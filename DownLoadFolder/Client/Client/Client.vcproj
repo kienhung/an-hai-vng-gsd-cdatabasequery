@@ -214,6 +214,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyCriticalSection.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -269,6 +273,10 @@
 			</File>
 			<File
 				RelativePath=".\Messages.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyCriticalSection.h"
 				>
 			</File>
 			<File

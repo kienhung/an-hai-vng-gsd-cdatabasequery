@@ -5,14 +5,15 @@
 #pragma once
 #include "resource.h"
 #include "ListCtrlEx.h"
+#include "MyCriticalSection.h"
 #include <list>
 
 using namespace std;
 class CConnectSocket;
-
+#define synchronized(M)  for(Lock M##_lock = M; M##_lock; M##_lock.setUnlock())
 class CClientDlg : public CDialog
 {
-
+	
 // Construction
 public:
 	CClientDlg(CWnd* pParent = NULL);	// standard constructor
@@ -35,6 +36,8 @@ protected:
 	CEdit *m_edtFolderName;
 	CEdit *m_edtPath;
 	CListCtrlEx m_lstDownload;
+	CMutex m_Mutex;
+	CMyCriticalSection m_cs;
 	UINT m_uiPort;
 
 	virtual BOOL OnInitDialog();
