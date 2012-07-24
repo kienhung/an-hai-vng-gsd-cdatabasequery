@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDLL", "TestDLL\TestDLL.vcproj", "{2FF5E2D7-8617-42EE-822A-2BF233264789}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cryptography", "Cryptography\Cryptography.vcproj", "{AC06692B-CFBB-4D77-B577-3A27E9FEEF3C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FF5E2D7-8617-42EE-822A-2BF233264789}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2FF5E2D7-8617-42EE-822A-2BF233264789}.Debug|Win32.Build.0 = Debug|Win32
+		{2FF5E2D7-8617-42EE-822A-2BF233264789}.Release|Win32.ActiveCfg = Release|Win32
+		{2FF5E2D7-8617-42EE-822A-2BF233264789}.Release|Win32.Build.0 = Release|Win32
+		{AC06692B-CFBB-4D77-B577-3A27E9FEEF3C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AC06692B-CFBB-4D77-B577-3A27E9FEEF3C}.Debug|Win32.Build.0 = Debug|Win32
+		{AC06692B-CFBB-4D77-B577-3A27E9FEEF3C}.Release|Win32.ActiveCfg = Release|Win32
+		{AC06692B-CFBB-4D77-B577-3A27E9FEEF3C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
