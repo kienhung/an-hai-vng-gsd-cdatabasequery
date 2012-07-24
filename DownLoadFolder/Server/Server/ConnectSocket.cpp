@@ -111,8 +111,6 @@ BOOL CConnectSocket::SendFileSize(unsigned __int64 *pui64Size) {
 
 BOOL CConnectSocket::SendFileData(unsigned __int64 ui64FileSize, HANDLE hFile) {
 
-	::OutputDebugStringA("Nhay vao ham send file data\n");
-
 	const int BUFFER_LENGTH = 4096;
 	char strBuffer[BUFFER_LENGTH] = {0};
 	DWORD  dwBytesRead = 0;
