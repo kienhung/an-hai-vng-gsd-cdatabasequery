@@ -34,9 +34,8 @@ void CDownloadFileSocket::SetIndexDownload(int iIndex)
 BOOL CDownloadFileSocket::Request() {
 
 	if (FALSE == SendFileName(m_ptcFileName, DOWNLOAD_FILE)) {
-		::OutputDebugStringA("Send file name thanh cong\n");
+		return FALSE;
 	} 
-	::OutputDebugStringA("Send file name thanh cong\n");
 	return TRUE;
 }
 
@@ -46,13 +45,9 @@ BOOL CDownloadFileSocket::Receive() {
 	CFileServices fileServices;
 
 	fileServices.CreateFullPath(strFilePath, MAX_PATH, m_ptcSaveFolderPath, m_ptcFileName);
-	::OutputDebugStringA("Duong dan luu file la: ");
-	::OutputDebugString(strFilePath);
-	::OutputDebugStringA("\n");
 	if (FALSE == ReceiveFile(strFilePath)) {
 		return FALSE;
 	}
-
 	return TRUE;
 }
 BOOL CDownloadFileSocket::ReceiveFile(const TCHAR strFileName[])
@@ -81,7 +76,6 @@ BOOL CDownloadFileSocket::ReceiveFile(const TCHAR strFileName[])
 }
 BOOL CDownloadFileSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile)
 {
-	::OutputDebugStringA("Client: Nhay vao ham receiveFileData\n");
 
 	const int BUFFER_LENGTH = 4096;
 	char strBuffer[BUFFER_LENGTH] = {0};
@@ -104,11 +98,10 @@ BOOL CDownloadFileSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFil
 		}
 
 		ui64Count += bytesReceived;
-		//int iPerDownload = (int)(((__int64)ui64Count*100) / ui64Size);
 		m_pdlgClient->UpdateStateItemDownload(&m_iIndexDownload, &bytesReceived);
 	}
 	
-	
+	//Update write last modified.
 	_LARGE_INTEGER lInt;
 	lInt.QuadPart = m_llLastWriteModified;
 	FILETIME fileTime;
