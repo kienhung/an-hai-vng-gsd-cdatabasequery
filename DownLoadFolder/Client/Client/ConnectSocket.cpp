@@ -92,7 +92,6 @@ BOOL CConnectSocket::ReceiveFile(const TCHAR strFileName[]) {
 
 BOOL CConnectSocket::ReceiveFileSize(unsigned __int64 *pui64Size) {
 
-	::OutputDebugStringA("Client: Cho nhat file size\n");
 	int bytesReceived = recv(m_sConnectSocket, (char*)pui64Size, sizeof(unsigned __int64), 0);
 
 	if (bytesReceived != sizeof(unsigned __int64)) {
@@ -102,7 +101,7 @@ BOOL CConnectSocket::ReceiveFileSize(unsigned __int64 *pui64Size) {
 }
 
 BOOL CConnectSocket::ReceiveFileData(unsigned __int64 ui64Size, HANDLE hFile) {
-	::OutputDebugStringA("Client: Nhay vao ham receiveFileData\n");
+	
 
 	const int BUFFER_LENGTH = 4096;
 	char strBuffer[BUFFER_LENGTH] = {0};
