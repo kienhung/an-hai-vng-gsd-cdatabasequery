@@ -42,6 +42,5 @@ public:
 	afx_msg void OnDestroy();
 	BOOL ProcessFileListRequest(CConnectSocket* pConnectSocket, int uiLength);
 	BOOL ProcessDownloadFile(CConnectSocket* pConnectSocket, int uiLength);
-	void DestroySocket(CConnectSocket* pConnectSocket);
 	afx_msg void OnBnClickedBtnBrowse();
 };
