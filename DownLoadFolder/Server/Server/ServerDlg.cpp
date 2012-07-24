@@ -222,10 +222,8 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 	StringCchPrintf(strEncryptedFilesListFilePath, MAX_PATH, _T("%s%s"), strFilesListFilePath, _T("Encrypted.ini"));
 
 	CEncryption encryption;
-	if (encryption.ExecuteFile(strFilesListFilePath, strEncryptedFilesListFilePath) == false) {
-		return false;
-	}
-	
+	encryption.ExecuteFile(strFilesListFilePath, strEncryptedFilesListFilePath);
+
 	HANDLE hFile = ::CreateFile(strEncryptedFilesListFilePath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	BOOL isSendingFileSuccessful = pConnectSocket->SendFile(hFile);
@@ -234,8 +232,8 @@ BOOL CServerDlg::ProcessFileListRequest( CConnectSocket* pConnectSocket, int uiL
 		return FALSE;
 	}
 
-	//::DeleteFile(strFilesListFilePath);
-	//::DeleteFile(strEncryptedFilesListFilePath);
+	::DeleteFile(strFilesListFilePath);
+	::DeleteFile(strEncryptedFilesListFilePath);
 	return TRUE;
 }
 
