@@ -63,6 +63,7 @@ void CcustomdialogDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CcustomdialogDlg, CDialog)
+	ON_WM_ERASEBKGND()
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -72,6 +73,8 @@ BEGIN_MESSAGE_MAP(CcustomdialogDlg, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_WM_NCLBUTTONUP()
 	ON_WM_NCMOUSEHOVER()
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CcustomdialogDlg::OnLvnItemchangedList1)
+	ON_WM_MOUSEHOVER()
 END_MESSAGE_MAP()
 
 
@@ -107,6 +110,7 @@ BOOL CcustomdialogDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+
 	DWORD dwStyle = m_lstCtrlEx.GetExtendedStyle();
 	dwStyle |= LVS_EX_FULLROWSELECT;
 	m_lstCtrlEx.SetExtendedStyle(dwStyle);
@@ -115,6 +119,7 @@ BOOL CcustomdialogDlg::OnInitDialog()
 	m_lstCtrlEx.SetRedraw(FALSE);
 	InsertItems();
 	m_lstCtrlEx.SetRedraw(TRUE);
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -163,17 +168,25 @@ void CcustomdialogDlg::OnPaint()
 		if(!m_Rectangle.IsRectEmpty())
 		{
 			CPaintDC dc(this);
-			CDC mdc; // memory DC
-			mdc.CreateCompatibleDC(&dc);
+			
 			Graphics graphics(dc.m_hDC);
 			//DrawItemss(graphics, &m_Rectangle);
-			graphics.BeginContainer();
+			//graphics.BeginContainer();
 			// create and select a thick, black pen
+			
 			DrawItemss(&graphics, &m_Rectangle);
+			
 		}
 	}
 }
-
+BOOL CcustomdialogDlg::OnEraseBkgnd(CDC *pDC)
+{
+	pDC->GetGraphicsMode();
+	CPaintDC dc(this);
+	Graphics graphics(dc);
+	graphics.Clear(Color(255,255,255));
+	return TRUE;
+}
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CcustomdialogDlg::OnQueryDragIcon()
@@ -230,29 +243,32 @@ void CcustomdialogDlg::OnMouseMove(UINT nFlags, CPoint point)
 		{
 			m_Rectangle.SetRect(point, m_pOldPoint);
 		}
-		AfxGetMainWnd()->Invalidate();
+		//AfxGetMainWnd()->Invalidate();
+		this->RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW |RDW_ERASE  );
 	}
 }
 void CcustomdialogDlg::DrawItemss(Graphics* graphics, CRect* rect)
 {
+	CRect rectClient;
+	GetClientRect(&rectClient);
+	Rect rectTempClient(rectClient.left, rectClient.top, rectClient.Width(), rectClient.Height());
 	
-			//CDC mdc; // memory DC
-			//mdc.CreateCompatibleDC(&dc);
-			
-   CPen penBlack;
-			penBlack.CreatePen(PS_SOLID, 3, RGB(100, 255, 0));
+	Bitmap bmp(rectClient.right, rectClient.bottom);
+	Graphics* tempGraphics = Graphics::FromImage(&bmp);
+	
+	CPen penBlack;
+	penBlack.CreatePen(PS_SOLID, 3, RGB(100, 255, 0));
 
-			SolidBrush brushBlue(Color(0, 0, 255));
-			// get our client rectangle
-			//CRect rect;
-			//GetClientRect(rect);
-			Pen pen(&brushBlue);
-		
-			
-			Rect rectTemp(rect->left, rect->top, rect->Width(), rect->Height());
-			graphics->FillRectangles(&brushBlue, &rectTemp, 1);
-			
-			//graphics.DrawRectangles(&pen, &rect, 1);
+	SolidBrush brushBlue(Color(0, 255, 255));
+	
+	Pen pen(&brushBlue);
+
+	Rect rectTemp(rect->left, rect->top, rect->Width(), rect->Height());
+	tempGraphics->FillRectangles(&brushBlue, &rectTemp, 1);
+
+	graphics->DrawImage(&bmp, rectTempClient);
+	DeleteObject(&bmp);
+	DeleteObject(tempGraphics);
 }
 void CcustomdialogDlg::OnNcLButtonUp(UINT nHitTest, CPoint point)
 {
@@ -300,8 +316,7 @@ BOOL CcustomdialogDlg::InitImageList()
 
 	// Attach them
 	m_lstCtrlEx.SetImageList(&m_cImageListNormal, LVSIL_NORMAL);
-	//m_lstCtrlEx.SetImageList(&m_cImageListSmall, LVSIL_SMALL);
- 	return TRUE;
+	return TRUE;
 }
 
 void CcustomdialogDlg::InsertItems()
@@ -332,4 +347,18 @@ void CcustomdialogDlg::InsertItems()
 
 	}
 	count = m_lstCtrlEx.GetItemCount();
+}
+void CcustomdialogDlg::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	*pResult = 0;
+}
+
+void CcustomdialogDlg::OnMouseHover(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+	AfxMessageBox(_T("hover"));
+	CDialog::OnMouseHover(nFlags, point);
+	
 }

@@ -22,9 +22,11 @@ CListCtrlEx::~CListCtrlEx()
 
 BEGIN_MESSAGE_MAP(CListCtrlEx, CListCtrl)
 	ON_NOTIFY_REFLECT(NM_CUSTOMDRAW, OnCustomDraw)
-	///*ON_WM_LBUTTONDOWN()
-	//ON_WM_LBUTTONUP()
-	//ON_WM_MOUSEMOVE()*/
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
+	ON_WM_MOUSEHOVER()
+	
 END_MESSAGE_MAP()
 
 
@@ -56,12 +58,29 @@ void CListCtrlEx::OnCustomDraw( NMHDR* pNMHDR, LRESULT* pResult)
 	}
 }
 
-////void CListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
-////{
-////}
-////void CListCtrlEx::OnLButtonUp(UINT nFlags, CPoint point)
-////{
-////}
-////void CListCtrlEx::OnMouseMove(UINT nFlags, CPoint point)
-////{
-////}
+void CListCtrlEx::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	AfxMessageBox(_T("Left button down"));
+	CListCtrl::OnLButtonDown(nFlags, point);
+}
+void CListCtrlEx::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	CListCtrl::OnLButtonUp(nFlags, point);
+}
+void CListCtrlEx::OnMouseMove(UINT nFlags, CPoint point)
+{
+	//AfxMessageBox(_T("Mouse move"));
+	/*TRACKMOUSEEVENT tme;
+    tme.cbSize = sizeof(tme);
+    tme.hwndTrack = m_hWnd;
+    tme.dwFlags = TME_LEAVE|TME_HOVER;
+    tme.dwHoverTime = 1;
+    TrackMouseEvent(&tme);*/
+}
+void CListCtrlEx::OnMouseHover(UINT nFlags, CPoint point)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CListCtrl::OnMouseHover(nFlags, point);
+	AfxMessageBox(_T("mouse hover"));
+}

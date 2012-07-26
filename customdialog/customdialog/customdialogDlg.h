@@ -34,6 +34,7 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg BOOL OnEraseBkgnd(CDC *pDC);
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -42,4 +43,6 @@ public:
 	afx_msg void OnNcLButtonUp(UINT nHitTest, CPoint point);
 	afx_msg void OnNcMouseHover(UINT nFlags, CPoint point);
 	void DrawItemss(Graphics* graphics, CRect* rect);
+	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnMouseHover(UINT nFlags, CPoint point);
 };
