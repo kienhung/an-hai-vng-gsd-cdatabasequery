@@ -54,7 +54,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
     "LANGUAGE 9, 1\r\n"
     "#pragma code_page(1252)\r\n"
-    "#include ""res\\customdialog.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""res\\WebBrower.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
     "#include ""afxres.rc""     // Standard components\r\n"
     "#endif\r\n"
     "\0"
@@ -70,7 +70,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON                    "res\\customdialog.ico"
+IDR_MAINFRAME           ICON                    "res\\WebBrower.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -79,24 +79,27 @@ IDR_MAINFRAME           ICON                    "res\\customdialog.ico"
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About customdialog"
+CAPTION "About WebBrower"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "customdialog, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "WebBrower, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
     LTEXT           "Copyright (C) 2012",IDC_STATIC,42,26,114,8
     DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
 END
 
-IDD_CUSTOMDIALOG_DIALOG DIALOGEX 0, 0, 379, 277
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+IDD_WEBBROWER_DIALOG DIALOGEX 0, 0, 479, 296
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "customdialog"
+CAPTION "s"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,209,255,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,322,255,50,14
-    CONTROL         "",IDC_LIST1,"SysListView32",WS_BORDER | WS_TABSTOP,23,19,306,143
+    CONTROL         "",IDC_IE_WEBBROWER,
+                    "{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,35,54,215,157
+    PUSHBUTTON      "Load",IDC_BTN_LOAD,298,14,50,14
+    EDITTEXT        IDC_EDT_URL,41,14,242,14,ES_AUTOHSCROLL
+    GROUPBOX        "Static",IDC_GROUP,19,39,247,196
+    CONTROL         "",IDC_EXPLORER3,"{8856F961-340A-11D0-A96B-00C04FD705A2}",WS_TABSTOP,297,44,175,203
 END
 
 
@@ -125,9 +128,9 @@ BEGIN
             VALUE "CompanyName", "TODO: <Company name>"
             VALUE "FileDescription", "TODO: <File description>"
             VALUE "FileVersion", "1.0.0.1"
-            VALUE "InternalName", "customdialog.exe"
+            VALUE "InternalName", "WebBrower.exe"
             VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
-            VALUE "OriginalFilename", "customdialog.exe"
+            VALUE "OriginalFilename", "WebBrower.exe"
             VALUE "ProductName", "TODO: <Product name>"
             VALUE "ProductVersion", "1.0.0.1"
         END
@@ -155,13 +158,12 @@ BEGIN
         BOTTOMMARGIN, 55
     END
 
-    IDD_CUSTOMDIALOG_DIALOG, DIALOG
+    IDD_WEBBROWER_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 372
-        VERTGUIDE, 372
+        RIGHTMARGIN, 472
         TOPMARGIN, 7
-        BOTTOMMARGIN, 269
+        BOTTOMMARGIN, 289
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -169,10 +171,34 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
+// Dialog Info
 //
 
-IDB_LISTBITMAP_NORMAL   BITMAP                  "res\\images_normal.bmp"
+IDD_WEBBROWER_DIALOG DLGINIT
+BEGIN
+    IDC_IE_WEBBROWER, 0x376, 160, 0
+0x0000, 0x0000, 0x004c, 0x0000, 0x2162, 0x0000, 0x1a5b, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x004c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 
+0x0000, 0xd0e0, 0x0057, 0x3573, 0x11cf, 0x69ae, 0x0008, 0x2e2b, 0x6212, 
+0x0008, 0x0000, 0x0000, 0x0000, 0x004c, 0x0000, 0x1401, 0x0002, 0x0000, 
+0x0000, 0x00c0, 0x0000, 0x0000, 0x4600, 0x0080, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    IDC_EXPLORER3, 0x376, 160, 0
+0x0000, 0x0000, 0x004c, 0x0000, 0x1b2f, 0x0000, 0x221b, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x004c, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 
+0x0000, 0xd0e0, 0x0057, 0x3573, 0x11cf, 0x69ae, 0x0008, 0x2e2b, 0x6212, 
+0x0008, 0x0000, 0x0000, 0x0000, 0x004c, 0x0000, 0x1401, 0x0002, 0x0000, 
+0x0000, 0x00c0, 0x0000, 0x0000, 0x4600, 0x0080, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 
+0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -181,7 +207,7 @@ IDB_LISTBITMAP_NORMAL   BITMAP                  "res\\images_normal.bmp"
 
 STRINGTABLE 
 BEGIN
-    IDS_ABOUTBOX            "&About customdialog..."
+    IDS_ABOUTBOX            "&About WebBrower..."
 END
 
 #endif    // English (U.S.) resources
@@ -202,7 +228,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE 9, 1
 #pragma code_page(1252)
-#include "res\customdialog.rc2"  // non-Microsoft Visual C++ edited resources
+#include "res\WebBrower.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"     // Standard components
 #endif
 
