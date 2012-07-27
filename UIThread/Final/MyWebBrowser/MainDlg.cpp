@@ -33,13 +33,13 @@ END_EVENTSINK_MAP()
 
 void CMainDlg::OnBnClickedButton1()
 {
-	m_pNavigatingThread->GetMainWnd()->PostMessage(ON_NAVIGATE);
+
 }
 
 BOOL CMainDlg:: OnInitDialog() {
 
 	PostMessage(ON_WM_AFTERINIT);
-	m_explorer = (CExplorer1*)GetDlgItem(IDC_EXPLORER);
+
 	return TRUE;
 }
 
@@ -50,9 +50,9 @@ LRESULT CMainDlg::OnAfterInitDialog( WPARAM, LPARAM ) {
 }
 void CMainDlg::OnBnClickedButton2()
 {
-	m_explorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
 
-	int x = 10;
+
+
 }
 
 void CMainDlg::OnPaint()
