@@ -11,29 +11,26 @@ class CMyWebBrowserDlg : public CDialog
 {
 // Construction
 public:
-	CMyWebBrowserDlg(CWnd* pParent = NULL);	// standard constructor
-
-// Dialog Data
+	CMyWebBrowserDlg(CWnd* pParent = NULL);	
 	enum { IDD = IDD_MYWEBBROWSER_DIALOG };
 
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-
-// Implementation
 protected:
 	HICON m_hIcon;
+	CExplorer1 *m_pExplorer;
 
-	// Generated message map functions
+	virtual BOOL PreTranslateMessage( MSG* pMsg);
 	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
+
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg LRESULT OnNavigate( WPARAM, LPARAM );
+	afx_msg void OnPaint();
+
 	DECLARE_MESSAGE_MAP()
 public:
-	CExplorer1 m_explorer;
+
 	DECLARE_EVENTSINK_MAP()
-//	void DownloadCompleteExplorer1();
-//	void DocumentCompleteExplorer1(LPDISPATCH pDisp, VARIANT* URL);
-//	void NavigateComplete2Explorer1(LPDISPATCH pDisp, VARIANT* URL);
-	void DownloadCompleteExplorer1();
+
+
+	void DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL);
 };
