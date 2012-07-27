@@ -6,16 +6,11 @@
 #include "MainDlg.h"
 #include "UIThread.h"
 
-// CMainDlg dialog
 
-IMPLEMENT_DYNAMIC(CMainDlg, CDialog)
 
 CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CMainDlg::IDD, pParent)
 {
-#ifndef _WIN32_WCE
-	EnableActiveAccessibility();
-#endif
 
 }
 
@@ -23,20 +18,50 @@ CMainDlg::~CMainDlg()
 {
 }
 
-void CMainDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
-}
 
 
 BEGIN_MESSAGE_MAP(CMainDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMainDlg::OnBnClickedButton1)
+	ON_MESSAGE(ON_WM_AFTERINIT, OnAfterInitDialog)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMainDlg::OnBnClickedButton2)
+	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 
-// CMainDlg message handlers
+BEGIN_EVENTSINK_MAP(CMainDlg, CDialog)
+END_EVENTSINK_MAP()
 
 void CMainDlg::OnBnClickedButton1()
 {
-	AfxBeginThread(RUNTIME_CLASS(CUIThread));
+	m_pNavigatingThread->GetMainWnd()->PostMessage(ON_NAVIGATE);
+}
+
+BOOL CMainDlg:: OnInitDialog() {
+
+	PostMessage(ON_WM_AFTERINIT);
+	m_explorer = (CExplorer1*)GetDlgItem(IDC_EXPLORER);
+	return TRUE;
+}
+
+LRESULT CMainDlg::OnAfterInitDialog( WPARAM, LPARAM ) {
+
+	m_pNavigatingThread = AfxBeginThread(RUNTIME_CLASS(CUIThread));
+	return 0;
+}
+void CMainDlg::OnBnClickedButton2()
+{
+	m_explorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
+
+	int x = 10;
+}
+
+void CMainDlg::OnPaint()
+{
+	CPaintDC dc(this); 
+
+
+	RECT rect;
+	::GetClientRect(m_hWnd, &rect);
+	::FillRect(dc.m_hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+
 }

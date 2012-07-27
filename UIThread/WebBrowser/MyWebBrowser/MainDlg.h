@@ -1,11 +1,10 @@
 #pragma once
-
-
-// CMainDlg dialog
+#include "MyWebBrowserDlg.h"
+#include "explorer.h"
 
 class CMainDlg : public CDialog
 {
-	DECLARE_DYNAMIC(CMainDlg)
+	//DECLARE_DYNAMIC(CMainDlg)
 
 public:
 	CMainDlg(CWnd* pParent = NULL);   // standard constructor
@@ -15,9 +14,19 @@ public:
 	enum { IDD = IDD_MAINDLG };
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	CWinThread *m_pNavigatingThread;
+
+	virtual BOOL OnInitDialog();
+	afx_msg LRESULT OnAfterInitDialog( WPARAM, LPARAM );
 
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnBnClickedButton2();
+
+	CExplorer1 *m_explorer;
+
+	DECLARE_EVENTSINK_MAP()
+	afx_msg void OnPaint();
 };

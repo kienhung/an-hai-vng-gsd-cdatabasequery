@@ -58,3 +58,5 @@
 #endif
 
 
+#define ON_NAVIGATE (WM_APP + 1)
+#define ON_WM_AFTERINIT (WM_APP + 2)

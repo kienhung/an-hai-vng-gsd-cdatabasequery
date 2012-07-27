@@ -20,20 +20,10 @@ CUIThread::~CUIThread()
 
 BOOL CUIThread::InitInstance()
 {
-
-	CMyWebBrowserDlg dlg;
-
-	if (dlg.Create(CMyWebBrowserDlg::IDD)) {
-
-		dlg.ShowWindow( SW_HIDE );
+	if (dlg.Create(CMyWebBrowserDlg::IDD), CWnd::GetDesktopWindow()) {
+		dlg.ShowWindow(SW_SHOW);
 		m_pMainWnd = &dlg;
-		INT_PTR nResponse = dlg.RunModalLoop();
 	}
-	//m_pMainWnd = &dlg;
-	//INT_PTR nResponse = dlg.DoModal();
-
-	//myWebDlg.Create(IDD_MYWEBBROWSER_DIALOG, NULL);
-
 	return TRUE;
 }
 
