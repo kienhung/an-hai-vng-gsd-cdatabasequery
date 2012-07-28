@@ -35,7 +35,7 @@ BOOL CMyWebBrowserDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);
 
 
-	OnNavigate(0, 0);
+	//OnNavigate(0, 0);
 
 	return TRUE; 
 }
@@ -49,7 +49,6 @@ HCURSOR CMyWebBrowserDlg::OnQueryDragIcon()
 BEGIN_EVENTSINK_MAP(CMyWebBrowserDlg, CDialog)
 	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 259, CMyWebBrowserDlg::DocumentCompleteExplorer, VTS_DISPATCH VTS_PVARIANT)
 	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 250, CMyWebBrowserDlg::BeforeNavigate2Explorer, VTS_DISPATCH VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PBOOL)
-//	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 106, CMyWebBrowserDlg::DownloadBeginExplorer, VTS_NONE)
 END_EVENTSINK_MAP()
 
 
@@ -88,10 +87,5 @@ void CMyWebBrowserDlg::DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL)
 
 void CMyWebBrowserDlg::BeforeNavigate2Explorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel)
 {
-	ShowWindow(SW_HIDE);
+	//ShowWindow(SW_HIDE);
 }
-
-//void CMyWebBrowserDlg::DownloadBeginExplorer()
-//{
-//	ShowWindow(SW_HIDE);
-//}
