@@ -18,21 +18,23 @@ protected:
 	int TIMER_ID;
 	int m_iCurrentIndex;
 	int m_iFrameCount;
+	Image **m_ppImage;
+
+	RECT m_rectBitmap;
 
 	CWinThread *m_pNavigatingThread;
 
 	virtual BOOL OnInitDialog();
-	afx_msg LRESULT OnAfterInitDialog( WPARAM, LPARAM );
+
+	afx_msg LRESULT OnDownloadComplete( WPARAM, LPARAM );
+	afx_msg LRESULT OnDownloadBeginning( WPARAM, LPARAM );
+
+
+	afx_msg void OnPaint();
 	afx_msg void OnTimer (UINT nTimerID);
 
-
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
 
-	CExplorer1 *m_explorer;
-
-	DECLARE_EVENTSINK_MAP()
-	afx_msg void OnPaint();
+protected:
+	afx_msg void OnBnClickedBtnNavigate();
 };

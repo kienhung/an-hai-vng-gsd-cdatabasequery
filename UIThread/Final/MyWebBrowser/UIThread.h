@@ -11,7 +11,7 @@ class CUIThread : public CWinThread
 protected:
 	CUIThread();           // protected constructor used by dynamic creation
 	virtual ~CUIThread();
-	CMyWebBrowserDlg myWebDlg;
+
 	CMyWebBrowserDlg dlg;
 public:
 	virtual BOOL InitInstance();
