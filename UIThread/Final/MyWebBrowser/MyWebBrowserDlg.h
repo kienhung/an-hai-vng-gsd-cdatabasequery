@@ -33,4 +33,6 @@ public:
 
 
 	void DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL);
+	void BeforeNavigate2Explorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel);
+//	void DownloadBeginExplorer();
 };

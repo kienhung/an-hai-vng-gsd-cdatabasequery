@@ -34,8 +34,9 @@ BOOL CMyWebBrowserDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);	
 	SetIcon(m_hIcon, FALSE);
 
-	m_pExplorer = (CExplorer1*)GetDlgItem(IDC_EXPLORER);
-	m_pExplorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
+
+	OnNavigate(0, 0);
+
 	return TRUE; 
 }
 
@@ -47,12 +48,17 @@ HCURSOR CMyWebBrowserDlg::OnQueryDragIcon()
 
 BEGIN_EVENTSINK_MAP(CMyWebBrowserDlg, CDialog)
 	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 259, CMyWebBrowserDlg::DocumentCompleteExplorer, VTS_DISPATCH VTS_PVARIANT)
+	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 250, CMyWebBrowserDlg::BeforeNavigate2Explorer, VTS_DISPATCH VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PBOOL)
+//	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 106, CMyWebBrowserDlg::DownloadBeginExplorer, VTS_NONE)
 END_EVENTSINK_MAP()
 
 
 
 LRESULT CMyWebBrowserDlg::OnNavigate( WPARAM, LPARAM ) {
-	//m_pExplorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
+
+	CExplorer1 *pExplorer = (CExplorer1*)GetDlgItem(IDC_EXPLORER);
+	pExplorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
+
 	return 0;
 }
 
@@ -73,13 +79,19 @@ BOOL CMyWebBrowserDlg::PreTranslateMessage( MSG* pMsg) {
 void CMyWebBrowserDlg::OnPaint()
 {
 	CPaintDC dc(this); 
-
-	RECT rect;
-	::GetClientRect(m_hWnd, &rect);
-	::FillRect(dc.m_hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
 }
 
 void CMyWebBrowserDlg::DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL)
 {
 	ShowWindow(SW_SHOW);
 }
+
+void CMyWebBrowserDlg::BeforeNavigate2Explorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel)
+{
+	ShowWindow(SW_HIDE);
+}
+
+//void CMyWebBrowserDlg::DownloadBeginExplorer()
+//{
+//	ShowWindow(SW_HIDE);
+//}

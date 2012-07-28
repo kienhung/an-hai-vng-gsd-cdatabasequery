@@ -15,10 +15,16 @@ public:
 
 protected:
 
+	int TIMER_ID;
+	int m_iCurrentIndex;
+	int m_iFrameCount;
+
 	CWinThread *m_pNavigatingThread;
 
 	virtual BOOL OnInitDialog();
 	afx_msg LRESULT OnAfterInitDialog( WPARAM, LPARAM );
+	afx_msg void OnTimer (UINT nTimerID);
+
 
 	DECLARE_MESSAGE_MAP()
 public:

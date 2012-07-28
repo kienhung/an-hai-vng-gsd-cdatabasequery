@@ -52,6 +52,7 @@ BOOL CMyWebBrowserApp::InitInstance()
 
 	AfxEnableControlContainer();
 
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
 	// of your final executable, you should remove from the following
@@ -81,4 +82,11 @@ BOOL CMyWebBrowserApp::InitInstance()
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
+}
+
+int CMyWebBrowserApp::ExitInstance()
+{
+
+	GdiplusShutdown(gdiplusToken);
+	return 0;
 }
