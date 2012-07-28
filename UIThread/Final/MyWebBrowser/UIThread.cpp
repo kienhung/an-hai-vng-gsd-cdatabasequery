@@ -30,7 +30,6 @@ BOOL CUIThread::InitInstance()
 
 int CUIThread::ExitInstance()
 {
-	// TODO:  perform any per-thread cleanup here
 	return CWinThread::ExitInstance();
 }
 
@@ -38,4 +37,3 @@ BEGIN_MESSAGE_MAP(CUIThread, CWinThread)
 END_MESSAGE_MAP()
 
 
-// CUIThread message handlers

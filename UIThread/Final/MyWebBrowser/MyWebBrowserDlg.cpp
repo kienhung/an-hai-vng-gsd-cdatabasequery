@@ -48,12 +48,15 @@ HCURSOR CMyWebBrowserDlg::OnQueryDragIcon()
 
 BEGIN_EVENTSINK_MAP(CMyWebBrowserDlg, CDialog)
 	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 259, CMyWebBrowserDlg::DocumentCompleteExplorer, VTS_DISPATCH VTS_PVARIANT)
-	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 250, CMyWebBrowserDlg::BeforeNavigate2Explorer, VTS_DISPATCH VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PBOOL)
 END_EVENTSINK_MAP()
 
 
 
 LRESULT CMyWebBrowserDlg::OnNavigate( WPARAM, LPARAM ) {
+
+	AfxGetApp()->m_pMainWnd->PostMessage(WM_DOWNLOADBEGINNING);
+	ShowWindow(SW_HIDE);
+	m_bIsDownloading = true;
 
 	CExplorer1 *pExplorer = (CExplorer1*)GetDlgItem(IDC_EXPLORER);
 	pExplorer->Navigate(L"asus.com", NULL, NULL, NULL, NULL);
@@ -82,10 +85,13 @@ void CMyWebBrowserDlg::OnPaint()
 
 void CMyWebBrowserDlg::DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL)
 {
-	ShowWindow(SW_SHOW);
-}
 
-void CMyWebBrowserDlg::BeforeNavigate2Explorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel)
-{
-	//ShowWindow(SW_HIDE);
+	if (true == m_bIsDownloading) {
+
+		m_bIsDownloading = false;
+		ShowWindow(SW_SHOW);
+
+		AfxGetApp()->m_pMainWnd->PostMessage(WM_DOWNLOADCOMPLETE);
+	}
+	
 }

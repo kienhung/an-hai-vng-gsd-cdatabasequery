@@ -59,7 +59,10 @@
 
 
 #define ON_NAVIGATE (WM_APP + 1)
-#define ON_WM_AFTERINIT (WM_APP + 2)
+#define WM_AFTERINIT (WM_APP + 2)
+
+#define WM_DOWNLOADCOMPLETE (WM_APP + 3)
+#define WM_DOWNLOADBEGINNING (WM_APP + 4)
 
 #include <gdiplus.h>
 using namespace Gdiplus;

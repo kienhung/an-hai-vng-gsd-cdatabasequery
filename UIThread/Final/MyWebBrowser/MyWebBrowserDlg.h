@@ -17,7 +17,7 @@ public:
 
 protected:
 	HICON m_hIcon;
-	CExplorer1 *m_pExplorer;
+	bool m_bIsDownloading;
 
 	virtual BOOL PreTranslateMessage( MSG* pMsg);
 	virtual BOOL OnInitDialog();
@@ -33,6 +33,4 @@ public:
 
 
 	void DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL);
-	void BeforeNavigate2Explorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel);
-//	void DownloadBeginExplorer();
 };

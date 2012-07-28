@@ -16,79 +16,94 @@ CMainDlg::CMainDlg(CWnd* pParent /*=NULL*/)
 
 CMainDlg::~CMainDlg()
 {
+	for (int i = 0; i < m_iFrameCount; i++) {
+		delete m_ppImage[i];
+		m_ppImage[i] = NULL;
+	}
+	delete []m_ppImage;
+	m_ppImage = NULL;
 }
 
 
 
 BEGIN_MESSAGE_MAP(CMainDlg, CDialog)
-	ON_BN_CLICKED(IDC_BUTTON1, &CMainDlg::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, &CMainDlg::OnBnClickedButton2)
 	ON_WM_PAINT()
 	ON_WM_TIMER ()
+	ON_MESSAGE(WM_DOWNLOADCOMPLETE, OnDownloadComplete)
+	ON_MESSAGE(WM_DOWNLOADBEGINNING, OnDownloadBeginning)
+	ON_BN_CLICKED(IDC_BTN_NAVIGATE, &CMainDlg::OnBnClickedBtnNavigate)
 END_MESSAGE_MAP()
 
 
-BEGIN_EVENTSINK_MAP(CMainDlg, CDialog)
-END_EVENTSINK_MAP()
-
-void CMainDlg::OnBnClickedButton1()
-{
-	//m_pNavigatingThread ->PostThreadMessage(ON_NAVIGATE, 0, 0);
-	m_pNavigatingThread ->m_pMainWnd->PostMessage(ON_NAVIGATE);
-}
 
 BOOL CMainDlg:: OnInitDialog() {
 
 	m_pNavigatingThread = AfxBeginThread(RUNTIME_CLASS(CUIThread));
+
 	TIMER_ID = 1;
 	m_iCurrentIndex = 0;
 	m_iFrameCount = 21;
 
+	m_rectBitmap.left = 350;
+	m_rectBitmap.top = 500;
 
-	if (!SetTimer(TIMER_ID, 100, NULL)) {
-		AfxMessageBox(L"Set Timer Fail", MB_ICONERROR);
+
+	m_ppImage = new Image*[m_iFrameCount];
+
+	TCHAR szModulePath[MAX_PATH]={0};
+	GetModuleFileName(NULL,szModulePath,MAX_PATH);
+	PathRemoveFileSpec(szModulePath);
+
+	for (int i = 0 ; i < m_iFrameCount; i++) {
+
+		CString strImagePath;
+		strImagePath.Format(L"%s\\Clock\\Frame%d.png", szModulePath, i);
+
+		m_ppImage[i] = new Image( strImagePath);
+
+		if (m_ppImage[i] != NULL && i == 0) {
+			m_rectBitmap.right = m_rectBitmap.left + m_ppImage[i]->GetWidth();
+			m_rectBitmap.bottom = m_rectBitmap.top + m_ppImage[i]->GetHeight();
+		}
 	}
+
+
 	return TRUE;
-}
-
-
-void CMainDlg::OnBnClickedButton2()
-{
-
-
-
 }
 
 void CMainDlg::OnPaint()
 {
 	CPaintDC dc(this); 
 
-
-	//RECT rect;
-	//::GetClientRect(m_hWnd, &rect);
-	//::FillRect(dc.m_hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
-
-	CString strImagePath;
-
-
-	TCHAR szModulePath[MAX_PATH]={0};
-	GetModuleFileName(NULL,szModulePath,MAX_PATH);
-	PathRemoveFileSpec(szModulePath);
-
-	strImagePath.Format(L"%s\\Clock\\Frame%d.png", szModulePath, m_iCurrentIndex);
-	
 	Graphics graphics(dc.m_hDC);
-	Image image(strImagePath);
-	
-	graphics.DrawImage(&image, 250, 220);
-	graphics.DrawImage(&image, 350, 500);
+	graphics.DrawImage(m_ppImage[m_iCurrentIndex], m_rectBitmap.left, m_rectBitmap.top);
+
 }
 
 void CMainDlg::OnTimer( UINT nTimerID )
 {
-
 	m_iCurrentIndex++;
 	m_iCurrentIndex = m_iCurrentIndex%m_iFrameCount;
-	this->RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
 
+	InvalidateRect(&m_rectBitmap, FALSE);
+}
+
+LRESULT CMainDlg::OnDownloadComplete( WPARAM, LPARAM )
+{
+	KillTimer(TIMER_ID);
+	return 0;
+}
+
+LRESULT CMainDlg::OnDownloadBeginning( WPARAM, LPARAM )
+{
+	if (!SetTimer(TIMER_ID, 150, NULL)) {
+		AfxMessageBox(L"Set Timer Fail", MB_ICONERROR);
+	}
+	return 0;
+}
+
+
+void CMainDlg::OnBnClickedBtnNavigate()
+{
+	m_pNavigatingThread ->m_pMainWnd->PostMessage(ON_NAVIGATE);
 }
