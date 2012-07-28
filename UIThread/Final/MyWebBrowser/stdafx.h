@@ -60,3 +60,7 @@
 
 #define ON_NAVIGATE (WM_APP + 1)
 #define ON_WM_AFTERINIT (WM_APP + 2)
+
+#include <gdiplus.h>
+using namespace Gdiplus;
+#pragma comment(lib, "gdiplus.lib")

@@ -17,12 +17,16 @@
 
 class CMyWebBrowserApp : public CWinAppEx
 {
+protected:
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
 public:
 	CMyWebBrowserApp();
 
 // Overrides
 	public:
 	virtual BOOL InitInstance();
+	virtual int ExitInstance();
 
 // Implementation
 
