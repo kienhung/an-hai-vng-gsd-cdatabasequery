@@ -41,11 +41,11 @@ BOOL CMainDlg:: OnInitDialog() {
 	m_pNavigatingThread = AfxBeginThread(RUNTIME_CLASS(CUIThread));
 
 	TIMER_ID = 1;
-	m_iCurrentIndex = 0;
+	m_iCurrentIndex = -1;
 	m_iFrameCount = 21;
 
-	m_rectBitmap.left = 350;
-	m_rectBitmap.top = 500;
+	m_rectBitmap.left = 200;
+	m_rectBitmap.top = 200;
 
 
 	m_ppImage = new Image*[m_iFrameCount];
@@ -75,8 +75,11 @@ void CMainDlg::OnPaint()
 {
 	CPaintDC dc(this); 
 
-	Graphics graphics(dc.m_hDC);
-	graphics.DrawImage(m_ppImage[m_iCurrentIndex], m_rectBitmap.left, m_rectBitmap.top);
+	if (m_iCurrentIndex != -1) {
+
+		Graphics graphics(dc.m_hDC);
+		graphics.DrawImage(m_ppImage[m_iCurrentIndex], m_rectBitmap.left, m_rectBitmap.top);
+	}
 
 }
 
@@ -91,6 +94,9 @@ void CMainDlg::OnTimer( UINT nTimerID )
 LRESULT CMainDlg::OnDownloadComplete( WPARAM, LPARAM )
 {
 	KillTimer(TIMER_ID);
+	m_iCurrentIndex = -1;
+	
+	InvalidateRect(&m_rectBitmap, TRUE);
 	return 0;
 }
 

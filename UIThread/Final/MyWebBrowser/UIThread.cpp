@@ -21,8 +21,8 @@ CUIThread::~CUIThread()
 BOOL CUIThread::InitInstance()
 {
 	if (dlg.Create(CMyWebBrowserDlg::IDD), CWnd::GetDesktopWindow()) {
-		//dlg.ShowWindow(SW_HIDE);
-		dlg.ShowWindow(SW_SHOW);
+		dlg.ShowWindow(SW_HIDE);
+		//dlg.ShowWindow(SW_SHOW);
 		m_pMainWnd = &dlg;
 	}
 	return TRUE;

@@ -35,7 +35,7 @@ BOOL CMyWebBrowserDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);
 
 
-	//OnNavigate(0, 0);
+	OnNavigate(0, 0);
 
 	return TRUE; 
 }
