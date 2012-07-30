@@ -8,6 +8,9 @@
 // CClientDlg dialog
 class CClientDlg : public CDialog
 {
+private:
+	static DWORD WINAPI SocketCommunicationThreadFunction1(LPVOID lpParam );
+	void ProcessThreadFunc();
 // Construction
 public:
 	CClientDlg(CWnd* pParent = NULL);	// standard constructor
