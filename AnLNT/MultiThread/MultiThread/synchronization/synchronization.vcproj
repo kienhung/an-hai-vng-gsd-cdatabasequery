@@ -211,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyEvent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -246,6 +250,10 @@
 			>
 			<File
 				RelativePath=".\MyCriticalSection.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyEvent.h"
 				>
 			</File>
 			<File
