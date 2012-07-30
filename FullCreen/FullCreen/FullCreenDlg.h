@@ -12,6 +12,7 @@
 class CFullCreenDlg : public CDialog
 {
 // Construction
+	LPCREATESTRUCT m_lpCreateStruct;
 public:
 	CFullCreenDlg(CWnd* pParent = NULL);	// standard constructor
 
@@ -42,4 +43,10 @@ public:
 
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
 	
+
+protected:
+	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	
+public:
+	afx_msg void OnClose();
 };
