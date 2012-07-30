@@ -16,8 +16,8 @@
 
 
 
-CManualResetEventDlg::CManualResetEventDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CManualResetEventDlg::IDD, pParent)
+CManualResetEventDlg::CManualResetEventDlg(CWnd* pParent)
+	: CDialog(CManualResetEventDlg::IDD, pParent), m_myEvent(TRUE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -27,7 +27,7 @@ CManualResetEventDlg::CManualResetEventDlg(CWnd* pParent /*=NULL*/)
 BEGIN_MESSAGE_MAP(CManualResetEventDlg, CDialog)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	//}}AFX_MSG_MAP
+	ON_BN_CLICKED(IDC_BUTTON1, &CManualResetEventDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -41,13 +41,9 @@ BOOL CManualResetEventDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 
-	m_list = (CListBox *) GetDlgItem(IDC_LIST);
-	ASSERT(m_list);
 
-	HANDLE hThread = ::CreateThread(NULL, 0, CManualResetEventDlg::UpdateListThreadFunction, this, 0, NULL);
-	ASSERT(hThread);
 
-	::CloseHandle(hThread);
+
 	return TRUE;
 }
 
@@ -109,7 +105,8 @@ DWORD WINAPI CManualResetEventDlg::UpdateListThreadFunction( PVOID pvParam )
 		strText.Format(L"vay tien %d", i);
 		pMainDlg->m_list->AddString(strText);
 	}
-	::SetEvent(pMainDlg->m_hEvent);
+
+	(pMainDlg->m_myEvent).SetEvent();
 	return 0;
 }
 
@@ -119,14 +116,15 @@ DWORD WINAPI CManualResetEventDlg::HouseBuyingThreadFunction( PVOID pvParam )
 	CManualResetEventDlg *pMainDlg = (CManualResetEventDlg*)pvParam;
 	ASSERT(pMainDlg);
 
-	::WaitForSingleObject(pMainDlg->m_hEvent, INFINITE);
+	(pMainDlg->m_myEvent).Wait();
+
 	CString strText;
 
 	for (int i = 0; i < 10; i++) {
 		strText.Format(L"Mua nha %d", i);
 		pMainDlg->m_list->AddString(strText);
 	}
-	::SetEvent(pMainDlg->m_hEvent);
+
 	return 0;
 }
 
@@ -136,14 +134,31 @@ DWORD WINAPI CManualResetEventDlg::CarBuyingThreadFunction( PVOID pvParam )
 	CManualResetEventDlg *pMainDlg = (CManualResetEventDlg*)pvParam;
 	ASSERT(*pMainDlg);
 
-	::WaitForSingleObject(pMainDlg->m_hEvent, INFINITE);
+
+	(pMainDlg->m_myEvent).Wait();
+
 	CString strText;
 
 	for (int i = 0; i < 10; i++) {
 		strText.Format(L"Mua xe %d", i);
 		pMainDlg->m_list->AddString(strText);
 	}
-	::SetEvent(pMainDlg->m_hEvent);
+
 	return 0;
 }
 
+
+void CManualResetEventDlg::OnBnClickedButton1()
+{
+
+	m_list = (CListBox *) GetDlgItem(IDC_LIST);
+	ASSERT(m_list);
+
+	m_list->ResetContent();
+	m_myEvent.ResetEvent();
+
+	HANDLE hThread = ::CreateThread(NULL, 0, CManualResetEventDlg::UpdateListThreadFunction, this, 0, NULL);
+	ASSERT(hThread);
+
+	::CloseHandle(hThread);
+}

@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "MyEvent.h"
 
 // CManualResetEventDlg dialog
 class CManualResetEventDlg : public CDialog
@@ -21,9 +21,12 @@ protected:
 	CListBox *m_list;
 
 	HANDLE m_hEvent;
+	CMyEvent m_myEvent;
 
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButton1();
 };
