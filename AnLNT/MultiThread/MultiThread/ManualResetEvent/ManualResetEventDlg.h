@@ -3,7 +3,9 @@
 //
 
 #pragma once
-#include "MyEvent.h"
+
+#include "library/include/MyEvent.h"
+#pragma comment (lib, "library/lib/synchronization.lib")
 
 // CManualResetEventDlg dialog
 class CManualResetEventDlg : public CDialog
@@ -19,8 +21,6 @@ public:
 protected:
 	HICON m_hIcon;
 	CListBox *m_list;
-
-	HANDLE m_hEvent;
 	CMyEvent m_myEvent;
 
 	virtual BOOL OnInitDialog();

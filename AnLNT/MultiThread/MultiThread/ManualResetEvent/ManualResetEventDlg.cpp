@@ -20,8 +20,6 @@ CManualResetEventDlg::CManualResetEventDlg(CWnd* pParent)
 	: CDialog(CManualResetEventDlg::IDD, pParent), m_myEvent(TRUE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_hEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-	ASSERT(m_hEvent);
 }
 
 BEGIN_MESSAGE_MAP(CManualResetEventDlg, CDialog)
@@ -40,16 +38,9 @@ BOOL CManualResetEventDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-
-
-
-
 	return TRUE;
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
 
 void CManualResetEventDlg::OnPaint()
 {
@@ -125,6 +116,7 @@ DWORD WINAPI CManualResetEventDlg::HouseBuyingThreadFunction( PVOID pvParam )
 		pMainDlg->m_list->AddString(strText);
 	}
 
+
 	return 0;
 }
 
@@ -134,15 +126,14 @@ DWORD WINAPI CManualResetEventDlg::CarBuyingThreadFunction( PVOID pvParam )
 	CManualResetEventDlg *pMainDlg = (CManualResetEventDlg*)pvParam;
 	ASSERT(*pMainDlg);
 
-
 	(pMainDlg->m_myEvent).Wait();
-
 	CString strText;
 
 	for (int i = 0; i < 10; i++) {
 		strText.Format(L"Mua xe %d", i);
 		pMainDlg->m_list->AddString(strText);
 	}
+
 
 	return 0;
 }
@@ -155,10 +146,12 @@ void CManualResetEventDlg::OnBnClickedButton1()
 	ASSERT(m_list);
 
 	m_list->ResetContent();
+
 	m_myEvent.ResetEvent();
 
 	HANDLE hThread = ::CreateThread(NULL, 0, CManualResetEventDlg::UpdateListThreadFunction, this, 0, NULL);
 	ASSERT(hThread);
+
 
 	::CloseHandle(hThread);
 }

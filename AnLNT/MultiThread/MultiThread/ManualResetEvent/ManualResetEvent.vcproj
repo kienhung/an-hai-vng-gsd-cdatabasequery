@@ -194,10 +194,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyEvent.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -229,10 +225,6 @@
 			</File>
 			<File
 				RelativePath=".\ManualResetEventDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyEvent.h"
 				>
 			</File>
 			<File
