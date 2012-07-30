@@ -33,18 +33,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 void UnHideAllWindows()
 {
-	HWND hWnd = NULL;
-	HWND hDesktop = GetDesktopWindow();
-	do{
-		hWnd = FindWindowEx(hDesktop, hWnd, 0, 0);
-		
-		if(NULL != hWnd)
-		{
-			//SendMessage(hWnd, WM_SHOWWINDOW, FALSE,
-			//SetWindowPos( hWnd, HWND_BOTTOM,0,0,0,0,SWP_NOACTIVATE|SWP_NOSIZE);
-			ShowWindow(hWnd, SW_RESTORE);
-		}
-	}while(hWnd);
+	HWND lHwnd = FindWindow(L"Shell_TrayWnd",NULL);
+	SendMessage(lHwnd,WM_COMMAND,416,0);
 }
 LRESULT CALLBACK Xuly(int nCode,   WPARAM wParam, LPARAM lParam)
 {
@@ -59,22 +49,20 @@ LRESULT CALLBACK Xuly(int nCode,   WPARAM wParam, LPARAM lParam)
 		return CallNextHookEx( hHook, nCode, wParam, lParam );
 	if (!(hMainWnd)) return CallNextHookEx(hHook,nCode,wParam,lParam);
 	
-	/*SendMessage(ExeHwnd,FOREGROUNDIDLE_MSG,1,GetCurrentProcessId());
-	SendMessage(ExeHwnd,FOREGROUNDIDLE_MSG,2,nCode);
-	SendMessage(ExeHwnd,FOREGROUNDIDLE_MSG,3,wParam);*/
 	
 	/*HWND lHwnd = FindWindow(L"Shell_TrayWnd",NULL);
 	SendMessage(lHwnd,WM_COMMAND,419,0);*/
+
 	HWND hWnd = NULL;
 	HWND hDesktop = GetDesktopWindow();
 	do{
 		hWnd = FindWindowEx(hDesktop, hWnd, 0, 0);
 		
-		if(NULL != hWnd && hMainWnd != hWnd && IsWindowVisible(hWnd))
+		if(NULL != hWnd && hMainWnd != hWnd && IsWindowVisible(hWnd) && IsWindow(hWnd))
 		{
-			//SendMessage(hWnd, WM_SHOWWINDOW, FALSE,
-			//SetWindowPos( hWnd, HWND_BOTTOM,0,0,0,0,SWP_NOACTIVATE|SWP_NOSIZE);
-			ShowWindow(hWnd, SW_HIDE);
+			SendMessage(hWnd, WM_SHOWWINDOW, FALSE, 0);
+			SetWindowPos( hWnd, HWND_BOTTOM,0,0,0,0,SWP_NOACTIVATE|SWP_NOSIZE);
+			
 		}
 	}while(hWnd);
 	
@@ -85,45 +73,38 @@ LRESULT CALLBACK Xuly(int nCode,   WPARAM wParam, LPARAM lParam)
 		ShowWindow(htop, SW_SHOWMINIMIZED);
 	}*/
 
-	BOOL RT = FALSE;
-	DWORD idMyProcess;
-	GetWindowThreadProcessId(hMainWnd,&idMyProcess);
+
+	//DWORD idMyProcess;
+	//GetWindowThreadProcessId(hMainWnd,&idMyProcess);
 	HWND hForground = GetForegroundWindow();
 
-	//OutputDebugString(L" switch active to main win \n");
+
 	
 	
 	SetForegroundWindow(hMainWnd);
 	SetWindowPos( hMainWnd, HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
-	//SetFocus(hMainWnd);
-	//SetActiveWindow(hMainWnd);
 	SendMessage(hMainWnd, WM_MOUSEACTIVATE,(WPARAM)hMainWnd,(LPARAM)NULL );
 
 	
-	//ShowWindow(hMainWnd, SW_MINIMIZE);
-	//if(true)
-	//{
-	//	
-	//	//RT = SendMessage(hMainWnd,WM_ACTIVATE, MAKEWPARAM( WA_ACTIVE, 0), (LPARAM)GetCurrentProcess());
-	//	//MessageBox(NULL, L"hook ", L"message", 0);
-	//	//AttachThreadInput(GetWindowThreadProcessId(hForground, NULL), GetCurrentThreadId(), TRUE);
-	//	RT = SetForegroundWindow(hMainWnd);
-	//	//SwitchToThisWindow(hMainWnd, TRUE);
-	//	SendMessage(NULL, WM_ACTIVATE, MAKEWPARAM( WA_INACTIVE, 0),(LPARAM)hMainWnd );
-	//	
-	//	//BringWindowToTop(hMainWnd);
-	//	//SetWindowPos( hMainWnd, hForground,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
-	//	//AttachThreadInput(GetWindowThreadProcessId(hForground, NULL), GetCurrentThreadId(), FALSE);
-	//	
-	//}
-	if (RT)
+	
+	/*if(hForground != hMainWnd)
 	{
-		OutputDebugString(L" set true \n");
-		return RT;
-	} else {
-		OutputDebugString(L" set false \n");
-		return CallNextHookEx(hHook,nCode,wParam,lParam);
-	}
+		
+		SendMessage(hMainWnd,WM_ACTIVATE, MAKEWPARAM( WA_ACTIVE, 0), (LPARAM)GetCurrentProcess());
+		
+		AttachThreadInput(GetWindowThreadProcessId(hForground, NULL), GetCurrentThreadId(), TRUE);
+		SetForegroundWindow(hMainWnd);
+		SwitchToThisWindow(hMainWnd, TRUE);
+		SendMessage(NULL, WM_ACTIVATE, MAKEWPARAM( WA_INACTIVE, 0),(LPARAM)hMainWnd );
+		
+		BringWindowToTop(hMainWnd);
+		SetWindowPos( hMainWnd, hForground,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
+		AttachThreadInput(GetWindowThreadProcessId(hForground, NULL), GetCurrentThreadId(), FALSE);
+	}*/
+
+	
+	return CallNextHookEx(hHook,nCode,wParam,lParam);
+	
 	
 }
 
@@ -132,8 +113,7 @@ LRESULT CALLBACK Xuly(int nCode,   WPARAM wParam, LPARAM lParam)
  {
 	// Init value for MappedData	
 	 hMainWnd = hWnd;
-	 hHook = SetWindowsHookEx(WH_FOREGROUNDIDLE, (HOOKPROC)Xuly, hInstDLL, 0);	
-	
+	 hHook = SetWindowsHookEx(WH_FOREGROUNDIDLE, (HOOKPROC)Xuly, hInstDLL, 0);
  }
 
 
