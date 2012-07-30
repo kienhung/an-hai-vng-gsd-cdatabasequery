@@ -33,4 +33,7 @@ public:
 
 
 	void DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL);
+//	void DownloadCompleteExplorer();
+//	void NavigateComplete2Explorer(LPDISPATCH pDisp, VARIANT* URL);
+	void NavigateErrorExplorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Frame, VARIANT* StatusCode, BOOL* Cancel);
 };

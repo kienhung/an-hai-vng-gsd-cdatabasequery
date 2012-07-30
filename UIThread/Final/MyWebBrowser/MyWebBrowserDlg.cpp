@@ -35,7 +35,7 @@ BOOL CMyWebBrowserDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);
 
 
-	OnNavigate(0, 0);
+	//OnNavigate(0, 0);
 
 	return TRUE; 
 }
@@ -48,6 +48,9 @@ HCURSOR CMyWebBrowserDlg::OnQueryDragIcon()
 
 BEGIN_EVENTSINK_MAP(CMyWebBrowserDlg, CDialog)
 	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 259, CMyWebBrowserDlg::DocumentCompleteExplorer, VTS_DISPATCH VTS_PVARIANT)
+//	ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 104, CMyWebBrowserDlg::DownloadCompleteExplorer, VTS_NONE)
+//ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 252, CMyWebBrowserDlg::NavigateComplete2Explorer, VTS_DISPATCH VTS_PVARIANT)
+ON_EVENT(CMyWebBrowserDlg, IDC_EXPLORER, 271, CMyWebBrowserDlg::NavigateErrorExplorer, VTS_DISPATCH VTS_PVARIANT VTS_PVARIANT VTS_PVARIANT VTS_PBOOL)
 END_EVENTSINK_MAP()
 
 
@@ -92,6 +95,16 @@ void CMyWebBrowserDlg::DocumentCompleteExplorer(LPDISPATCH pDisp, VARIANT* URL)
 		ShowWindow(SW_SHOW);
 
 		AfxGetApp()->m_pMainWnd->PostMessage(WM_DOWNLOADCOMPLETE);
+
 	}
 	
+}
+
+
+
+void CMyWebBrowserDlg::NavigateErrorExplorer(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Frame, VARIANT* StatusCode, BOOL* Cancel)
+{
+
+	OnNavigate(0, 0);
+	AfxMessageBox(L"acddsadsa");
 }
