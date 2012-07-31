@@ -52,4 +52,5 @@ public:
 	afx_msg void OnBnClickedBtnFifa();
 	afx_msg void OnBnClickedBtnMinimizepid();
 	
+	afx_msg void OnBnClickedBtnRestore();
 };
