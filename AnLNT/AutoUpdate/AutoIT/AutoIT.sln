@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoIT", "AutoIT\AutoIT.vcproj", "{7FC116B1-400E-48BC-A5F3-BAB94FE67B34}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoUpdateCF", "AutoUpdateCF\AutoUpdateCF.vcproj", "{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{7FC116B1-400E-48BC-A5F3-BAB94FE67B34}.Debug|Win32.Build.0 = Debug|Win32
 		{7FC116B1-400E-48BC-A5F3-BAB94FE67B34}.Release|Win32.ActiveCfg = Release|Win32
 		{7FC116B1-400E-48BC-A5F3-BAB94FE67B34}.Release|Win32.Build.0 = Release|Win32
+		{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}.Debug|Win32.Build.0 = Debug|Win32
+		{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}.Release|Win32.ActiveCfg = Release|Win32
+		{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

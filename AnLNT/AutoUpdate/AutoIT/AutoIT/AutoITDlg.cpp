@@ -41,19 +41,14 @@ BOOL CAutoITDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
+
 
 void CAutoITDlg::OnPaint()
 {
@@ -95,27 +90,45 @@ void CAutoITDlg::OnBnClickedButton1()
 
 	int iEdtUserNameID = 0x000003E9;
 	int iEdtPasswordID = 0x00003EA;
-	int iBtnLogin = 0x000003E8;
+	int iBtnLoginID = 0x000003E8;
+	int iCheckBlueID = 0x000003ED;
+	//int iCheckBlue = 
 
 	CWnd *pWnd = CWnd::FindWindow(strClassName, strWndName);
 	if (pWnd != NULL) {
 
+		pWnd->SetForegroundWindow();
+
 		CEdit * pEdit = (CEdit*)pWnd->GetDlgItem(iEdtUserNameID);
 		if (NULL != pEdit) {
-			pEdit->SendMessage(WM_SETTEXT, NULL, (LPARAM)L"AnLNT");
+			pEdit->SendMessage(WM_SETTEXT, NULL, (LPARAM)L"an_an_289");
 		}
 
 		pEdit = (CEdit *)pWnd->GetDlgItem(iEdtPasswordID);
 		if (NULL != pEdit) {
-			pEdit->SendMessage(WM_SETTEXT, NULL, (LPARAM)L"123456");
+			pEdit->SendMessage(WM_SETTEXT, NULL, (LPARAM)L"123456654321");
 		}
 
-		CButton *pButton = (CButton*)GetDlgItem(iBtnLogin);
-		if (NULL != pButton) {
-			//pWnd->SendMessage(WM_ACTIVATE, 1);
-			::SetActiveWindow(pWnd->m_hWnd);
-			pButton->SendMessage(BM_CLICK);
+		CButton *pButton = (CButton*)GetDlgItem(iCheckBlueID);
+		if (pButton != NULL) {
+			//::PostMessage(pButton->m_hWnd, WM_LBUTTONDOWN, 0, 0);
+			//::PostAppMessage(pButton->m_hWnd, BM_SETCHECK,  BST_CHECKED, 0);
+			::SendMessage(pButton->m_hWnd, 0x00F1,  0, 0);
 		}
+
+		/*
+		CButton *pButton = (CButton*)GetDlgItem(iBtnLoginID);
+
+		if (NULL != pButton) {
+
+			WORD lParam  = (WORD)pButton->m_hWnd;
+			WORD wParam = MAKEWPARAM(iBtnLoginID, BN_CLICKED);
+
+			pWnd->SendMessage(WM_COMMAND, wParam, lParam);
+
+		}
+		*/
+		//pButton = (CButton *)GetDlgItem()
 	}
 
 
