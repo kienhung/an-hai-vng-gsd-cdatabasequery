@@ -13,6 +13,9 @@ class CFullCreenDlg : public CDialog
 {
 // Construction
 	LPCREATESTRUCT m_lpCreateStruct;
+
+	DWORD m_ProIDFifa;
+	HWND m_hMainFifa;
 public:
 	CFullCreenDlg(CWnd* pParent = NULL);	// standard constructor
 
@@ -22,7 +25,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
-
+	
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -42,7 +45,8 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	
+	DWORD GetProIDFifa();
+
 
 protected:
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
@@ -53,4 +57,5 @@ public:
 	afx_msg void OnBnClickedBtnMinimizepid();
 	
 	afx_msg void OnBnClickedBtnRestore();
+	afx_msg void OnBnClickedBtnGetpid();
 };
