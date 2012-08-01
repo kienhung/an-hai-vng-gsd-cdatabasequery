@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "TlHelp32.h"
+#include "vector"
+using namespace std;
 
 #define	IDT_TIMER_0	WM_USER + 200
 #define	IDT_TIMER_1	IDT_TIMER_0 + 1
@@ -15,10 +18,14 @@ class CFullCreenDlg : public CDialog
 	LPCREATESTRUCT m_lpCreateStruct;
 
 	DWORD m_ProIDFifa;
-	HWND m_hMainFifa;
+	HANDLE m_hMainFifa;
+	DWORD m_ThreadIDFifa;
+	PROCESSENTRY32 m_Fifa;
+	vector<PROCESSENTRY32> m_lstProcessEntryFifa;
+	
 public:
 	CFullCreenDlg(CWnd* pParent = NULL);	// standard constructor
-
+	
 // Dialog Data
 	enum { IDD = IDD_FULLCREEN_DIALOG };
 
@@ -45,7 +52,7 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
 	afx_msg void OnKillFocus(CWnd* pNewWnd);
-	DWORD GetProIDFifa();
+	PROCESSENTRY32 GetProIDFifa();
 
 
 protected:
