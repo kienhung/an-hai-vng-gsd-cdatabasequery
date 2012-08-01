@@ -85,6 +85,10 @@ HCURSOR CAutoITDlg::OnQueryDragIcon()
 
 void CAutoITDlg::OnBnClickedButton1()
 {
+	UINT uiHandle = 0x000803B0;
+	::SendMessage((HWND)uiHandle, BM_SETCHECK, BST_CHECKED, 0);
+
+	/*
 	CString strClassName = L"#32770";
 	CString strWndName = L"TestDLG";
 
@@ -129,13 +133,13 @@ void CAutoITDlg::OnBnClickedButton1()
 		}
 		*/
 		//pButton = (CButton *)GetDlgItem()
-	}
+	
 
 
 	//pWnd->PostMessage(WM_QUIT);
 
 
 	//TRACE("%d", hwnd);
-	ASSERT(pWnd);
+	//ASSERT(pWnd);
 
 }
