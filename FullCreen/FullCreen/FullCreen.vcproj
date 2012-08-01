@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MakeWindowTransparent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -225,6 +229,10 @@
 			</File>
 			<File
 				RelativePath=".\FullCreenDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MakeWindowTransparent.h"
 				>
 			</File>
 			<File
