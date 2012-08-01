@@ -173,7 +173,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\AutoLauncher.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\AutoUpdateCF.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\CrossfireLauncher.cpp"
 				>
 			</File>
 			<File
@@ -203,7 +211,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath=".\AutoLauncher.h"
+				>
+			</File>
+			<File
 				RelativePath=".\AutoUpdateCF.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CrossfireLauncher.h"
 				>
 			</File>
 			<File
