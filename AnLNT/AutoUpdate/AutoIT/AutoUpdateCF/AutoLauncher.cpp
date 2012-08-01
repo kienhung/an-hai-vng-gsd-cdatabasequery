@@ -38,9 +38,6 @@ BOOL CALLBACK CAutoLauncher::FindButtonNameProc( HWND hWnd, LPARAM lParam )
 	TCHAR strWindowText[MAX_PATH];
 	::GetWindowText(hWnd, strWindowText, MAX_PATH);
 
-	::OutputDebugString(strWindowText);
-	::OutputDebugStringA("\n");
-
 	CAutoLauncher *pLauncher = (CAutoLauncher*)lParam;
 
 	if (lstrcmp(pLauncher->m_strButtonName, strWindowText) == 0) {
@@ -60,4 +57,67 @@ BOOL CAutoLauncher::PressButton( HWND hParentWnd, LPCTSTR strButtonName )
 	m_strButtonName = strButtonName;
 	::EnumChildWindows(hParentWnd, CAutoLauncher::FindButtonNameProc, (LPARAM)this);
 	return m_bResult;
+}
+
+BOOL CAutoLauncher::CheckACheckbox( HWND hParentWnd, LPCTSTR strCheckboxName )
+{
+	m_bResult = FALSE;
+	m_strCheckboxName = strCheckboxName;
+
+	return m_bResult;
+}
+
+BOOL CALLBACK CAutoLauncher::FindCheckedCheckboxNameProc( HWND hWnd, LPARAM lParam )
+{
+
+	TCHAR strWindowText[MAX_PATH];
+	::GetWindowText(hWnd, strWindowText, MAX_PATH);
+	::OutputDebugString(strWindowText);
+	::OutputDebugStringA("\n");	
+	return TRUE;
+}
+
+BOOL CAutoLauncher::CloseWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
+{
+
+	HWND hMainWnd = NULL;
+	int iCount = 0;
+
+	while (iCount < m_iTimeoutCount) {
+
+		hMainWnd = ::FindWindow(strClassName, strWindowName);
+		if (hMainWnd != NULL) {
+			::SendMessage(hMainWnd, WM_CLOSE, 0, 0);
+			return TRUE;
+		}
+
+		iCount++;
+		::Sleep(m_iTimeoutSeconds);
+
+	}
+	return FALSE;
+}
+
+HWND CAutoLauncher::StartLauncherWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
+{
+
+	if(FALSE == StartLauncherProcess()) {
+		return NULL;
+	}
+
+	HWND hMainWnd = NULL;
+	int iCount = 0;
+
+	while (iCount < m_iTimeoutCount) {
+
+		hMainWnd = ::FindWindow(strClassName, strWindowName);
+		if (hMainWnd != NULL) {
+			return hMainWnd;
+		}
+
+		iCount++;
+		::Sleep(m_iTimeoutSeconds);
+
+	}
+	return NULL;
 }
