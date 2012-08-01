@@ -11,6 +11,12 @@ using namespace std;
 #define	IDT_TIMER_0	WM_USER + 200
 #define	IDT_TIMER_1	IDT_TIMER_0 + 1
 
+typedef struct INFOPROCESS
+{
+	PROCESSENTRY32 EntryProcess;
+	HANDLE hProcess;
+}INFOPROCESS;
+
 // CFullCreenDlg dialog
 class CFullCreenDlg : public CDialog
 {
@@ -21,7 +27,7 @@ class CFullCreenDlg : public CDialog
 	HANDLE m_hMainFifa;
 	DWORD m_ThreadIDFifa;
 	PROCESSENTRY32 m_Fifa;
-	vector<PROCESSENTRY32> m_lstProcessEntryFifa;
+	vector<INFOPROCESS> m_lstProcessEntryFifa;
 	
 public:
 	CFullCreenDlg(CWnd* pParent = NULL);	// standard constructor
@@ -65,4 +71,8 @@ public:
 	
 	afx_msg void OnBnClickedBtnRestore();
 	afx_msg void OnBnClickedBtnGetpid();
+	//DWORD TryGetProcessIDbyProcessHandle(HANDLE hProcess);
+	
+	afx_msg void OnBnClickedButton6();
+	afx_msg void OnBnClickedBtnResotrenormal();
 };
