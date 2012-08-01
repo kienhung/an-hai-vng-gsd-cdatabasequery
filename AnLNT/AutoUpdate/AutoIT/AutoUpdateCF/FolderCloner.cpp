@@ -16,6 +16,6 @@ CFolderCloner::~CFolderCloner(void)
 
 BOOL CFolderCloner::Clone()
 {
-
+	
 	return TRUE;
 }
