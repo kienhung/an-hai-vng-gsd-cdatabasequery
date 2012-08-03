@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDLG", "TestDLG\TestDLG.vcproj", "{D84BA369-D9FF-4C51-B4A5-167A3511A44A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoCheckbox", "AutoCheckbox\AutoCheckbox.vcproj", "{22E9AF60-A934-4B69-AAAF-69740A991E70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{D84BA369-D9FF-4C51-B4A5-167A3511A44A}.Debug|Win32.Build.0 = Debug|Win32
 		{D84BA369-D9FF-4C51-B4A5-167A3511A44A}.Release|Win32.ActiveCfg = Release|Win32
 		{D84BA369-D9FF-4C51-B4A5-167A3511A44A}.Release|Win32.Build.0 = Release|Win32
+		{22E9AF60-A934-4B69-AAAF-69740A991E70}.Debug|Win32.ActiveCfg = Debug|Win32
+		{22E9AF60-A934-4B69-AAAF-69740A991E70}.Debug|Win32.Build.0 = Debug|Win32
+		{22E9AF60-A934-4B69-AAAF-69740A991E70}.Release|Win32.ActiveCfg = Release|Win32
+		{22E9AF60-A934-4B69-AAAF-69740A991E70}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
