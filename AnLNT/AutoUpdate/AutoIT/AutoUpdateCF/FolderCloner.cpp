@@ -96,32 +96,25 @@ HANDLE CFolderCloner::GetFindHandle( LPCTSTR strFileName, WIN32_FIND_DATA *pFind
 BOOL CFolderCloner::CustomCreateDirectory( LPCTSTR strFileName )
 {
 
-	CString strPath = strFileName;
-	strPath.Replace(m_strSource, m_strDest);
 	
+	CString strPath = TransferPath(strFileName);
 	CFileServices fileServices;
 	return fileServices.CustomCreateDirectory(strPath);
 }
 
-BOOL CFolderCloner::RemoveFolderIfExist()
-{
-	CFileServices fileServices;
-
-	CString strLongDestName = m_strDest + CString("\\") +  m_strFolderName;
-
-	if (fileServices.IsDirectory(strLongDestName)) {
-		CFolderRemoving folderRemoving;
-		return folderRemoving.RemoveFolder(strLongDestName);
-	
-	}
-	return TRUE;
-}
 
 BOOL CFolderCloner::CustomCopyFile( LPCTSTR strFileName )
 {
 
-	CString strPath = strFileName;
-	strPath.Replace(m_strSource, m_strDest);
-
+	CString strPath = TransferPath(strFileName);
 	return 	CopyFile(strFileName, strPath, FALSE);
+}
+
+CString CFolderCloner::TransferPath( LPCTSTR strFileName )
+{
+	CString strPath = strFileName;
+	strPath.Delete(0, m_strSource.GetLength());
+	strPath = m_strDest + strPath;
+
+	return strPath;
 }
