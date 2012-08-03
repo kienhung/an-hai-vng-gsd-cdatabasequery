@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConnectToAccess", "ConnectToAccess\ConnectToAccess.vcproj", "{2DBD2FE6-A756-403E-B37A-3D3036CC4B71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DBD2FE6-A756-403E-B37A-3D3036CC4B71}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2DBD2FE6-A756-403E-B37A-3D3036CC4B71}.Debug|Win32.Build.0 = Debug|Win32
+		{2DBD2FE6-A756-403E-B37A-3D3036CC4B71}.Release|Win32.ActiveCfg = Release|Win32
+		{2DBD2FE6-A756-403E-B37A-3D3036CC4B71}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
