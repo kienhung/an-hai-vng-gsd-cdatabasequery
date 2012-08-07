@@ -1,7 +1,8 @@
 #pragma once
+#include "FolderProcesser.h"
 
 
-class CFolderCloner
+class CFolderCloner : public CFolderProcesser
 {
 protected:
 	CString m_strSource;
@@ -15,11 +16,7 @@ public:
 	BOOL Clone();
 protected:
 
-	BOOL RecursivelyCopyFile(LPCTSTR strFileName);
-	BOOL CustomCreateDirectory(LPCTSTR strFileName);
-	BOOL CustomCopyFile(LPCTSTR strFileName);
-
-	CString TransferPath( LPCTSTR strFileName );
-	HANDLE GetFindHandle( LPCTSTR strFileName, WIN32_FIND_DATA *pFindFileData );
+	virtual BOOL PreProcessFoler(LPCTSTR strFolderName);
+	virtual BOOL ProcessFile(LPCTSTR strFileName);
 
 };
