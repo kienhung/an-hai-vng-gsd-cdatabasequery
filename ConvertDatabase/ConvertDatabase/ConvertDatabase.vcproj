@@ -297,11 +297,19 @@
 			Name="DAO"
 			>
 			<File
-				RelativePath=".\BackListDAO.cpp"
+				RelativePath=".\BlackListDAO.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\BackListDAO.h"
+				RelativePath=".\BlackListDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\UserDAO.h"
 				>
 			</File>
 		</Filter>

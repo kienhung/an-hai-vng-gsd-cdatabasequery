@@ -1,39 +1,39 @@
 #pragma once
 #include "StdAfx.h"
-#include "BackListDAO.h"
+#include "BlackListDAO.h"
 #include "StringConverter.h"
-CBackListDAO::CBackListDAO()
+CBlackListDAO::CBlackListDAO()
 {
 	
 }
 
-CBackListDAO::~CBackListDAO(void)
+CBlackListDAO::~CBlackListDAO(void)
 {
 	if (m_pSQLDataAccessHelper != NULL) {
 		delete m_pSQLDataAccessHelper ;
 	}
 }
 
-BOOL CBackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase)
+BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase)
 {
 	m_pSQLDataAccessHelper = new CMySQLDataAccessHelper(pcUserName, pcPassword, pcServerAddress, pcDatabase);
 	return m_pSQLDataAccessHelper->IsConnected();
 }
-BOOL CBackListDAO::AddBackList(const BACKLIST& backList)
+BOOL CBlackListDAO::AddBackList(const BLACKLIST& blackList)
 {
 	char strURL[MAX_PATH];
 	char strRecordDate[MAX_STRINGDATE*2 + 1];
 
 	CStringConverter stringConverter;
 
-	char *pcBuffer = stringConverter.UnicodeToUTF8(backList.strURL);
+	char *pcBuffer = stringConverter.UnicodeToUTF8(blackList.strURL);
 	strcpy_s(strURL, MAX_PATH, pcBuffer);
 	
-	pcBuffer = stringConverter.UnicodeToUTF8(backList.strRecordDate);
+	pcBuffer = stringConverter.UnicodeToUTF8(blackList.strRecordDate);
 	strcpy_s(strRecordDate, MAX_STRINGDATE*2 + 1, pcBuffer);
 
 	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO blacklisttb (URL,RecordDate,Active,AddedBy) VALUES ('%s', '%s', %d, %d)",strURL, strRecordDate, backList.iActive, backList.iAddedBy);
+	cstrQuery.Format("INSERT INTO blacklisttb (URL,RecordDate,Active,AddedBy) VALUES ('%s', '%s', %d, %d)",strURL, strRecordDate, blackList.iActive, blackList.iAddedBy);
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }
 

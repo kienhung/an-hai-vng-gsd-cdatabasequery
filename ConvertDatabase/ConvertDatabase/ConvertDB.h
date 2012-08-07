@@ -23,8 +23,10 @@ public:
 
 	void Convert(const TCHAR* strPath);
 	BOOL Connect(const TCHAR* strPath);
+	VOID VariantToCstring(const CDBVariant &var, CString &sData);
 
 	BOOL ConvertBlackList();
+	BOOL ConvertUser();
 	BOOL ConvertPriceListTb(); // from price to pricelisttb
 	
 };
