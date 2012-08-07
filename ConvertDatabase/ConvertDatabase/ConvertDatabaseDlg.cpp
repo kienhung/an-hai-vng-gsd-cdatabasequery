@@ -158,7 +158,9 @@ void CConvertDatabaseDlg::OnBnClickedBtnConvert()
 {
 	CString strPath;
 	GetDlgItemText(IDC_EDT_PATH, strPath.GetBuffer(), MAX_PATH);
-	strPath = _T("D:\\HAI\\netcafe9.mdb");
+	strPath = _T("C:\\Program Files\\Netcafe Server\\database\\netcafe9.mdb");
 	CConvertDB converter;
 	converter.Convert(strPath);
+	
 }
+//MASOTHUY0101148362
