@@ -10,7 +10,7 @@ CAutoLauncher::CAutoLauncher( LPCTSTR strSourcePath, LPCTSTR strLauncherPath )
 	m_hProcess = NULL;
 	m_bResult = FALSE;
 
-	m_iTimeoutCount = 10;
+	m_iTimeoutCount = 3600;
 	m_iTimeoutSeconds = 1000;
 }
 
@@ -42,9 +42,15 @@ BOOL CALLBACK CAutoLauncher::FindButtonNameProc( HWND hWnd, LPARAM lParam )
 
 	if (lstrcmp(pLauncher->m_strButtonName, strWindowText) == 0) {
 
-		::SendMessage(hWnd, BM_CLICK, 0, 0);
-		pLauncher->m_bResult = TRUE;
+		WORD lParam  = (WORD)hWnd;
+		WORD wParam = MAKEWPARAM(::GetDlgCtrlID(hWnd), BN_CLICKED);
 
+		HWND hParent = ::GetParent(hWnd);
+
+		::SetWindowPos(hParent, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		::SendMessage(hParent, WM_COMMAND, wParam, lParam);
+
+		pLauncher->m_bResult = TRUE;
 		return FALSE;
 	}
 
@@ -59,23 +65,7 @@ BOOL CAutoLauncher::PressButton( HWND hParentWnd, LPCTSTR strButtonName )
 	return m_bResult;
 }
 
-BOOL CAutoLauncher::CheckACheckbox( HWND hParentWnd, LPCTSTR strCheckboxName )
-{
-	m_bResult = FALSE;
-	m_strCheckboxName = strCheckboxName;
 
-	return m_bResult;
-}
-
-BOOL CALLBACK CAutoLauncher::FindCheckedCheckboxNameProc( HWND hWnd, LPARAM lParam )
-{
-
-	TCHAR strWindowText[MAX_PATH];
-	::GetWindowText(hWnd, strWindowText, MAX_PATH);
-	::OutputDebugString(strWindowText);
-	::OutputDebugStringA("\n");	
-	return TRUE;
-}
 
 BOOL CAutoLauncher::CloseWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
 {
@@ -86,6 +76,7 @@ BOOL CAutoLauncher::CloseWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
 	while (iCount < m_iTimeoutCount) {
 
 		hMainWnd = ::FindWindow(strClassName, strWindowName);
+
 		if (hMainWnd != NULL) {
 			::SendMessage(hMainWnd, WM_CLOSE, 0, 0);
 			return TRUE;
@@ -100,7 +91,6 @@ BOOL CAutoLauncher::CloseWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
 
 HWND CAutoLauncher::StartLauncherWindow( LPCTSTR strClassName, LPCTSTR strWindowName )
 {
-
 	if(FALSE == StartLauncherProcess()) {
 		return NULL;
 	}
@@ -111,7 +101,10 @@ HWND CAutoLauncher::StartLauncherWindow( LPCTSTR strClassName, LPCTSTR strWindow
 	while (iCount < m_iTimeoutCount) {
 
 		hMainWnd = ::FindWindow(strClassName, strWindowName);
+
 		if (hMainWnd != NULL) {
+
+			::SetWindowPos(hMainWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 			return hMainWnd;
 		}
 
@@ -120,4 +113,14 @@ HWND CAutoLauncher::StartLauncherWindow( LPCTSTR strClassName, LPCTSTR strWindow
 
 	}
 	return NULL;
+}
+
+CString CAutoLauncher::GetSourcePath()
+{
+	return m_strSourcePath;
+}
+
+CString CAutoLauncher::GetLauncherPath()
+{
+	return m_strLauncherPath;
 }
