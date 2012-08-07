@@ -10,6 +10,8 @@ public:
 	virtual ~CCrossfireLauncher(void);
 
 	virtual BOOL Run();
+	virtual CString GetName();
+
 	static BOOL CALLBACK FindSourcePathEditEnumProc(HWND hWnd,LPARAM lParam) ;
 
 protected:
