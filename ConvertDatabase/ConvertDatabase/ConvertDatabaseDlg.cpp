@@ -6,6 +6,10 @@
 #include "ConvertDatabase.h"
 #include "ConvertDatabaseDlg.h"
 #include "ConvertDB.h"
+#include "Strsafe.h"
+#include "MakeWindowTransparent.h"
+#include "StringConverter.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -156,11 +160,68 @@ HCURSOR CConvertDatabaseDlg::OnQueryDragIcon()
 
 void CConvertDatabaseDlg::OnBnClickedBtnConvert()
 {
+
+	CStringConverter stringConvert;
 	CString strPath;
 	GetDlgItemText(IDC_EDT_PATH, strPath.GetBuffer(), MAX_PATH);
+
+	//Write to text file
+	TCHAR strFileName[MAX_PATH] = {0};
+	GetCurrentDirectory(MAX_PATH, strFileName);
+
+	StringCchPrintf(strFileName, MAX_PATH, _T("%s\\pass.txt"), strFileName);
+	
+	char strFileNameTemp[MAX_PATH] = {0};
+	for(int i = 0 ; i < (int)wcslen(strFileName); i++)
+	{
+		strFileNameTemp[i] = strFileName[i];
+	}
+	
+	
+	
+	FILE *pFile;
+	
+	pFile = fopen(strFileNameTemp , "w");
+	if(pFile == NULL)
+	{
+		return;
+	}
+
+	wmemset(strFileName, 0, MAX_PATH);
+	StringCchPrintf(strFileName, MAX_PATH, _T("%s"), strPath.GetBuffer());
+	
+	for(int i = 0 ; i < (int)wcslen(strFileName); i++)
+	{
+		strFileNameTemp[i] = strFileName[i];
+	}
+
+	fputs( strFileNameTemp, pFile);
+	fclose(pFile);
+
+	STARTUPINFOW siStartupInfo; 
+    PROCESS_INFORMATION piProcessInfo; 
+    memset(&siStartupInfo, 0, sizeof(siStartupInfo)); 
+    memset(&piProcessInfo, 0, sizeof(piProcessInfo)); 
+    siStartupInfo.cb = sizeof(siStartupInfo);
+
+	DWORD dwExitCode = 0; 
+	TCHAR strCurrentPath[MAX_PATH] = {0};
+	//CString strCurrentPath = _T("");
+	
+	GetCurrentDirectory(MAX_PATH, strCurrentPath);
+	StringCchPrintf(strCurrentPath, MAX_PATH, _T("%s\\PasswordViewer.exe"), strCurrentPath);
+	//strCurrentPath.Append(_T("\\accesspv.exe"));
+	if(::CreateProcess(strCurrentPath, NULL,  NULL, NULL, false, 0, NULL,NULL,&siStartupInfo,&piProcessInfo))
+	{
+		Sleep(100);
+
+	}
+
+	
 	strPath = _T("C:\\Program Files\\Netcafe Server\\database\\netcafe9.mdb");
 	CConvertDB converter;
 	converter.Convert(strPath);
 	
 }
 //MASOTHUY0101148362
+
