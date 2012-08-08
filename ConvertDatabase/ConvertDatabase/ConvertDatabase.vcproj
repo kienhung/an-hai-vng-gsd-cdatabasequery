@@ -201,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MakeWindowTransparent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -240,6 +244,10 @@
 			</File>
 			<File
 				RelativePath=".\ConvertDB.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MakeWindowTransparent.h"
 				>
 			</File>
 			<File
