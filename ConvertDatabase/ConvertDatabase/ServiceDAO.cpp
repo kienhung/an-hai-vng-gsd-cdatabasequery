@@ -31,6 +31,6 @@ BOOL CServiceDAO::AddService(const CSM_SERVICE &csm_Service)
 	strcpy_s(strServiceName, MAX_PATH, pcBuffer);
 
 	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO servicetb (ServiceName,ServicePrice) VALUES ('%s', '%d')",strServiceName, csm_Service.iServicePrice);
+	cstrQuery.Format("INSERT INTO servicetb (ServiceName,ServicePrice) VALUES (N'%s', '%d')",strServiceName, csm_Service.iServicePrice);
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }
