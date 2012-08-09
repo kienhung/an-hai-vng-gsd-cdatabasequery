@@ -48,7 +48,7 @@ BOOL CConvertDatabaseApp::InitInstance()
 
 	CWinAppEx::InitInstance();
 
-	AfxOleInit();
+	
 	AfxEnableControlContainer();
 
 	// Standard initialization

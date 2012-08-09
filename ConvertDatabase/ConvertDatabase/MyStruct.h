@@ -7,6 +7,7 @@
 #define MAX_PHONE 15
 #define MAX_EMAIL 50
 #define MAX_INTTIME 12
+#define MAX_SERVICENAME 25
 
 typedef struct	
 {
@@ -15,6 +16,13 @@ typedef struct
 	int iActive;
 	int iAddedBy;
 }BLACKLIST;
+
+typedef struct	
+{
+	TCHAR strServiceName[MAX_SERVICENAME];
+	int iServicePrice;
+}CSM_SERVICE;
+
 
 typedef struct	
 {
@@ -30,3 +38,4 @@ typedef struct
 	TCHAR strTimeUsed[MAX_INTTIME];
 	TCHAR strFreeTime[MAX_INTTIME];
 }CSM_USER;
+

@@ -313,6 +313,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ServiceDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ServiceDAO.h"
+				>
+			</File>
+			<File
 				RelativePath=".\UserDAO.cpp"
 				>
 			</File>
