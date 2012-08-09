@@ -21,7 +21,7 @@ public:
 	CConvertDB(void);
 	~CConvertDB(void);
 
-	void Convert(const TCHAR* strPath);
+	BOOL Convert(const TCHAR* strPath);
 	BOOL Connect(const TCHAR* strPath);
 	VOID VariantToCstring(const CDBVariant &var, CString &sData);
 
