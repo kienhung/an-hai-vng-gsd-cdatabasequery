@@ -27,6 +27,6 @@ public:
 
 	BOOL ConvertBlackList();
 	BOOL ConvertUser();
-	BOOL ConvertPriceListTb(); // from price to pricelisttb
+	BOOL ConvertService();
 	
 };
