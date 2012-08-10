@@ -197,14 +197,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConvertDB.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MakeWindowTransparent.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -240,14 +232,6 @@
 			</File>
 			<File
 				RelativePath=".\ConvertDatabaseDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ConvertDB.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MakeWindowTransparent.h"
 				>
 			</File>
 			<File
@@ -326,6 +310,34 @@
 			</File>
 			<File
 				RelativePath=".\UserDAO.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Convert"
+			>
+			<File
+				RelativePath=".\AccessConvertDB.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AccessConvertDB.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ConvertDB.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ConvertDB.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLConvertDB.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLConvertDB.h"
 				>
 			</File>
 		</Filter>

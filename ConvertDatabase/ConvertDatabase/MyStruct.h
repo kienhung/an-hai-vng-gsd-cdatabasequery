@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_STRINGDATE 15
+#define MAX_STRINGDATE 20
 #define MAX_NAME 15
 #define MAX_USERNAME 25
 #define MAX_ADDRESS 150
@@ -8,6 +8,17 @@
 #define MAX_EMAIL 50
 #define MAX_INTTIME 12
 #define MAX_SERVICENAME 25
+
+#define MAX_LENGTH 50
+
+typedef struct	
+{
+	bool m_bIsConnected;
+	char m_strUsername[MAX_LENGTH];
+	char m_strPasssword[MAX_LENGTH];
+	char m_strServerAddress[MAX_LENGTH];
+	char m_strDatabaseName[MAX_LENGTH];
+}CONNECTSTRINGTOMYSQL;
 
 typedef struct	
 {
@@ -38,4 +49,5 @@ typedef struct
 	TCHAR strTimeUsed[MAX_INTTIME];
 	TCHAR strFreeTime[MAX_INTTIME];
 }CSM_USER;
+
 

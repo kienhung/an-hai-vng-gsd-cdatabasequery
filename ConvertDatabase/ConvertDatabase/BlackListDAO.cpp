@@ -19,7 +19,7 @@ BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServ
 	m_pSQLDataAccessHelper = new CMySQLDataAccessHelper(pcUserName, pcPassword, pcServerAddress, pcDatabase);
 	return m_pSQLDataAccessHelper->IsConnected();
 }
-BOOL CBlackListDAO::AddBackList(const BLACKLIST& blackList)
+BOOL CBlackListDAO::AddBlackList(const BLACKLIST& blackList)
 {
 	char strURL[MAX_PATH];
 	char strRecordDate[MAX_STRINGDATE*2 + 1];
