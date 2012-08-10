@@ -1,22 +1,26 @@
 #pragma once
-#include "AutoLauncher.h"
+
+
+#include "Launcher.h"
 
 class CAutoUpdateTool
 {
 protected:
 
 	CString m_strSourcePath;
-	CString m_strLauncherPath;
 	CString m_strToken;
 	CString m_strTempSourcePath;
 
-	CAutoLauncher *m_pAutoLauncher;
+	CLauncher *m_pAutoLauncher;
 
 public:
 
+
 	CAutoUpdateTool();
-	BOOL Create(CAutoLauncher *pAutoLauncher, LPCTSTR strToken);
+	BOOL Create(CLauncher *pAutoLauncher, LPCTSTR strToken);
 	BOOL Update();
+	CString GetName();
+
 	virtual ~CAutoUpdateTool(void);
 protected:
 	BOOL CloneSource();

@@ -3,8 +3,6 @@
 #include "FileServices.h"
 #include "MyPath.h"
 #include "FolderCloner.h"
-#include "AuditionLauncher.h"
-
 #include "FolderCompare.h"
 #include "FolderRemoving.h"
 
@@ -15,15 +13,14 @@ CAutoUpdateTool::CAutoUpdateTool()
 	m_pAutoLauncher = NULL;
 }
 
-BOOL CAutoUpdateTool::Create( CAutoLauncher *pAutoLauncher, LPCTSTR strToken )
+BOOL CAutoUpdateTool::Create( CLauncher *pAutoLauncher, LPCTSTR strToken )
 {
 	if (NULL == pAutoLauncher) {
 		return FALSE;
 	}
 
 	m_strSourcePath = pAutoLauncher->GetSourcePath();
-	m_strLauncherPath = pAutoLauncher->GetLauncherPath();
-
+	
 	m_strToken = strToken;
 	m_pAutoLauncher = pAutoLauncher;
 
@@ -132,7 +129,12 @@ BOOL CAutoUpdateTool::RemoveTempSource()
 	if (FALSE == folderRemoving.Remove(m_strTempSourcePath)) {
 		return FALSE;
 	}
-
+	
 	return TRUE;
+}
+
+CString CAutoUpdateTool::GetName()
+{
+	return m_pAutoLauncher->GetName();
 }
 
