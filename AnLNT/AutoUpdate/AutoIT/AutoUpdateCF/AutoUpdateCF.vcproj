@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="AutoUpdateCF"
+	Name="AutoUpdate"
 	ProjectGUID="{3BF2A2CA-117F-48C2-82BD-A6C276B2581E}"
 	RootNamespace="AutoUpdateCF"
 	Keyword="Win32Proj"
@@ -173,11 +173,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AuditionLauncher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\AutoLauncher.cpp"
+				RelativePath=".\AuditionAutoLauncher.cpp"
 				>
 			</File>
 			<File
@@ -189,11 +185,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CrossfireLauncher.cpp"
+				RelativePath=".\CrossfireAutoLauncher.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Fifa2Launcher.cpp"
+				RelativePath=".\Fifa2AutoLauncher.cpp"
 				>
 			</File>
 			<File
@@ -218,6 +214,10 @@
 			</File>
 			<File
 				RelativePath=".\InputReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Launcher.cpp"
 				>
 			</File>
 			<File
@@ -255,11 +255,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\AuditionLauncher.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AutoLauncher.h"
+				RelativePath=".\AuditionAutoLauncher.h"
 				>
 			</File>
 			<File
@@ -271,11 +267,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CrossfireLauncher.h"
+				RelativePath=".\CrossfireAutoLauncher.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Fifa2Launcher.h"
+				RelativePath=".\Fifa2AutoLauncher.h"
 				>
 			</File>
 			<File
@@ -300,6 +296,10 @@
 			</File>
 			<File
 				RelativePath=".\InputReader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Launcher.h"
 				>
 			</File>
 			<File
