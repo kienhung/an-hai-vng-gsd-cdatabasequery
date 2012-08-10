@@ -1,13 +1,16 @@
 #include "StdAfx.h"
 #include "InputReader.h"
 #include "AutoUpdateTool.h"
-#include "AuditionLauncher.h"
-#include "Fifa2Launcher.h"
+#include "CrossfireAutoLauncher.h"
+#include "Fifa2AutoLauncher.h"
+#include "AuditionAutoLauncher.h"
+#include "Launcher.h"
 
 CInputReader::CInputReader( LPCTSTR strInputFileName )
 {
 
 	m_strInput = strInputFileName;
+	m_pHandle = NULL;
 
 	SYSTEMTIME time;
 	GetLocalTime(&time);
@@ -18,19 +21,11 @@ CInputReader::CInputReader( LPCTSTR strInputFileName )
 
 BOOL CInputReader::Read()
 {
-
-	if (FALSE == ReadAudition()) {
-		_tprintf(L"Auditon Fail\n");
-	}
+	ReadAudition();
+	ReadCrossfire();
+	ReadFifaonline2();
 	
-	if (FALSE == ReadCrossfire()) {
-		_tprintf(L"Crossfire Fail\n");
-	}
-
-	if (FALSE == ReadFifaonline2()) {
-		_tprintf(L"Fifaonline2 Fail\n");
-	}
-
+	Run();
 	return TRUE;
 }
 
@@ -38,25 +33,33 @@ BOOL CInputReader::Read()
 
 CInputReader::~CInputReader(void)
 {
+
+	if (m_pHandle != NULL) {
+		delete[] m_pHandle;
+	}
+
+	list<CAutoUpdateTool*>::iterator it;
+
+	for (it = m_listAutoUpdateTool.begin(); it != m_listAutoUpdateTool.end(); it++) {
+
+		CAutoUpdateTool *pAutoUpdateTool = *it;
+
+		if (NULL != pAutoUpdateTool) {
+
+			delete[] pAutoUpdateTool;
+			*it = NULL;
+		}
+	}
 }
 
-
-
-BOOL CInputReader::ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath, LPTSTR strLauncherPath)
+BOOL CInputReader::ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath )
 {
-	
 	DWORD dwCount = ::GetPrivateProfileString(strSectionName, L"source", NULL, strSourcePath, MAX_PATH, m_strInput);
 
 	if (dwCount <= 0) {
 		return FALSE;
 	}
 
-	dwCount = ::GetPrivateProfileString(strSectionName, L"launcher", NULL, strLauncherPath, MAX_PATH, m_strInput);
-
-	if (dwCount <= 0) {
-		return FALSE;
-	}
-	
 	return TRUE;
 }
 
@@ -64,20 +67,14 @@ BOOL CInputReader::ReadAudition()
 {
 
 	TCHAR strSourcePath[MAX_PATH];
-	TCHAR strLauncherPath[MAX_PATH];
 
-	if (FALSE == ReadSection(L"Audition", strSourcePath, strLauncherPath)) {
+	if (FALSE == ReadSection(L"Audition", strSourcePath)) {
 		return FALSE;
 	}
+	
+	CLauncher *pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
 
-	CAutoUpdateTool autoUpdateTool;
-	if (FALSE == autoUpdateTool.Create(new CAuditionLauncher(strSourcePath, strLauncherPath), m_strToken)) {
-		return FALSE;
-	}
-
-	if (FALSE == autoUpdateTool.Update()) {
-		return FALSE;
-	}
+	AddItem(pAutoLauncher);
 
 	return TRUE;
 }
@@ -86,20 +83,13 @@ BOOL CInputReader::ReadCrossfire()
 {
 
 	TCHAR strSourcePath[MAX_PATH];
-	TCHAR strLauncherPath[MAX_PATH];
 
-	if (FALSE == ReadSection(L"Crossfire", strSourcePath, strLauncherPath)) {
+	if (FALSE == ReadSection(L"Crossfire", strSourcePath)) {
 		return FALSE;
 	}
 
-	CAutoUpdateTool autoUpdateTool;
-	if (FALSE == autoUpdateTool.Create(new CCrossfireLauncher(strSourcePath, strLauncherPath), m_strToken)) {
-		return FALSE;
-	}
-
-	if (FALSE == autoUpdateTool.Update()) {
-		return FALSE;
-	}
+	CLauncher *pAutoLauncher = new CCrossfireAutoLauncher(strSourcePath);
+	AddItem(pAutoLauncher);
 
 	return TRUE;
 }
@@ -108,20 +98,66 @@ BOOL CInputReader::ReadFifaonline2()
 {
 
 	TCHAR strSourcePath[MAX_PATH];
-	TCHAR strLauncherPath[MAX_PATH];
 
-	if (FALSE == ReadSection(L"Fifaonline2", strSourcePath, strLauncherPath)) {
+	if (FALSE == ReadSection(L"Fifaonline2", strSourcePath)) {
 		return FALSE;
 	}
 
-	CAutoUpdateTool autoUpdateTool;
-	if (FALSE == autoUpdateTool.Create(new CFifaLauncher2(strSourcePath, strLauncherPath), m_strToken)) {
+	CLauncher *pAutoLauncher = new CFifa2AutoLauncher(strSourcePath);
+	AddItem(pAutoLauncher);
+
+	return TRUE;
+}
+
+void CInputReader::AddItem( CLauncher * pAutoLauncher )
+{
+	CAutoUpdateTool *pAutoUpdateTool = new CAutoUpdateTool();
+	pAutoUpdateTool->Create(pAutoLauncher, m_strToken);
+	m_listAutoUpdateTool.push_back(pAutoUpdateTool);
+}
+
+BOOL CInputReader::Run()
+{
+
+	list<CAutoUpdateTool*>::iterator it;
+	if (m_listAutoUpdateTool.size() == 0) {
 		return FALSE;
 	}
 
-	if (FALSE == autoUpdateTool.Update()) {
-		return FALSE;
+	if (m_pHandle != NULL) {
+		delete[] m_pHandle;
+	}
+
+	m_pHandle = new HANDLE[m_listAutoUpdateTool.size()];
+	int iCount = 0;
+
+	for (it = m_listAutoUpdateTool.begin(); it != m_listAutoUpdateTool.end(); it++) {
+
+		CAutoUpdateTool *pAutoUpdateTool = *it;
+
+		if (NULL != pAutoUpdateTool) {
+
+			m_pHandle[iCount] = ::CreateThread(NULL, 0,  CInputReader::UpdateThreadFunction, pAutoUpdateTool, 0, NULL);
+			iCount++;
+		}
+	}
+
+	::WaitForMultipleObjects(iCount, m_pHandle, TRUE, INFINITE);
+	for (int i = 0; i < iCount; i++) {
+		::CloseHandle(m_pHandle[i]);
 	}
 
 	return TRUE;
+}
+
+DWORD WINAPI CInputReader::UpdateThreadFunction( PVOID pvParam )
+{
+
+	CAutoUpdateTool *pAutoUpdateTool = (CAutoUpdateTool*)pvParam;
+
+	if (pAutoUpdateTool->Update() == FALSE) {
+		_tprintf(L"%s Fail\n", pAutoUpdateTool->GetName());
+	}
+
+	return 0;
 }
