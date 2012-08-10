@@ -1,32 +1,25 @@
 #pragma once
 #include <afxcmn.h>
 #include <afxdb.h>
+#include "MyStruct.h"
 
-#define MAX_LENGTH 50
-typedef struct	
-{
-	bool m_bIsConnected;
-	char m_strUsername[MAX_LENGTH];
-	char m_strPasssword[MAX_LENGTH];
-	char m_strServerAddress[MAX_LENGTH];
-	char m_strDatabaseName[MAX_LENGTH];
-}CONNECTSTRINGTOMYSQL;
+
 
 class CConvertDB
 {
 protected:
 	CONNECTSTRINGTOMYSQL m_ConnectStringToMYSQL;
-	CDatabase m_db;
+	
 public:
 	CConvertDB(void);
 	~CConvertDB(void);
 
-	BOOL Convert(const TCHAR* strPath);
-	BOOL Connect(const TCHAR* strPath);
+	virtual BOOL Connect(const TCHAR* strPath) = 0;
+	virtual BOOL Convert(const TCHAR* strPath) = 0;
 	VOID VariantToCstring(const CDBVariant &var, CString &sData);
 
-	BOOL ConvertBlackList();
-	BOOL ConvertUser();
-	BOOL ConvertService();
+	virtual BOOL ConvertBlackList() = 0;
+	virtual BOOL ConvertUser() = 0;
+	virtual BOOL ConvertService() = 0;
 	
 };

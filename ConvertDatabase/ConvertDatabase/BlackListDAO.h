@@ -12,6 +12,6 @@ private:
 public:
 	CBlackListDAO(void);
 	BOOL ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase);
-	BOOL AddBackList(const BLACKLIST &blackList);
+	BOOL AddBlackList(const BLACKLIST &blackList);
 	~CBlackListDAO(void);
 };
