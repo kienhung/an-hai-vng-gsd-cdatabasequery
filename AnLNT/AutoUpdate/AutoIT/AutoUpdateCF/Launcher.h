@@ -32,4 +32,5 @@ protected:
 
 	virtual BOOL CheckButton(int iButtonID, WORD wState = BST_CHECKED);
 	virtual BOOL CheckButton(HWND hParent, int iButtonID,  WORD wState = BST_CHECKED);
+
 };

@@ -4,23 +4,23 @@
 #include "CrossfireAutoLauncher.h"
 #include "Fifa2AutoLauncher.h"
 #include "AuditionAutoLauncher.h"
+#include "TLBBAutoLauncher.h"
 #include "Launcher.h"
 
 CInputReader::CInputReader( LPCTSTR strInputFileName )
 {
 
 	m_strInput = strInputFileName;
-	m_pHandle = NULL;
 
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	m_strToken.Format(L"%02u-%02u-%u-%02uh%02u", time.wDay, time.wMonth, time.wYear, time.wHour, time.wMinute);
-
+	m_strToken.Format(L"%u-%02u-%02u %02uh%02u",  time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute);
 }
 
 BOOL CInputReader::Read()
 {
+	ReadTLBB();
 	ReadAudition();
 	ReadCrossfire();
 	ReadFifaonline2();
@@ -34,9 +34,6 @@ BOOL CInputReader::Read()
 CInputReader::~CInputReader(void)
 {
 
-	if (m_pHandle != NULL) {
-		delete[] m_pHandle;
-	}
 
 	list<CAutoUpdateTool*>::iterator it;
 
@@ -120,44 +117,35 @@ BOOL CInputReader::Run()
 {
 
 	list<CAutoUpdateTool*>::iterator it;
-	if (m_listAutoUpdateTool.size() == 0) {
-		return FALSE;
-	}
-
-	if (m_pHandle != NULL) {
-		delete[] m_pHandle;
-	}
-
-	m_pHandle = new HANDLE[m_listAutoUpdateTool.size()];
-	int iCount = 0;
 
 	for (it = m_listAutoUpdateTool.begin(); it != m_listAutoUpdateTool.end(); it++) {
 
 		CAutoUpdateTool *pAutoUpdateTool = *it;
 
 		if (NULL != pAutoUpdateTool) {
-
-			m_pHandle[iCount] = ::CreateThread(NULL, 0,  CInputReader::UpdateThreadFunction, pAutoUpdateTool, 0, NULL);
-			iCount++;
+			
+			if (pAutoUpdateTool->Update() == FALSE) {
+				_tprintf(L"%s Fail\n", pAutoUpdateTool->GetName());
+			}
+			
 		}
-	}
-
-	::WaitForMultipleObjects(iCount, m_pHandle, TRUE, INFINITE);
-	for (int i = 0; i < iCount; i++) {
-		::CloseHandle(m_pHandle[i]);
 	}
 
 	return TRUE;
 }
 
-DWORD WINAPI CInputReader::UpdateThreadFunction( PVOID pvParam )
+BOOL CInputReader::ReadTLBB()
 {
 
-	CAutoUpdateTool *pAutoUpdateTool = (CAutoUpdateTool*)pvParam;
+	TCHAR strSourcePath[MAX_PATH];
 
-	if (pAutoUpdateTool->Update() == FALSE) {
-		_tprintf(L"%s Fail\n", pAutoUpdateTool->GetName());
+	if (FALSE == ReadSection(L"TLBB", strSourcePath)) {
+		return FALSE;
 	}
 
-	return 0;
+	CLauncher *pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
+	AddItem(pAutoLauncher);
+
+	return TRUE;
+
 }
