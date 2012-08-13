@@ -12,6 +12,7 @@ protected:
 	int m_iHNButtonID;
 	int m_iLoginDialogID;
 	int m_iCloseButtonID;
+	int m_iTreeCtrlID;
 
 public:
 	CAuditionAutoLauncher(LPCTSTR strSource);
@@ -19,6 +20,7 @@ public:
 
 	virtual CString GetName();
 	virtual BOOL Run();
+	BOOL SelectAudition();
 
 	static DWORD WINAPI MonitorThreadFunction(PVOID pvParam);
 	static BOOL CALLBACK EnumWindowProc(HWND hwnd, LPARAM lParam);

@@ -12,6 +12,7 @@ CAuditionAutoLauncher::CAuditionAutoLauncher(LPCTSTR strSource)
 	m_iHNButtonID = 0x000000B0;
 	m_iLoginDialogID = 0x0000009E;
 	m_iCloseButtonID = 0x00000A4;
+	m_iTreeCtrlID = 0x00000065;
 }
 
 CAuditionAutoLauncher::~CAuditionAutoLauncher(void)
@@ -32,6 +33,10 @@ BOOL CAuditionAutoLauncher::Run()
 		return FALSE;
 	}
 	
+	if (FALSE == SelectAudition()) {
+		return FALSE;
+	}
+
 	HWND hPanel = ::GetDlgItem(hMainWnd, m_iPanelID);
 	if (NULL == hPanel) {
 		return FALSE;
@@ -44,7 +49,7 @@ BOOL CAuditionAutoLauncher::Run()
 	if (FALSE == CheckButton(hPanel, m_iHNButtonID, BST_UNCHECKED)) {
 		return FALSE;
 	}
-	
+
 	HANDLE hThread = ::CreateThread(NULL, 0, CAuditionAutoLauncher::MonitorThreadFunction, this, 0, NULL);
 
 	if (NULL == hThread) {
@@ -80,7 +85,7 @@ DWORD WINAPI CAuditionAutoLauncher::MonitorThreadFunction( PVOID pvParam )
 		}
 	}
 
-	HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessID);
+	HANDLE hProcess = ::OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessID);
 	::TerminateProcess(hProcess, 0);
 	::CloseHandle(hProcess);
 
@@ -102,5 +107,24 @@ BOOL CALLBACK CAuditionAutoLauncher::EnumWindowProc( HWND hwnd, LPARAM lParam )
 		return FALSE;
 	}
 
+	return TRUE;
+}
+
+BOOL CAuditionAutoLauncher::SelectAudition()
+{
+
+	HWND hTreeCtrl = GetDlgItem(m_hMainWindow, m_iTreeCtrlID);
+	if (NULL == hTreeCtrl ) {
+		return FALSE;
+	}
+
+	HTREEITEM hTreeItem = TreeView_GetFirstVisible(hTreeCtrl);
+	if (hTreeItem == NULL) {
+		return FALSE;
+	}
+
+	if (FALSE == TreeView_SelectItem(hTreeCtrl, hTreeItem)) {
+		return FALSE;
+	}
 	return TRUE;
 }
