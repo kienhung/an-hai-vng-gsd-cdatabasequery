@@ -14,6 +14,7 @@ public:
 
 	virtual BOOL Run();
 	virtual CString GetName();
+	BOOL WaitForComplete();
 
 	virtual ~CFifa2AutoLauncher(void);
 };

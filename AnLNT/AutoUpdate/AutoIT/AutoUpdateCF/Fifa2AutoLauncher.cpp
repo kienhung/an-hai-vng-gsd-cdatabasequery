@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Fifa2AutoLauncher.h"
+#include <tlhelp32.h>
 
 CFifa2AutoLauncher::CFifa2AutoLauncher(LPCTSTR strSource)
 	:CLauncher(strSource)
@@ -40,7 +41,7 @@ BOOL CFifa2AutoLauncher::Run()
 		hStartButton = ::GetDlgItem(hMainWnd, iStartButtonID);
 	}
 	
-	if (FALSE == CloseWindow(L"FIFAOnline2Class", L"FIFA Online 2")) {
+	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
 
@@ -49,5 +50,49 @@ BOOL CFifa2AutoLauncher::Run()
 
 CString CFifa2AutoLauncher::GetName()
 {
-	return L"Fifa2Online";
+	return L"Fifa Online 2";
+}
+
+BOOL CFifa2AutoLauncher::WaitForComplete()
+{
+
+	HANDLE hProcessSnap = ::CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0);
+
+	if (INVALID_HANDLE_VALUE == hProcessSnap) {
+		return FALSE;
+	}
+
+	while (true) {
+
+		PROCESSENTRY32 pe32;
+		pe32.dwSize = sizeof(PROCESSENTRY32);
+
+		if( !::Process32First( hProcessSnap, &pe32 ) ) {
+			::CloseHandle( hProcessSnap );  
+			return FALSE ;
+		}
+
+		do {
+			if (lstrcmp(pe32.szExeFile, L"FF2Client.exe") == 0) {
+
+				HANDLE hProcess = ::OpenProcess(PROCESS_TERMINATE, FALSE, pe32.th32ProcessID);
+
+				if (hProcess == NULL) {
+					_tprintf(L"Open process is failed. Error: %d\n", GetLastError());
+				}
+
+				if (FALSE == ::TerminateProcess(hProcess, 0)) {
+					_tprintf(L"Termiate process crossfire.dat that bai. Error: %d\n", GetLastError());
+				} 
+
+				::CloseHandle(hProcess);
+				::CloseHandle( hProcessSnap );
+
+				return TRUE;
+			}
+
+		} while (::Process32Next( hProcessSnap, &pe32 ));
+	}
+	
+	return FALSE;
 }

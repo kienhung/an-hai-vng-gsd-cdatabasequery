@@ -3,7 +3,7 @@
 
 #include "Launcher.h"
 
-class CAutoUpdateTool
+class  CAutoUpdateTool
 {
 protected:
 
