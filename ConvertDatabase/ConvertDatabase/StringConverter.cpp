@@ -98,3 +98,25 @@ char* CStringConverter::UnicodeToUTF8(LPCTSTR ptcStrIn) {
 	m_pcStrOut[iSize] = '\0';
 	return m_pcStrOut;
 }
+
+char* CStringConverter::ConvertIntoUTF8(const wchar_t *pWideChar)
+{
+	char	*pUTF8Str;
+	int		iLen,
+			iNumByte = 0;
+
+	iLen = wcslen(pWideChar);
+	iNumByte = WideCharToMultiByte(CP_UTF8, 0, pWideChar, iLen, NULL, 0, NULL, NULL);
+
+	if (iNumByte <= 0)
+		return NULL;
+
+	pUTF8Str = new char[iNumByte + 1];
+	if (!pUTF8Str)
+		return NULL;
+
+	WideCharToMultiByte(CP_UTF8, 0, pWideChar, iLen, pUTF8Str, iNumByte, NULL, NULL);
+	pUTF8Str[iNumByte] = 0;
+
+	return pUTF8Str;
+}

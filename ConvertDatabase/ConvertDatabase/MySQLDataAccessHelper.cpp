@@ -9,6 +9,12 @@ CMySQLDataAccessHelper::CMySQLDataAccessHelper(const char *strUser, const char *
 		m_bIsConnected = FALSE;
 		return;
 	}
+	
+	if (mysql_options(m_mySQLConnection, MYSQL_SET_CHARSET_NAME, "utf8"))
+	{
+		m_bIsConnected = FALSE;
+		return;
+	}
 
 	if (NULL == mysql_real_connect(m_mySQLConnection, strServerAddress, strUser, strPassword, strDatabase, uiPort, NULL, 0)) {
 		m_bIsConnected = FALSE;
@@ -46,6 +52,7 @@ MYSQL_RES* CMySQLDataAccessHelper::ExecuteQuery(const char *strQuery) {
 	}
 	return pMySQLQueryResult;
 }
+
 
 void CMySQLDataAccessHelper::FreeQueryResult(MYSQL_RES *pMySQLQueryResult) {
 	mysql_free_result(pMySQLQueryResult);

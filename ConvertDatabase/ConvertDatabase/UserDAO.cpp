@@ -1,5 +1,8 @@
+
 #pragma once
 #include "StdAfx.h"
+#include "strsafe.h"
+#pragma warning(disable :4995 )
 #include "UserDAO.h"
 #include "StringConverter.h"
 
@@ -21,6 +24,8 @@ BOOL CUserDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAdd
 
 BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 {
+	CStringConverter stringConverter;
+
 	char strName[(MAX_NAME +1)*2] = {0};
 	char strUsername[(MAX_USERNAME +1)*2] = {0};
 	char strUserType[8] = {0};
@@ -33,43 +38,65 @@ BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 	char strRemainTime[(MAX_INTTIME+1)*2] = {0};
 	char strTimeUsed[(MAX_INTTIME+1)*2] = {0};
 	char strFreeTime[(MAX_INTTIME+1)*2] = {0};
-	int iRemainMoney = 0;
+	char strActive[6] = {0};
+	char strRemainMoney[(MAX_MONEY +1)*2] = {0};
 
-	CStringConverter stringConverter;
 
-	char *pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strName);
-	strcpy_s(strName, (MAX_NAME +1)*2, pcBuffer);
+	
+
+	char *pcBuffer = stringConverter.ConvertIntoUTF8(csm_User.strName);
+	if(NULL != pcBuffer)
+		strcpy_s(strName, (MAX_NAME +1)*2, pcBuffer);
+	
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strUsername);
-	strcpy_s(strUsername, (MAX_USERNAME +1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strUsername, (MAX_USERNAME +1)*2, pcBuffer);
 	
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strUserType);
-	strcpy_s(strUserType, 8, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strUserType, 8, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strRecordDate);
-	strcpy_s(strRecordDate, (MAX_STRINGDATE +1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strRecordDate, (MAX_STRINGDATE +1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strExpiryDate);
-	strcpy_s(strExpiryDate, (MAX_STRINGDATE +1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strExpiryDate, (MAX_STRINGDATE +1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strAddress);
-	strcpy_s(strAddress, (MAX_ADDRESS+1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strAddress, (MAX_ADDRESS+1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strPhone);
-	strcpy_s(strPhone, (MAX_PHONE+1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strPhone, (MAX_PHONE+1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strEmail);
-	strcpy_s(strEmail, (MAX_EMAIL+1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strEmail, (MAX_EMAIL+1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strRemainTime);
-	strcpy_s(strRemainTime, (MAX_INTTIME+1)*2, pcBuffer);
-	iRemainMoney = GetMoneyFromTime(atoi(strRemainTime), atoi(strUserType));
+	if(NULL != pcBuffer)
+		strcpy_s(strRemainTime, (MAX_INTTIME+1)*2, pcBuffer);
+	
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strTimeUsed);
-	strcpy_s(strTimeUsed, (MAX_INTTIME+1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strTimeUsed, (MAX_INTTIME+1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strFreeTime);
-	strcpy_s(strFreeTime, (MAX_INTTIME+1)*2, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strFreeTime, (MAX_INTTIME+1)*2, pcBuffer);
+
+	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strActive);
+	if(NULL != pcBuffer)
+		strcpy_s(strActive, 6, pcBuffer);
+
+	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strRemainMoney);
+	if(NULL != pcBuffer)
+		strcpy_s(strRemainMoney, (MAX_MONEY +1)*2, pcBuffer);
 
 	CStringA cstrQuery = "INSERT INTO usertb ";
 	cstrQuery.Append("(FirstName,LastName,MiddleName,UserName,Password,ID,Address,Phone,");
@@ -78,10 +105,10 @@ BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 	cstrQuery.Append("RemainTime,FreeTime,TimeTransfer,RemainMoney,FreeMoney,MoneyTransfer,UsageTimeId,");
 	cstrQuery.Append("PromotionTime,PromotionMoney,MachineGroupId,MAC,changepcdetailid) ");
 
-	cstrQuery.AppendFormat("VALUES ('%s','','','%s','','','%s','%s',", strName, strUsername,strAddress, strPhone);
-	cstrQuery.AppendFormat("'%s','','','',0,0,1,'%s','%s',", strEmail, strRecordDate, strExpiryDate);
+	cstrQuery.AppendFormat("VALUES (N'%s','','','%s','','','%s','%s',", strName, strUsername,strAddress, strPhone);
+	cstrQuery.AppendFormat("'%s','','','',0,0,%s,'%s','%s',", strEmail, strActive, strRecordDate, strExpiryDate);
 	cstrQuery.AppendFormat("%s,'','0000-00-00','','','',0,%s,0,0,",strUserType, strTimeUsed);
-	cstrQuery.AppendFormat("%s, 0, 0,%d,0,0,1,",strRemainTime, iRemainMoney);
+	cstrQuery.AppendFormat("%s, 0, 0,%s,0,0,1,",strRemainTime, strRemainMoney);
 	cstrQuery.Append("0,0,0,'',0)");
 	
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
@@ -99,5 +126,4 @@ INT CUserDAO::GetUnitPriceFromUserType(const int& iUserType)
 	MYSQL_RES *pMySQLQueryResult = m_pSQLDataAccessHelper->ExecuteQuery(cstrQuery);
 	MYSQL_ROW mySQLResultRow = mysql_fetch_row(pMySQLQueryResult);
 	return atoi(mySQLResultRow[0]);
-	
 }
