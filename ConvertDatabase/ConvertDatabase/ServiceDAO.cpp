@@ -22,15 +22,21 @@ BOOL CServiceDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServer
 BOOL CServiceDAO::AddService(const CSM_SERVICE &csm_Service)
 {
 	
-	char strServiceName[MAX_PATH];
+	char strServiceName[(MAX_SERVICENAME +1)*2] = {0};
+	char strUnit[(MAX_LENGTH +1)*2] = {0};
 	
 
 	CStringConverter stringConverter;
 
 	char *pcBuffer = stringConverter.UnicodeToUTF8(csm_Service.strServiceName);
-	strcpy_s(strServiceName, MAX_PATH, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strServiceName, (MAX_SERVICENAME +1)*2, pcBuffer);
+
+	pcBuffer = stringConverter.UnicodeToUTF8(csm_Service.strUnit);
+	if(NULL != pcBuffer)
+		strcpy_s(strUnit, (MAX_LENGTH +1)*2, pcBuffer);
 
 	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO servicetb (ServiceName,ServicePrice) VALUES (N'%s', '%d')",strServiceName, csm_Service.iServicePrice);
+	cstrQuery.Format("INSERT INTO servicetb (ServiceName,ServicePrice,Unit) VALUES (N'%s', '%d', N'%s')",strServiceName, csm_Service.iServicePrice, strUnit);
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }

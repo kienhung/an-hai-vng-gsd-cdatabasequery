@@ -21,16 +21,18 @@ BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServ
 }
 BOOL CBlackListDAO::AddBlackList(const BLACKLIST& blackList)
 {
-	char strURL[MAX_PATH];
-	char strRecordDate[MAX_STRINGDATE*2 + 1];
+	char strURL[MAX_PATH] = {0};
+	char strRecordDate[MAX_STRINGDATE*2 + 1] = {0};
 
 	CStringConverter stringConverter;
 
 	char *pcBuffer = stringConverter.UnicodeToUTF8(blackList.strURL);
-	strcpy_s(strURL, MAX_PATH, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strURL, MAX_PATH, pcBuffer);
 	
 	pcBuffer = stringConverter.UnicodeToUTF8(blackList.strRecordDate);
-	strcpy_s(strRecordDate, MAX_STRINGDATE*2 + 1, pcBuffer);
+	if(NULL != pcBuffer)
+		strcpy_s(strRecordDate, MAX_STRINGDATE*2 + 1, pcBuffer);
 
 	CStringA cstrQuery;
 	cstrQuery.Format("INSERT INTO blacklisttb (URL,RecordDate,Active,AddedBy) VALUES ('%s', '%s', %d, %d)",strURL, strRecordDate, blackList.iActive, blackList.iAddedBy);
