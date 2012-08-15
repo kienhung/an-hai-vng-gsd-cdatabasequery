@@ -99,6 +99,7 @@ BOOL CApplicationTrackingDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
+	m_TrackingWeb.Track();
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 

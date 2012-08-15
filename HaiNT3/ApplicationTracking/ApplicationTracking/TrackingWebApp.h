@@ -7,6 +7,8 @@ private:
 public:
 
 	CTrackingWebApp(void);
-	virtual VOID 
+	static BOOL CALLBACK enumWindowsProc(HWND hwnd, LPARAM lParam);
+	static BOOL CALLBACK enumChildProc(HWND hwnd, LPARAM lParam);
+	virtual VOID Track();
 	~CTrackingWebApp(void);
 };
