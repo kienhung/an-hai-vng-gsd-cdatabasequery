@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "TrackingWebApp.h"
 
 // CApplicationTrackingDlg dialog
 class CApplicationTrackingDlg : public CDialog
@@ -22,6 +22,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
+	CTrackingWebApp m_TrackingWeb;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
