@@ -33,4 +33,6 @@ public:
 	afx_msg void OnBnClickedBtnConvert();
 	afx_msg void OnBnClickedBtnBrowse();
 	afx_msg void OnCbnSelchangeCbApplication();
+	afx_msg void OnEnChangeEdtPassmysql();
+	afx_msg void OnBnClickedBtnClose();
 };

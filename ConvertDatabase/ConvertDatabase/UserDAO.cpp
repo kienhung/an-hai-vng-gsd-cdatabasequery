@@ -29,6 +29,7 @@ BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 	char strName[(MAX_NAME +1)*2] = {0};
 	char strUsername[(MAX_USERNAME +1)*2] = {0};
 	char strUserType[8] = {0};
+	char strBirthDay[(MAX_STRINGDATE +1)*2] = {0};
 	char strRecordDate[(MAX_STRINGDATE +1)*2] = {0};
 	char strExpiryDate[(MAX_STRINGDATE +1)*2] = {0};
 	char strAddress[(MAX_ADDRESS+1)*2] = {0};
@@ -56,6 +57,10 @@ BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strUserType);
 	if(NULL != pcBuffer)
 		strcpy_s(strUserType, 8, pcBuffer);
+
+	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strBirthDay);
+	if(NULL != pcBuffer)
+		strcpy_s(strBirthDay, (MAX_STRINGDATE +1)*2, pcBuffer);
 
 	pcBuffer = stringConverter.UnicodeToUTF8(csm_User.strRecordDate);
 	if(NULL != pcBuffer)
@@ -105,9 +110,9 @@ BOOL CUserDAO::AddUser(const CSM_USER &csm_User)
 	cstrQuery.Append("RemainTime,FreeTime,TimeTransfer,RemainMoney,FreeMoney,MoneyTransfer,UsageTimeId,");
 	cstrQuery.Append("PromotionTime,PromotionMoney,MachineGroupId,MAC,changepcdetailid) ");
 
-	cstrQuery.AppendFormat("VALUES (N'%s','','','%s','','','%s','%s',", strName, strUsername,strAddress, strPhone);
+	cstrQuery.AppendFormat("VALUES (N'%s','','','%s',OLD_PASSWORD('csm'),'','%s','%s',", strName, strUsername,strAddress, strPhone);
 	cstrQuery.AppendFormat("'%s','','','',0,0,%s,'%s','%s',", strEmail, strActive, strRecordDate, strExpiryDate);
-	cstrQuery.AppendFormat("%s,'','0000-00-00','','','',0,%s,0,0,",strUserType, strTimeUsed);
+	cstrQuery.AppendFormat("%s,'','%s','','','',0,%s,0,0,",strUserType, strBirthDay, strTimeUsed);
 	cstrQuery.AppendFormat("%s, 0, 0,%s,0,0,1,",strRemainTime, strRemainMoney);
 	cstrQuery.Append("0,0,0,'',0)");
 	
