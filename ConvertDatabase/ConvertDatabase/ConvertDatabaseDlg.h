@@ -11,7 +11,8 @@ class CConvertDatabaseDlg : public CDialog
 // Construction
 public:
 	CConvertDatabaseDlg(CWnd* pParent = NULL);	// standard constructor
-
+	
+	BOOL CheckFileIsAccess(const TCHAR* strFullPath);
 // Dialog Data
 	enum { IDD = IDD_CONVERTDATABASE_DIALOG };
 
