@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileHelper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -234,6 +238,10 @@
 			</File>
 			<File
 				RelativePath=".\ConvertDatabaseDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileHelper.h"
 				>
 			</File>
 			<File
