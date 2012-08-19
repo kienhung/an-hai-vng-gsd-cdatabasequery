@@ -12,6 +12,7 @@ class CMySQLConvertDB: public CConvertDB
 private:
 	CONNECTSTRINGTOMYSQL  m_ConnectStringToMYSQLOneNet;
 	CMySQLDataAccessHelper *m_pSQLDataAccessHelper;
+	CString m_DataDirName;
 public:
 	CMySQLConvertDB(void);
 	~CMySQLConvertDB(void);
@@ -24,6 +25,8 @@ public:
 	virtual BOOL ConvertService();
 
 	BOOL CheckPathInDataMySQL(const TCHAR* strPathDirectory);
+	
 	BOOL CopyDataToDataMySQL(const TCHAR* strPathDirectory);
 	BOOL DeleteDataCopy(const TCHAR* strPathDirectory);
+
 };
