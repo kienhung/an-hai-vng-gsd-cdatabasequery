@@ -63,6 +63,7 @@ MYSQL_RES* CMySQLDataAccessHelper::ExecuteQuery(const char *strQuery) {
 
 void CMySQLDataAccessHelper::FreeQueryResult(MYSQL_RES *pMySQLQueryResult) {
 	mysql_free_result(pMySQLQueryResult);
+	
 }
 
 BOOL CMySQLDataAccessHelper::ExecuteNonQuery(const char *strQuery) {

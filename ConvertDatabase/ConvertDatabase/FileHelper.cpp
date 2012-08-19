@@ -21,6 +21,19 @@ BOOL CFileHelper::CopyFolder(const TCHAR *strSourceDir, const TCHAR *strDestDir)
 	CreateDirectory(strTempDestDir, NULL);
 	return CopyFolderProcess(strSourceDir, strTempDestDir);
 }
+BOOL CFileHelper::CopyAndRenameFolder(const TCHAR* strSourceDir, const TCHAR* strDestDir, const TCHAR* strNewFolderName)
+{
+	/*CString strTempSourceDir(strSourceDir);
+	
+	strTempSourceDir.Delete(0, strTempSourceDir.ReverseFind(L'\\') +1);*/
+	TCHAR strTempDestDir[MAX_PATH] = {0};
+	StringCchPrintf(strTempDestDir, MAX_PATH, _T("%s\\%s"), strDestDir, strNewFolderName);
+
+	CreateDirectory(strTempDestDir, NULL);
+
+	return CopyFolderProcess(strSourceDir, strTempDestDir);
+}
+
 BOOL CFileHelper::CopyFolderProcess(const TCHAR *strSourceDir, const TCHAR *strDestDir)
 {
 	WIN32_FIND_DATA FindFileData;
