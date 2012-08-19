@@ -20,6 +20,7 @@ BOOL CUserDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAdd
 {
 	m_pSQLDataAccessHelper = new CMySQLDataAccessHelper(pcUserName, pcPassword, pcServerAddress, pcDatabase);
 	return m_pSQLDataAccessHelper->IsConnected();
+	
 }
 
 BOOL CUserDAO::AddUser(const CSM_USER &csm_User)

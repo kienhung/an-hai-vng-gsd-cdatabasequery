@@ -9,6 +9,7 @@ private:
 public:
 	CMySQLDataAccessHelper(const char *strUser, const char *strPassword, const char *strServerAddress, const char *strDatabase, unsigned int uiPort = 0);
 	BOOL IsConnected();
+	VOID Disconnect();
 	MYSQL_RES* ExecuteQuery(const char *strQuery);
 	BOOL ExecuteNonQuery(const char *strQuery);
 	void FreeQueryResult(MYSQL_RES *pMySQLQueryResult);

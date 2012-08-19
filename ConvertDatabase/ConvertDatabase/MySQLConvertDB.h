@@ -25,4 +25,5 @@ public:
 
 	BOOL CheckPathInDataMySQL(const TCHAR* strPathDirectory);
 	BOOL CopyDataToDataMySQL(const TCHAR* strPathDirectory);
+	BOOL DeleteDataCopy(const TCHAR* strPathDirectory);
 };

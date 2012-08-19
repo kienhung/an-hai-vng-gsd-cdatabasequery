@@ -30,6 +30,13 @@ CMySQLDataAccessHelper::~CMySQLDataAccessHelper(void)
 	}
 }
 
+VOID CMySQLDataAccessHelper::Disconnect()
+{
+	if (NULL != m_mySQLConnection) {
+		mysql_close(m_mySQLConnection);
+	}
+}
+
 BOOL CMySQLDataAccessHelper::IsConnected()
 {
 	return m_bIsConnected;
