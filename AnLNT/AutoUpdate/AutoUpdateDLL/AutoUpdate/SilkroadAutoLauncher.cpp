@@ -11,6 +11,9 @@ CSilkroadAutoLauncher::CSilkroadAutoLauncher(LPCTSTR strSource)
 
 	m_strLauncherWindowClassName = L"#32770";
 	m_strLauncherWindowText = L"Silkroad Online Launcher";
+
+	m_bIsFailed = FALSE;
+	m_bIsComplete = FALSE;
 }
 
 CSilkroadAutoLauncher::~CSilkroadAutoLauncher(void)
@@ -32,6 +35,13 @@ BOOL CSilkroadAutoLauncher::Run()
 		return FALSE;
 	}
 
+	HANDLE hThread = ::CreateThread(NULL, 0, CSilkroadAutoLauncher::MonitorThreadFunction, this, 0, NULL);
+	if (NULL == hThread) {
+		return FALSE;
+	}
+
+	::CloseHandle(hThread);
+
 	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
@@ -42,10 +52,9 @@ BOOL CSilkroadAutoLauncher::Run()
 BOOL CSilkroadAutoLauncher::WaitForComplete()
 {
 
-	BOOL bIsComplete = FALSE;
 	DWORD dwDelayTime = 5000;
 
-	while (FALSE == bIsComplete ) {
+	while (FALSE == m_bIsComplete && m_bIsFailed == FALSE) {
 
 		HWND hMainWnd = FindWindow(m_strLauncherWindowClassName, m_strLauncherWindowText);
 
@@ -55,7 +64,7 @@ BOOL CSilkroadAutoLauncher::WaitForComplete()
 
 			if (TRUE == ::IsWindowVisible(hStartButtonID)) {
 
-				bIsComplete = TRUE;
+				m_bIsComplete = TRUE;
 			
 				if (FALSE == ClickButton(hMainWnd, m_FinishButtonID)) {
 					return FALSE;
@@ -64,6 +73,60 @@ BOOL CSilkroadAutoLauncher::WaitForComplete()
 			} 
 		}
 		::Sleep(dwDelayTime);
+	}
+
+	if (TRUE == m_bIsFailed) {
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+DWORD WINAPI CSilkroadAutoLauncher::MonitorThreadFunction( PVOID pvParam )
+{
+	CSilkroadAutoLauncher *pLauncher = (CSilkroadAutoLauncher*)pvParam;
+
+	if (NULL == pLauncher) {
+		return FALSE;
+	}
+
+	while (FALSE == pLauncher->m_bIsComplete && FALSE ==  pLauncher->m_bIsFailed ) {
+
+		EnumWindows(CSilkroadAutoLauncher::EnumWindowProc, (LPARAM)pLauncher);
+
+	}
+
+	return TRUE;
+}
+
+BOOL CALLBACK CSilkroadAutoLauncher::EnumWindowProc( HWND hwnd, LPARAM lParam )
+{
+
+	const int MAX_LENGTH = 20;
+
+	TCHAR strClassName[MAX_LENGTH];
+	TCHAR strWindowName[MAX_LENGTH];
+
+	::GetClassName(hwnd, strClassName, MAX_LENGTH);
+	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
+
+	if (lstrcmpi(strClassName, L"#32770") == 0 && lstrcmpi(strWindowName, L"Silkroad Online") == 0) {
+
+		CSilkroadAutoLauncher *pLauncher = (CSilkroadAutoLauncher*)lParam;
+
+		DWORD dwMainWndProcessID;
+		DWORD dwErrorDlgProcessID;
+
+		::GetWindowThreadProcessId(pLauncher->m_hMainWindow, &dwMainWndProcessID);
+		::GetWindowThreadProcessId(hwnd, &dwErrorDlgProcessID);
+
+		if (dwErrorDlgProcessID == dwMainWndProcessID) {
+
+			pLauncher->ClickButton(pLauncher->m_hMainWindow, pLauncher->m_FinishButtonID);
+			pLauncher->m_bIsFailed = TRUE;	
+
+			return FALSE;
+		}
 	}
 
 	return TRUE;

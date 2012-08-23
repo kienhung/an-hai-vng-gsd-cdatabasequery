@@ -39,50 +39,41 @@ CAutoUpdateTool::~CAutoUpdateTool(void)
 
 BOOL CAutoUpdateTool::Update()
 {
+	CString strLog;
 
 	if (NULL == m_pAutoLauncher) {
+
+		strLog = L"Creating auto launcher is failed...";
+		WriteLog(strLog);
+		WriteLog(L"");
+
 		return FALSE;
 	}
 
-	if (FALSE == CloneSource()) {
-		WriteLog(L"Cloning folder is failed");
-		return FALSE;
+	if (TRUE == CloneSource()) {
+
+		if (FALSE ==  RunAutoLauncher()) {
+			WriteLog(L"Running auto launcher is failed. There are some problems on the network connection or the auto launcher tool is out of date");
+		}
+
+		if (FALSE == Compare()) {
+			WriteLog(L"Comparing folder is failed");
+		}
+
+	} else {
+
+		WriteLog(L"Cloning folder is failed. Please check");
 	}
-
-	BOOL bResult = TRUE;
-
-	try {
-
-		bResult = RunAutoLauncher();
-		if (FALSE == bResult) {
-			throw L"Running auto launcher is failed. There are some problems on the network connection or the auto launcher tool is out of date";
-		}
-	
-		bResult = Compare();
-		if (FALSE == bResult) {
-			throw L"Comparing folder is failed";
-		}
-
-	} catch (LPCTSTR strMessage) {
-		WriteLog(strMessage);
-	} 
 
 	if (FALSE == RemoveTempSource()) {
 		WriteLog(L"Removing temporary source is failed. Please remove temporary source manually");
 	}
 
-	CString strLog;
-
-	if (FALSE == bResult) {
-		strLog = m_pAutoLauncher->GetName() + L" update is failed...";
-	} else {
-		strLog = m_pAutoLauncher->GetName() + L" update is complete...";
-	}
-
+	strLog = m_pAutoLauncher->GetName() + L" update is complete...";
 	WriteLog(strLog);
 	WriteLog(L"");
 
-	return bResult;
+	return TRUE;
 
 }
 
@@ -112,7 +103,7 @@ BOOL CAutoUpdateTool::CloneSource()
 BOOL CAutoUpdateTool::RunAutoLauncher()
 {
 
-	CString strLog = m_pAutoLauncher->GetName() + L" is auto launcher is running ...";
+	CString strLog = m_pAutoLauncher->GetName() + L" auto launcher is running ...";
 	WriteLog(strLog);
 
 	if (FALSE == m_pAutoLauncher->Run()) {
@@ -155,6 +146,12 @@ BOOL CAutoUpdateTool::RemoveTempSource()
 	WriteLog(strLog);
 
 
+	CMyPath myPath;
+	
+	if (FALSE == myPath.IsDirectory(m_strTempSourcePath)) {
+		return TRUE;
+	}
+
 	if (FALSE == folderRemoving.Remove(m_strTempSourcePath)) {
 		return FALSE;
 	}
@@ -164,6 +161,9 @@ BOOL CAutoUpdateTool::RemoveTempSource()
 
 CString CAutoUpdateTool::GetName()
 {
+	if (NULL == m_pAutoLauncher) {
+		return L"";
+	}
 	return m_pAutoLauncher->GetName();
 }
 
@@ -183,22 +183,3 @@ void CAutoUpdateTool::WriteLog( const CString &strLog )
 		fileWriter.Close();
 	} 
 }
-
-//if (FALSE == RunAutoLauncher()) {
-//	WriteLog(L"Fail");
-//	return FALSE;
-//}
-
-//if (FALSE == Compare()) {
-//	WriteLog(L"Fail");
-//	return FALSE;
-//}
-
-//if (FALSE == RemoveTempSource()) {
-//	WriteLog(L"Fail");
-//	return FALSE;
-//}
-
-//CString strLog = m_pAutoLauncher->GetName() + L" update has been complete...";
-//WriteLog(strLog);
-//WriteLog(L"");
