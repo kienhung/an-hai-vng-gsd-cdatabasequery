@@ -10,8 +10,12 @@ CAuditionAutoLauncher::CAuditionAutoLauncher(LPCTSTR strSource)
 	m_iGoButtonID = 0x000000B4;
 	m_iPanelID = 0x000000A8;
 	m_iHNButtonID = 0x000000B0;
+	m_iLoginDialogID = 0x0000009E;
 	m_iCloseButtonID = 0x00000A4;
 	m_iTreeCtrlID = 0x00000065;
+
+	m_bIsFailed = FALSE;
+	m_bIsComplete = FALSE;
 }
 
 CAuditionAutoLauncher::~CAuditionAutoLauncher(void)
@@ -62,6 +66,10 @@ BOOL CAuditionAutoLauncher::Run()
 	::WaitForSingleObject(hThread, INFINITE);
 	::CloseHandle(hThread);
 
+	if (TRUE == m_bIsFailed) {
+		return FALSE;
+	}
+
 	return TRUE;
 }
 
@@ -72,16 +80,12 @@ DWORD WINAPI CAuditionAutoLauncher::MonitorThreadFunction( PVOID pvParam )
 	DWORD dwProcessID;
 	DWORD dwThreadID = ::GetWindowThreadProcessId(pLauncher->m_hMainWindow, &dwProcessID);
 
-	BOOL isComplete = FALSE;
-	int iWaitSeconds = 2000;
+	DWORD dwDelayTime = 2000;
 
-	while (FALSE == isComplete) {
+	while (FALSE == pLauncher->m_bIsComplete && FALSE == pLauncher->m_bIsFailed) {
 
-		::EnumThreadWindows(dwThreadID, CAuditionAutoLauncher::EnumWindowProc, (LPARAM)&isComplete);
-
-		if (FALSE == isComplete) {
-			::Sleep(iWaitSeconds);
-		}
+		::EnumThreadWindows(dwThreadID, CAuditionAutoLauncher::EnumWindowProc, (LPARAM)pLauncher);
+		::Sleep(dwDelayTime);
 	}
 
 	HANDLE hProcess = ::OpenProcess(PROCESS_TERMINATE, FALSE, dwProcessID);
@@ -93,16 +97,26 @@ DWORD WINAPI CAuditionAutoLauncher::MonitorThreadFunction( PVOID pvParam )
 
 BOOL CALLBACK CAuditionAutoLauncher::EnumWindowProc( HWND hwnd, LPARAM lParam )
 {
-	const int MAX_LENGTH = 10;
+	const int MAX_LENGTH = 20;
+
 	TCHAR strClassName[MAX_LENGTH];
+	TCHAR strWindowName[MAX_LENGTH];
 
 	::GetClassName(hwnd, strClassName, MAX_LENGTH);
+	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
+
+	CAuditionAutoLauncher *pLauncher = (CAuditionAutoLauncher*)lParam;
 
 	if (lstrcmpi(strClassName, L"LoginDlg") == 0) {
-			
-		BOOL *pIsComplete = (BOOL*)lParam;
-		*pIsComplete = TRUE;
+		
+		pLauncher->m_bIsComplete = TRUE;
+		return FALSE;
+	}
 
+
+	if (lstrcmpi(strClassName, L"#32770") == 0 && lstrcmpi(strWindowName, L"Thông báo") == 0) {
+
+		pLauncher->m_bIsFailed = TRUE;
 		return FALSE;
 	}
 

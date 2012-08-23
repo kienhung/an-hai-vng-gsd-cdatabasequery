@@ -45,30 +45,45 @@ BOOL CAutoUpdateTool::Update()
 	}
 
 	if (FALSE == CloneSource()) {
-		WriteLog(L"Fail");
+		WriteLog(L"Cloning folder is failed");
 		return FALSE;
 	}
 
-	if (FALSE == RunAutoLauncher()) {
-		WriteLog(L"Fail");
-		return FALSE;
-	}
+	BOOL bResult = TRUE;
 
-	if (FALSE == Compare()) {
-		WriteLog(L"Fail");
-		return FALSE;
-	}
+	try {
+
+		bResult = RunAutoLauncher();
+		if (FALSE == bResult) {
+			throw L"Running auto launcher is failed";
+		}
+	
+		bResult = Compare();
+		if (FALSE == bResult) {
+			throw L"Comparing folder is failed";
+		}
+
+	} catch (LPCTSTR strMessage) {
+		WriteLog(strMessage);
+	} 
 
 	if (FALSE == RemoveTempSource()) {
-		WriteLog(L"Fail");
-		return FALSE;
+		WriteLog(L"Removing temporary source is failed. Please remove temporary source manually");
 	}
 
-	CString strLog = m_pAutoLauncher->GetName() + L" update has been complete...";
+	CString strLog;
+
+	if (FALSE == bResult) {
+		strLog = m_pAutoLauncher->GetName() + L" update is failed...";
+	} else {
+		strLog = m_pAutoLauncher->GetName() + L" update is complete...";
+	}
+
 	WriteLog(strLog);
 	WriteLog(L"");
 
-	return TRUE;
+	return bResult;
+
 }
 
 BOOL CAutoUpdateTool::CloneSource()
@@ -169,3 +184,21 @@ void CAutoUpdateTool::WriteLog( const CString &strLog )
 	} 
 }
 
+//if (FALSE == RunAutoLauncher()) {
+//	WriteLog(L"Fail");
+//	return FALSE;
+//}
+
+//if (FALSE == Compare()) {
+//	WriteLog(L"Fail");
+//	return FALSE;
+//}
+
+//if (FALSE == RemoveTempSource()) {
+//	WriteLog(L"Fail");
+//	return FALSE;
+//}
+
+//CString strLog = m_pAutoLauncher->GetName() + L" update has been complete...";
+//WriteLog(strLog);
+//WriteLog(L"");
