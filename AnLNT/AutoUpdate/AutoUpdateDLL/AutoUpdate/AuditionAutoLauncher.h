@@ -10,8 +10,12 @@ protected:
 	int m_iHCMButtonID;
 	int m_iGoButtonID;
 	int m_iHNButtonID;
+	int m_iLoginDialogID;
 	int m_iCloseButtonID;
 	int m_iTreeCtrlID;
+
+	BOOL m_bIsComplete;
+	BOOL m_bIsFailed;
 
 public:
 	CAuditionAutoLauncher(LPCTSTR strSource);
