@@ -55,7 +55,7 @@ BOOL CAutoUpdateTool::Update()
 
 		bResult = RunAutoLauncher();
 		if (FALSE == bResult) {
-			throw L"Running auto launcher is failed";
+			throw L"Running auto launcher is failed. There are some problems on the network connection or the auto launcher tool is out of date";
 		}
 	
 		bResult = Compare();
