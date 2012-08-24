@@ -6,6 +6,9 @@ class CCrossfireAutoLauncher :
 {
 protected:
 	int m_iStartButtonID;
+	int m_iOkButtonID;
+	BOOL m_bIsFailed;
+
 	BOOL WaitForComplete();
 public:
 	CCrossfireAutoLauncher(LPCTSTR strSource);
@@ -13,4 +16,9 @@ public:
 
 	virtual CString GetName();
 	virtual BOOL Run();
+
+	static BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam );
+	static BOOL CALLBACK EnumChildWindowsProc(HWND hwnd, LPARAM lParam );
+	static DWORD WINAPI MonitorThreadFunction(PVOID pvParam);
+
 };
