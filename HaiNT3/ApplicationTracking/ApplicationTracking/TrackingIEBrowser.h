@@ -6,23 +6,28 @@
 #include <mshtml.h>
 #include <UrlHist.h>
 #include <afxtempl.h>
+#include "WinTabBrowser.h"
 using namespace std;
 
 
 class CTrackingIEBrowser: public CTrackingWebApp
 {
 private:
-	vector<TAB_WEB> m_lstTabWeb;
-	vector<CString> m_lstTitle;
+	vector<CWinTabBrowser> m_lstWinTab;
 	
 public:
 	
 	CTrackingIEBrowser(void);
 	~CTrackingIEBrowser(void);
 	BOOL GetHistory(vector<STATURL>& lstStatUrl);
-	static BOOL CALLBACK enumWindowsProc(HWND hwnd, LPARAM lParam);
+	
 	//static BOOL CALLBACK enumChildProc(HWND hwnd, LPARAM lParam);
 	
 	VOID Track();
+	
+	//static void EnumIETab(const std::wstring &parent_name, HWND hwnd);
+	//BOOL CALLBACK EnumWinTabProc(HWND hwnd, LPARAM lParam);
+
+	VOID WriteTrackToFile();
 };
 
