@@ -46,8 +46,9 @@ BOOL CApplicationTrackingApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
-	CWinAppEx::InitInstance();
+	//CWinAppEx::InitInstance();
 
+	//AfxOleInit();
 	AfxEnableControlContainer();
 
 	// Standard initialization
