@@ -113,7 +113,6 @@ BOOL CALLBACK CAuditionAutoLauncher::EnumWindowProc( HWND hwnd, LPARAM lParam )
 		return FALSE;
 	}
 
-
 	if (lstrcmpi(strClassName, L"#32770") == 0 && lstrcmpi(strWindowName, L"Thông báo") == 0) {
 
 		pLauncher->m_bIsFailed = TRUE;
