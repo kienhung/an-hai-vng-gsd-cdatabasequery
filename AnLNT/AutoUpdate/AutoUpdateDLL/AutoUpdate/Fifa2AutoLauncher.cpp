@@ -7,9 +7,16 @@ CFifa2AutoLauncher::CFifa2AutoLauncher(LPCTSTR strSource)
 {
 	m_strLauncher = strSource + CString(L"\\GameLoader.exe");
 
-	iAcceptCheckboxID = 0x00000426;
-	iZone1RadioButtonID = 0x000007D1;
-	iStartButtonID = 0x000003E9;
+	m_iAcceptCheckboxID = 0x00000426;
+	m_iZone1RadioButtonID = 0x000007D1;
+	m_iStartButtonID = 0x000003E9;
+
+	m_iFailedOkButtonID = 0x00000002;
+
+	m_strWindowName = L"GameLoader";
+	m_strClassName = L"#32770";
+
+	m_state = UNKNOWN;
 }
 
 CFifa2AutoLauncher::~CFifa2AutoLauncher(void)
@@ -19,28 +26,39 @@ CFifa2AutoLauncher::~CFifa2AutoLauncher(void)
 
 BOOL CFifa2AutoLauncher::Run()
 {
-	HWND hMainWnd = StartLauncherWindow(L"#32770", L"GameLoader");
-	if (NULL == hMainWnd) {
+	StartLauncherWindow();
+
+	if (NULL == m_hMainWindow) {
 		return FALSE;
 	}
 
-	if (FALSE == CheckButton(iAcceptCheckboxID)) {
+	if (DISCONNECT == m_state) {
+		ClickButton(m_hMainWindow, m_iFailedOkButtonID);
 		return FALSE;
 	}
 
-	if (FALSE == CheckButton(iZone1RadioButtonID)) {
+	if (FALSE == CheckButton(m_iAcceptCheckboxID)) {
 		return FALSE;
 	}
 
-	HWND hStartButton = ::GetDlgItem(hMainWnd, iStartButtonID);
+	if (FALSE == CheckButton(m_iZone1RadioButtonID)) {
+		return FALSE;
+	}
+
+	HWND hStartButton = ::GetDlgItem(m_hMainWindow, m_iStartButtonID);
+	if (NULL == hStartButton) {
+		return FALSE;
+	}
 
 	while (hStartButton != NULL) {
-		if (FALSE == ClickButton(iStartButtonID)) {
+	
+		if (FALSE == ClickButton(m_iStartButtonID)) {
 			return FALSE;
 		}
-		hStartButton = ::GetDlgItem(hMainWnd, iStartButtonID);
+
+		hStartButton = ::GetDlgItem(m_hMainWindow, m_iStartButtonID);
 	}
-	
+
 	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
@@ -95,4 +113,80 @@ BOOL CFifa2AutoLauncher::WaitForComplete()
 	}
 	
 	return FALSE;
+}
+
+HWND CFifa2AutoLauncher::StartLauncherWindow()
+{
+
+	if(FALSE == StartLauncherProcess()) {
+		return NULL;
+	}
+
+	m_hMainWindow = NULL;
+	int iCount = 0;
+
+	while (iCount < m_iTimeoutCount && UNKNOWN == m_state) {
+
+		EnumWindows(CFifa2AutoLauncher::EnumWindowsProc, (LPARAM)this);
+		::Sleep(m_iTimeoutSeconds);
+
+	}
+
+	return m_hMainWindow;
+}
+
+BOOL CALLBACK CFifa2AutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
+{
+
+	CFifa2AutoLauncher *pLaucher = (CFifa2AutoLauncher*)lParam;
+
+	const int MAX_LENGTH = 12;
+
+	TCHAR strClassName[MAX_LENGTH];
+	TCHAR strWindowName[MAX_LENGTH];
+
+	::GetClassName(hwnd, strClassName, MAX_LENGTH);
+	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
+
+	if (lstrcmpi(strClassName, pLaucher->m_strClassName) == 0 
+		&& lstrcmpi(strWindowName, pLaucher->m_strWindowName) == 0
+		&& TRUE == IsWindowVisible(hwnd)) {
+
+		BOOL bIsErrorDlg = FALSE;
+
+		EnumChildWindows(hwnd, CFifa2AutoLauncher::EnumChildWindowsProc, (LPARAM)&bIsErrorDlg);
+
+		if (TRUE == bIsErrorDlg) {
+
+			pLaucher->m_state = DISCONNECT;
+
+		} else {
+
+			pLaucher->m_state = CONNECT;
+		}
+
+		pLaucher->m_hMainWindow = hwnd;
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL CALLBACK CFifa2AutoLauncher::EnumChildWindowsProc( HWND hwnd, LPARAM lParam )
+{
+	const int MAX_LENGTH = 47;
+	TCHAR strWindowName[MAX_LENGTH];
+
+	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
+
+	if (lstrcmpi(strWindowName, L"There is a problem with the network connection") == 0) {
+
+		BOOL *pbIsErrorDlg = (BOOL*)lParam;
+		*pbIsErrorDlg = TRUE;
+
+		return FALSE;
+	}
+
+	return TRUE;
 }
