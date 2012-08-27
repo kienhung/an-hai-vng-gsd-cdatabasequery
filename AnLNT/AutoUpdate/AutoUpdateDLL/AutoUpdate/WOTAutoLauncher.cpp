@@ -9,7 +9,7 @@ CWOTAutoLauncher::CWOTAutoLauncher(LPCTSTR strSource)
 	m_strLogFilePath = strSource + CString(L"\\WOTLauncher.log");
 
 	m_iDelayTime = 10000;
-	m_bRerun = TRUE;
+
 }
 
 CWOTAutoLauncher::~CWOTAutoLauncher(void)
@@ -25,25 +25,22 @@ CString CWOTAutoLauncher::GetName()
 BOOL CWOTAutoLauncher::Run()
 {
 
-	while (TRUE == m_bRerun) {
-
-		if (FALSE == GetConfigFileLastWriteTime()) {
-			return FALSE;
-		}
-
-		if (FALSE == StartLauncherProcess()) {
-			return FALSE;
-		}
-
-		if (FALSE == WaitForUpdateBeginning()) {
-			return FALSE;
-		}
-
-		if (FALSE == WaitForComplate()) {
-			return FALSE;
-		}
-
+	if (FALSE == GetConfigFileLastWriteTime()) {
+		return FALSE;
 	}
+
+	if (FALSE == StartLauncherProcess()) {
+		return FALSE;
+	}
+
+	if (FALSE == WaitForUpdateBeginning()) {
+		return FALSE;
+	}
+
+	if (FALSE == WaitForComplate()) {
+		return FALSE;
+	}
+
 	
 	return TRUE;
 }
@@ -121,7 +118,8 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 			while (readFile.ReadString(strCurrent)) {
 
 				if (strCurrent.Find(L"ERROR") != -1) {
-					return ProcessError();
+					ProcessError();
+					return FALSE;
 				}
 
 				if (strCurrent.Find(L"update complete") != -1 && strPrevious.Find(L"initialize clear process") != -1) {
@@ -137,12 +135,9 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 
 		return ProcessComplete();
 
-	} else {
-
-		return FALSE;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 BOOL CWOTAutoLauncher::ProcessError()
@@ -151,7 +146,6 @@ BOOL CWOTAutoLauncher::ProcessError()
 		return FALSE;
 	}
 
-	m_bRerun = TRUE;
 	return TRUE;
 }
 
@@ -160,8 +154,7 @@ BOOL CWOTAutoLauncher::ProcessComplete()
 	if (FALSE == KillProcess()) {
 		return FALSE;
 	}
-
-	m_bRerun = FALSE;
+	
 	return TRUE;
 }
 

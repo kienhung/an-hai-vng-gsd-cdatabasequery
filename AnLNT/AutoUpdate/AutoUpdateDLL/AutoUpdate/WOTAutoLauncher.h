@@ -12,7 +12,6 @@ protected:
 	CString m_strLogFilePath;
 
 	int m_iDelayTime;
-	BOOL m_bRerun;
 
 public:
 	CWOTAutoLauncher(LPCTSTR strSource);
@@ -21,6 +20,8 @@ public:
 	virtual CString GetName();
 	virtual BOOL Run();
 
+protected:
+	
 	virtual BOOL StartLauncherProcess();
 	BOOL GetConfigFileLastWriteTime();
 	BOOL WaitForUpdateBeginning();
