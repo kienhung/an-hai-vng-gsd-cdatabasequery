@@ -6,8 +6,13 @@ CTLBBAutoLauncher::CTLBBAutoLauncher(LPCTSTR strSource)
 {
 	m_strLauncher = strSource + CString(L"\\Launch.exe");
 
-	m_CloseButtonID = 1027;
+	m_iCloseButtonID = 1027;
+	m_iConfirmButtonID = 0x00000411;
+
 	m_iDelayTime = 5000;
+
+	m_bIsFailed = FALSE;
+	m_bIsComplete = FALSE;
 }
 
 CTLBBAutoLauncher::~CTLBBAutoLauncher(void)
@@ -32,11 +37,23 @@ BOOL CTLBBAutoLauncher::Run()
 		return FALSE;
 	}
 
+	HANDLE hThread = ::CreateThread(NULL, 0, CTLBBAutoLauncher::MonitorThreadFunction, this, 0, NULL);
+
+	if (NULL == hThread) {
+		return FALSE;
+	}
+
+	::CloseHandle(hThread);
+
 	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
 
-	if (FALSE == ClickButton(m_hMainWindow, m_CloseButtonID)) {
+	if (FALSE == ClickButton(m_hMainWindow, m_iCloseButtonID)) {
+		return FALSE;
+	}
+
+	if (TRUE == m_bIsFailed) {
 		return FALSE;
 	}
 
@@ -69,19 +86,59 @@ BOOL CTLBBAutoLauncher::WaitForComplete()
 	DWORD dwNewLoginServerFileLowWriteTime;
 	DWORD dwNewLoginServerFileHighWriteTime;
 
-	BOOL isComplete = FALSE;
-
-	while (FALSE == isComplete) {
+	while (FALSE == m_bIsComplete && FALSE == m_bIsFailed) {
 
 		if (FALSE == GetLoginServerFileWriteTime(&dwNewLoginServerFileLowWriteTime, &dwNewLoginServerFileHighWriteTime)) {
 			return FALSE;
 		}
 
 		if (m_LoginServerFileLowWriteTime != dwNewLoginServerFileLowWriteTime || m_LoginServerFileHighWriteTime != dwNewLoginServerFileHighWriteTime) {
-			isComplete = TRUE;
+			m_bIsComplete = TRUE;
 		}
 
 		::Sleep(m_iDelayTime);
+	}
+
+	return TRUE;
+}
+
+DWORD WINAPI CTLBBAutoLauncher::MonitorThreadFunction( PVOID pvParam )
+{
+
+	CTLBBAutoLauncher *pLauncher = (CTLBBAutoLauncher*)pvParam;
+
+	while(FALSE == pLauncher->m_bIsFailed && FALSE == pLauncher->m_bIsComplete) {
+
+		EnumWindows(CTLBBAutoLauncher::EnumWindowsProc, (LPARAM)pLauncher);
+	}
+
+	return 0;
+}
+
+BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
+{
+
+	const int MAX_LENGTH = 7;
+
+	TCHAR strClassName[MAX_LENGTH];
+	TCHAR strWindowName[MAX_LENGTH];
+
+	::GetClassName(hwnd, strClassName, MAX_LENGTH);
+	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
+
+	if (lstrcmpi(strWindowName, L"TLBB2") == 0 && lstrcmpi(strClassName, L"#32770") == 0) {
+
+		CTLBBAutoLauncher *pLauncher = (CTLBBAutoLauncher*)lParam;
+
+		if (GetParent(hwnd) == pLauncher->m_hMainWindow) {
+
+			pLauncher->m_bIsFailed = TRUE;
+
+			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iConfirmButtonID)) {
+				printf("nhan button xac nhan that bai\n");
+			}
+		}
+		
 	}
 
 	return TRUE;
