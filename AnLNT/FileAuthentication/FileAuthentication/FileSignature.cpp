@@ -151,7 +151,7 @@ BOOL CFileSignature::ReadThreeByteArrays()
 
 BOOL CFileSignature::ReadOneByteArray( HANDLE hFile, LARGE_INTEGER *pliIndex, char* pcBuffer )
 {
-    if (FALSE == SetFilePointerEx(hFile, *pliIndex, NULL, FILE_BEGIN))
+	if (FALSE == ::SetFilePointerEx(hFile, *pliIndex, NULL, FILE_BEGIN))
     {
         return FALSE;
     }
