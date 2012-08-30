@@ -132,14 +132,19 @@ BOOL CFileSignature::ReadThreeByteArrays()
 
 BOOL CFileSignature::ReadOneByteArray( HANDLE hFile, LARGE_INTEGER *pliIndex, char* pcBuffer )
 {
-	DWORD dwPtr = ::SetFilePointerEx(hFile, *pliIndex, NULL, FILE_BEGIN);
-
-	if (dwPtr == INVALID_SET_FILE_POINTER && GetLastError() != NO_ERROR) {
+	if (FALSE == SetFilePointerEx(hFile, *pliIndex, NULL, FILE_BEGIN))
+	{
 		return FALSE;
 	}
 
 	DWORD dwBytesRead = 0;
-	if (FALSE == ::ReadFile(hFile, pcBuffer, KEY_LENGTH, &dwBytesRead, NULL)) {
+
+	if (FALSE == ::ReadFile(hFile, pcBuffer, KEY_LENGTH, &dwBytesRead, NULL)) 
+	{
+		return FALSE;
+	}
+
+	if (dwBytesRead != KEY_LENGTH) {
 		return FALSE;
 	}
 
@@ -188,11 +193,10 @@ BOOL CFileSignature::CompareSignature()
 	DWORD dwBytesRead = 0;
 	char cBuffer[KEY_LENGTH];
 
-	if (FALSE == ::ReadFile(m_hFile, cBuffer, KEY_LENGTH, &dwBytesRead, NULL)) {
-		return FALSE;
-	}
+	LARGE_INTEGER liIndex;
+	liIndex.QuadPart = m_ui64RealFileSize;
 
-	if (dwBytesRead != KEY_LENGTH) {
+	if (FALSE == ReadOneByteArray(m_hFile, &liIndex, cBuffer)) {
 		return FALSE;
 	}
 
