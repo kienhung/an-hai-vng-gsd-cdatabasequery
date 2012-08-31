@@ -188,12 +188,13 @@ void CFileSignature::XorTwoByteArray( char *pcFirstBuffer, char *pcSecondBuffer 
 
 BOOL CFileSignature::WriteSignature()
 {
-    DWORD dwPtr = ::SetFilePointer(m_hFile, 0, NULL, FILE_END);
+	LARGE_INTEGER liIndex;
+	liIndex.QuadPart = 0;
 
-    if (INVALID_SET_FILE_POINTER == dwPtr && GetLastError() != NO_ERROR)
-    {
-        return FALSE;
-    }
+	if (FALSE == ::SetFilePointerEx(m_hFile, liIndex, NULL, FILE_END))
+	{
+		return FALSE;
+	}
 
     DWORD dwBytesWritten = 0;
 
