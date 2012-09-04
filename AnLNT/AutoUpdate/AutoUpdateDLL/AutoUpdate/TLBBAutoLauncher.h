@@ -8,6 +8,7 @@ protected:
 
 	int m_iCloseButtonID;
 	int m_iConfirmButtonID;
+	int m_iFinishedWhenFailedButtonID;
 
 	DWORD m_LoginServerFileLowWriteTime;
 	DWORD m_LoginServerFileHighWriteTime;
