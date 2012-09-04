@@ -8,6 +8,7 @@ CTLBBAutoLauncher::CTLBBAutoLauncher(LPCTSTR strSource)
 
 	m_iCloseButtonID = 1027;
 	m_iConfirmButtonID = 0x00000411;
+	m_iFinishedWhenFailedButtonID = 0x00000001;
 
 	m_iDelayTime = 5000;
 
@@ -48,6 +49,8 @@ BOOL CTLBBAutoLauncher::Run()
 	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
+
+	EnumWindows(CTLBBAutoLauncher::EnumWindowsProc, (LPARAM)this);
 
 	if (FALSE == ClickButton(m_hMainWindow, m_iCloseButtonID)) {
 		return FALSE;
@@ -126,19 +129,26 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 	::GetClassName(hwnd, strClassName, MAX_LENGTH);
 	::GetWindowText(hwnd, strWindowName, MAX_LENGTH);
 
-	if (lstrcmpi(strWindowName, L"TLBB2") == 0 && lstrcmpi(strClassName, L"#32770") == 0) {
+	CTLBBAutoLauncher *pLauncher = (CTLBBAutoLauncher*)lParam;
 
-		CTLBBAutoLauncher *pLauncher = (CTLBBAutoLauncher*)lParam;
+	if (0 == lstrcmpi(strClassName, L"#32770") && GetParent(hwnd) == pLauncher->m_hMainWindow) {
 
-		if (GetParent(hwnd) == pLauncher->m_hMainWindow) {
-
-			pLauncher->m_bIsFailed = TRUE;
+		if (0 == lstrcmpi(strWindowName, L"TLBB2")) {
 
 			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iConfirmButtonID)) {
 				printf("nhan button xac nhan that bai\n");
 			}
+
+			pLauncher->m_bIsFailed = TRUE;
 		}
-		
+
+		if (0 == lstrcmpi(strWindowName, L"????")) {
+			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iFinishedWhenFailedButtonID)) {
+				printf("nhan button failed that bai\n");
+			}
+		}
+
+		return FALSE;
 	}
 
 	return TRUE;

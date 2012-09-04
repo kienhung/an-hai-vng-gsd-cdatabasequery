@@ -62,7 +62,7 @@ BOOL CAutoUpdateTool::Update()
 
 	} else {
 
-		WriteLog(L"Cloning folder is failed. Please check");
+		WriteLog(L"Cloning folder is failed. Please check sources of games");
 	}
 
 	if (FALSE == RemoveTempSource()) {
