@@ -221,10 +221,15 @@ LRESULT CTrayDialog::OnTrayNotify(WPARAM wParam, LPARAM lParam)
 		break;
 	
 	case WM_RBUTTONDOWN:
+		GetCursorPos(&pt);
+		
+		OnTrayRButtonDown(pt);
+		break;
 	case WM_CONTEXTMENU:
 		GetCursorPos(&pt);
 		//ClientToScreen(&pt);
-		OnTrayRButtonDown(pt);
+		//OnTrayRButtonDown(pt);
+		//m_mnuTrayMenu.DeleteMenu(0,
 		break;
 	case WM_RBUTTONDBLCLK:
 		GetCursorPos(&pt);
@@ -241,8 +246,9 @@ void CTrayDialog::OnSysCommand(UINT nID, LPARAM lParam)
 		if ((nID & 0xFFF0) == SC_MINIMIZE)
 		{
 		
-			if( TrayShow())
-				this->ShowWindow(SW_HIDE);		
+			TrayShow();
+			//if( TrayShow())
+				this->ShowWindow(SW_HIDE);
 		}
 		else
 			CDialog::OnSysCommand(nID, lParam);	
@@ -258,13 +264,13 @@ void CTrayDialog::TraySetMinimizeToTray(BOOL bMinimizeToTray)
 
 void CTrayDialog::OnTrayRButtonDown(CPoint pt)
 {
-	m_mnuTrayMenu.GetSubMenu(0)->TrackPopupMenu(TPM_BOTTOMALIGN|TPM_LEFTBUTTON|TPM_RIGHTBUTTON,pt.x,pt.y,this);
+	m_mnuTrayMenu.GetSubMenu(0)->TrackPopupMenu(TPM_BOTTOMALIGN|TPM_LEFTBUTTON | TPM_RECURSE,pt.x,pt.y,this);
 	m_mnuTrayMenu.GetSubMenu(0)->SetDefaultItem(m_nDefaultMenuItem,TRUE);
 }
 
 void CTrayDialog::OnTrayLButtonDown(CPoint pt)
 {
-
+	
 }
 
 void CTrayDialog::OnTrayLButtonDblClk(CPoint pt)

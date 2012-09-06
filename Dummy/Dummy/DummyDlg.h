@@ -3,10 +3,11 @@
 //
 
 #pragma once
-
+#include "TrayDialog.h"
+#include "ExplorerRegInfo.h"
 
 // CDummyDlg dialog
-class CRegisterInfoDlg : public CDialog
+class CRegisterInfoDlg : public CTrayDialog
 {
 // Construction
 public:
@@ -29,4 +30,11 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+	afx_msg void OnTrayMenuRegisterInfo();
+	afx_msg void OnTrayMenuAbout();
+	afx_msg void OnTrayMenuExit();
+
+public:
+	CExplorer_reginfo m_webBrowerRegInfo;
 };

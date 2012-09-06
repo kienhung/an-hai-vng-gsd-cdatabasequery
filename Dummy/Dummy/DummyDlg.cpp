@@ -49,21 +49,26 @@ END_MESSAGE_MAP()
 
 
 CRegisterInfoDlg::CRegisterInfoDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CRegisterInfoDlg::IDD, pParent)
+	: CTrayDialog(CRegisterInfoDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CRegisterInfoDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CTrayDialog::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EXPLORER_REGINFO, m_webBrowerRegInfo);
 }
 
-BEGIN_MESSAGE_MAP(CRegisterInfoDlg, CDialog)
+BEGIN_MESSAGE_MAP(CRegisterInfoDlg, CTrayDialog)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	//}}AFX_MSG_MAP
+
+	ON_COMMAND(ID_SYSTEMTRAYPOPUP_ABOUT, OnTrayMenuAbout)
+	ON_COMMAND(ID_SYSTEMTRAYPOPUP_REGINFO, OnTrayMenuRegisterInfo)
+	ON_COMMAND(ID_SYSTEMTRAYPOPUP_EXIT, OnTrayMenuExit)
 END_MESSAGE_MAP()
 
 
@@ -71,7 +76,7 @@ END_MESSAGE_MAP()
 
 BOOL CRegisterInfoDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CTrayDialog::OnInitDialog();
 
 	// Add "About..." menu item to system menu.
 
@@ -100,6 +105,10 @@ BOOL CRegisterInfoDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
+	TraySetIcon(IDR_MAINFRAME);
+	TraySetToolTip(_T("Dummy"));
+	TraySetMenu(IDR_MENU_STPOPUP);
+	m_webBrowerRegInfo.Navigate(_T("google.com"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -112,7 +121,7 @@ void CRegisterInfoDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 	else
 	{
-		CDialog::OnSysCommand(nID, lParam);
+		CTrayDialog::OnSysCommand(nID, lParam);
 	}
 }
 
@@ -141,7 +150,7 @@ void CRegisterInfoDlg::OnPaint()
 	}
 	else
 	{
-		CDialog::OnPaint();
+		CTrayDialog::OnPaint();
 	}
 }
 
@@ -150,5 +159,21 @@ void CRegisterInfoDlg::OnPaint()
 HCURSOR CRegisterInfoDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+void CRegisterInfoDlg::OnTrayMenuRegisterInfo()
+{
+	this->ShowWindow(SW_SHOW);
+}
+
+void CRegisterInfoDlg::OnTrayMenuAbout()
+{
+	CAboutDlg about;
+	about.DoModal();
+}
+
+void CRegisterInfoDlg::OnTrayMenuExit()
+{
+	OnCancel();
 }
 

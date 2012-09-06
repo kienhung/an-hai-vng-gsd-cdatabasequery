@@ -194,6 +194,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DummyManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ExplorerRegInfo.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -225,6 +233,14 @@
 			</File>
 			<File
 				RelativePath=".\DummyDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DummyManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExplorerRegInfo.h"
 				>
 			</File>
 			<File
@@ -276,5 +292,13 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="Dummy.rc"
+		/>
+		<Global
+			Name="{8856F961-340A-11D0-A96B-00C04FD705A2}"
+			Value="CExplorer_reginfo"
+		/>
 	</Globals>
 </VisualStudioProject>
