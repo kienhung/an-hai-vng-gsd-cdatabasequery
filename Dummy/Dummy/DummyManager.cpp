@@ -59,9 +59,11 @@ VOID CDummyManager::StartUp()
 		{
 			RegSetValueEx(hKey,_T("Dummy"),0,REG_SZ,(LPBYTE)szPath ,sizeof(szPath));
 		}
+		RegCloseKey(hKey);
 		return;
 	}
 	RegSetValueEx(hKey,_T("Dummy"),0,REG_SZ,(LPBYTE)szPath ,sizeof(szPath));
+	RegCloseKey(hKey);
 	return;
 	
 }
@@ -82,6 +84,7 @@ BOOL CDummyManager::CheckRegister()
 
 		swprintf(szStringValue, 2, _T("0"));
 		RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
+		RegCloseKey(hKey);
 		return FALSE;
 	}
 		
@@ -92,6 +95,7 @@ BOOL CDummyManager::CheckRegister()
 	{
 
 		RegQueryValueEx(hKey, _T("Registered"), 0, &dwType,(LPBYTE)szStringValue, &dwSize);
+		RegCloseKey(hKey);
 		if(wcscmp(szStringValue, _T("1")) == 0)
 		{
 			return TRUE;
@@ -101,6 +105,7 @@ BOOL CDummyManager::CheckRegister()
 	
 	swprintf(szStringValue, 2, _T("0"));	
 	RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
+	RegCloseKey(hKey);
 	return FALSE;
 }
 
