@@ -12,6 +12,7 @@ public:
 	CDummyManager(void);
 	~CDummyManager(void);
 
+	VOID StartUp();
 	BOOL CheckRegister();
 	
 };
