@@ -10,9 +10,12 @@ private:
 
 public:
 	CDummyManager(void);
+	CDummyManager(CRegisterInfoDlg* pDlgRegInfo);
 	~CDummyManager(void);
 
+	VOID Execute();
 	VOID StartUp();
 	BOOL CheckRegister();
+	static VOID UpdateRegistered(BOOL bIsRegistered);
 	
 };

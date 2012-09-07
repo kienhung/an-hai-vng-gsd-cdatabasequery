@@ -34,7 +34,12 @@ protected:
 	afx_msg void OnTrayMenuRegisterInfo();
 	afx_msg void OnTrayMenuAbout();
 	afx_msg void OnTrayMenuExit();
-
-public:
+	
 	CExplorer_reginfo m_webBrowerRegInfo;
+	BOOL m_bIsRegistered;
+public:
+	VOID NavigateWeb();
+	VOID SetRegistered(BOOL bIsRegistered);
+	DECLARE_EVENTSINK_MAP()
+	void BeforeNavigate2ExplorerReginfo(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel);
 };

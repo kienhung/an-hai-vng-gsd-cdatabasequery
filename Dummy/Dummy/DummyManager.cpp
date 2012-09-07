@@ -1,3 +1,4 @@
+#pragma once
 #include "StdAfx.h"
 #include "DummyManager.h"
 
@@ -5,8 +6,32 @@ CDummyManager::CDummyManager(void)
 {
 }
 
+CDummyManager::CDummyManager(CRegisterInfoDlg* pDlgRegInfo)
+{
+	m_pDlgRegInfo = pDlgRegInfo;
+}
+
 CDummyManager::~CDummyManager(void)
 {
+}
+
+VOID CDummyManager::Execute()
+{
+	if(NULL == m_pDlgRegInfo)
+		return;
+
+	StartUp();
+	INT_PTR nResponse = 0;
+	m_pDlgRegInfo->SetRegistered(CheckRegister());
+	nResponse = m_pDlgRegInfo->DoModal();
+	
+
+	if (nResponse == IDOK)
+	{
+	}
+	else if (nResponse == IDCANCEL)
+	{
+	}
 }
 
 VOID CDummyManager::StartUp()
@@ -42,9 +67,9 @@ VOID CDummyManager::StartUp()
 }
 BOOL CDummyManager::CheckRegister()
 {
-	HKEY hkey;
+	HKEY hKey;
 	LONG lResult = 0;
-	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy"), 0,  KEY_QUERY_VALUE, &hkey);
+	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy"), 0,  KEY_ALL_ACCESS, &hKey);
 	
 	TCHAR szStringValue[2] = {0};
 	DWORD dwSize=0;
@@ -53,21 +78,20 @@ BOOL CDummyManager::CheckRegister()
 	{
 		SECURITY_ATTRIBUTES sAttribs = {sizeof(SECURITY_ATTRIBUTES)};
 		DWORD dwDisposition=0;
-		RegCreateKeyEx(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Dummy"),0,_T(""),REG_OPTION_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hkey,&dwDisposition);
+		RegCreateKeyEx(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Dummy"),0,_T(""),REG_OPTION_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
 
 		swprintf(szStringValue, 2, _T("0"));
-		DWORD size = sizeof(szStringValue);
-		RegSetValueEx(hkey,_T("Register"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
+		RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
 		return FALSE;
 	}
 		
 	DWORD dwType = REG_SZ;
-	lResult = RegQueryValueEx(hkey, _T("Register"), 0, &dwType,NULL, &dwSize);
+	lResult = RegQueryValueEx(hKey, _T("Registered"), 0, &dwType,NULL, &dwSize);
 
 	if(lResult == ERROR_SUCCESS)
 	{
 
-		RegQueryValueEx(hkey, _T("Register"), 0, &dwType,(LPBYTE)szStringValue, &dwSize);
+		RegQueryValueEx(hKey, _T("Registered"), 0, &dwType,(LPBYTE)szStringValue, &dwSize);
 		if(wcscmp(szStringValue, _T("1")) == 0)
 		{
 			return TRUE;
@@ -76,6 +100,32 @@ BOOL CDummyManager::CheckRegister()
 	}
 	
 	swprintf(szStringValue, 2, _T("0"));	
-	RegSetValueEx(hkey,_T("Register"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
+	RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
 	return FALSE;
+}
+
+VOID CDummyManager::UpdateRegistered(BOOL bIsRegistered)
+{
+	HKEY hKey;
+	LONG lResult = 0;
+	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy"), 0,  KEY_ALL_ACCESS, &hKey);
+	
+	TCHAR szStringValue[2] = {0};
+	DWORD dwSize=0;
+
+	if(lResult != ERROR_SUCCESS)
+	{
+		SECURITY_ATTRIBUTES sAttribs = {sizeof(SECURITY_ATTRIBUTES)};
+		DWORD dwDisposition=0;
+		RegCreateKeyEx(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Dummy"),0,_T(""),REG_OPTION_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
+	}
+
+	if(bIsRegistered)
+	{
+		swprintf(szStringValue, 2, _T("1"));
+	}
+	else
+		swprintf(szStringValue, 2, _T("0"));
+
+	RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
 }
