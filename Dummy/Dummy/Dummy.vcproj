@@ -45,6 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)mysql\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -68,6 +69,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -283,6 +285,34 @@
 			</File>
 			<File
 				RelativePath=".\TrayDialog.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Helper"
+			>
+			<File
+				RelativePath=".\BlackListDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BlackListDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDataAccessHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDataAccessHelper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.h"
 				>
 			</File>
 		</Filter>
