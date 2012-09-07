@@ -19,18 +19,14 @@ CMySQLDataAccessHelper::CMySQLDataAccessHelper(const char *strUser, const char *
 	}
 	if(strlen(strPassword) == 0)
 	{
-		
-		
-		char strPass[30] = {0};
-		GetPassWordMySQL(&strPass[0]);
-		
-
-
-		if (NULL == mysql_real_connect(m_mySQLConnection, strServerAddress, strUser, strPass, strDatabase, uiPort, NULL, 0)) 
+		GetPassWordMySQL();
+		if (NULL == mysql_real_connect(m_mySQLConnection, strServerAddress, strUser, m_strPass, strDatabase, uiPort, NULL, 0)) 
 		{
 			m_bIsConnected = FALSE;
 			return;
 		}
+		m_bIsConnected = TRUE;
+		return;
 	}
 
 	
@@ -107,7 +103,7 @@ bool CMySQLDataAccessHelper::CheckUser(const char *strUser, const char *strPassw
 	return bFresult;
 }
 
-VOID CMySQLDataAccessHelper::GetPassWordMySQL(char* strOutPass)
+VOID CMySQLDataAccessHelper::GetPassWordMySQL()
 {
 	HKEY	hKey;
 	if ( RegOpenKeyEx(HKEY_LOCAL_MACHINE,
@@ -144,9 +140,12 @@ VOID CMySQLDataAccessHelper::GetPassWordMySQL(char* strOutPass)
 	{
 		strcpy_s(strTempBuffer, MAX_PATH, pBuffer);
 	}
-	strOutPass = &strTempBuffer[0];
+	m_strPass = strTempBuffer;
 }
-
+char* CMySQLDataAccessHelper::GetPassWord()
+{
+	return m_strPass;
+}
 VOID CMySQLDataAccessHelper::DeCodeString(const CString &strIN, CString & strOUT)
 {
 	int iLength = strIN.GetLength();

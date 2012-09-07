@@ -9,6 +9,7 @@ class CMySQLDataAccessHelper
 private:
 	MYSQL *m_mySQLConnection;
 	BOOL m_bIsConnected;
+	char* m_strPass;
 public:
 	CMySQLDataAccessHelper(const char *strUser, const char *strPassword, const char *strServerAddress, const char *strDatabase, unsigned int uiPort = 0);
 	BOOL IsConnected();
@@ -19,6 +20,7 @@ public:
 	static bool CheckUser(const char *strUser, const char *strPassword, const char *strServerAddress, const char *strDatabase, unsigned int uiPort = 0);
 	~CMySQLDataAccessHelper(void);
 
-	VOID GetPassWordMySQL(char* strOutPass);
+	VOID GetPassWordMySQL();
+	char* GetPassWord();
 	VOID DeCodeString(const CString &strIN, CString & strOUT);
 };
