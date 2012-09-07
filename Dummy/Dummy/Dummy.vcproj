@@ -194,10 +194,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DummyManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\ExplorerRegInfo.cpp"
 				>
 			</File>
@@ -233,10 +229,6 @@
 			</File>
 			<File
 				RelativePath=".\DummyDlg.h"
-				>
-			</File>
-			<File
-				RelativePath=".\DummyManager.h"
 				>
 			</File>
 			<File
@@ -277,6 +269,14 @@
 		<Filter
 			Name="MyDialog"
 			>
+			<File
+				RelativePath=".\DummyManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DummyManager.h"
+				>
+			</File>
 			<File
 				RelativePath=".\TrayDialog.cpp"
 				>
