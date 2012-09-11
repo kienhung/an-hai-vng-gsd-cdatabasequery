@@ -21,7 +21,7 @@ BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServ
 }
 BOOL CBlackListDAO::AddBlackWeb(const BLACKLIST& blackList)
 {
-	if(CheckBlackExist(*blackList.strURL))
+	if(CheckBlackExist(blackList.strURL))
 	{
 		return TRUE;
 	}
@@ -52,11 +52,11 @@ BOOL CBlackListDAO::AddBlackWeb(const BLACKLIST& blackList)
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }
 
-BOOL CBlackListDAO::CheckBlackExist(const TCHAR& strURL)
+BOOL CBlackListDAO::CheckBlackExist( const TCHAR * strURL )
 {
 	CStringConverter stringConverter;
 	
-	char *pcBuffer = stringConverter.ConvertIntoUTF8(&strURL);
+	char *pcBuffer = stringConverter.ConvertIntoUTF8(strURL);
 	if(NULL == pcBuffer)
 		return FALSE;
 	CStringA cstrSelectQuery;

@@ -28,6 +28,6 @@ public:
 	CBlackListDAO(void);
 	BOOL ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase);
 	BOOL AddBlackWeb(const BLACKLIST &blackList);
-	BOOL CheckBlackExist(const TCHAR& strURL);
+	BOOL CheckBlackExist(const TCHAR * strURL);
 	~CBlackListDAO(void);
 };
