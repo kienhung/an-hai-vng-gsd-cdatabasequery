@@ -61,11 +61,11 @@ BOOL CDummyApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	
 
-	CDummyDlg dlg;
-	m_pMainWnd = &dlg;
+	//CDummyDlg dlg;
+	//m_pMainWnd = &dlg;
 
-	CDummyManager dummyManager(&dlg);
-	dummyManager.Execute();
+	//CDummyManager dummyManager(&dlg);
+	//dummyManager.Execute();
 	
 
 	// Since the dialog has been closed, return FALSE so that we exit the
