@@ -76,5 +76,6 @@ BOOL CBlackListDAO::CheckBlackExist(const TCHAR& strURL)
 			return TRUE;
 		}
 	}
+	m_pSQLDataAccessHelper->FreeQueryResult(pMySQLQueryResult);
 	return FALSE;
 }
