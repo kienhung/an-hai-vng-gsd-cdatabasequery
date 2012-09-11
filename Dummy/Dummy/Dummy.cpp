@@ -6,6 +6,7 @@
 #include "Dummy.h"
 #include "DummyDlg.h"
 #include "DummyManager.h"
+#include "BlackListReader.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,7 +61,15 @@ BOOL CDummyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	
-
+	CBlackListReader blackListReader;
+	if (TRUE == blackListReader.Read(L"D:\\blacklist.txt"))
+	{
+		AfxMessageBox(L"OK", MB_ICONINFORMATION);
+	}
+	else
+	{
+		AfxMessageBox(L"Failed", MB_ICONSTOP);
+	}
 	//CDummyDlg dlg;
 	//m_pMainWnd = &dlg;
 
