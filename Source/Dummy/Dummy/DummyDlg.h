@@ -12,10 +12,12 @@ class CDummyDlg : public CDialog
 {
 private:
 	BOOL m_bIsRegistered;
+	BOOL m_bIsVisibleDlg;
 
 	void AddIconToSystemTray();
 	void RemoveIconFromSystemTray();
 	void ShowRegisterInfo();
+	
 
 // Construction
 public:
@@ -47,4 +49,7 @@ public:
 	afx_msg void OnExit();
 	afx_msg void OnRegisterInfo();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnWindowPosChanging(WINDOWPOS *lpwndpos);
+	DECLARE_EVENTSINK_MAP()
+	void BeforeNavigate2ExplorerRegister(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel);
 };

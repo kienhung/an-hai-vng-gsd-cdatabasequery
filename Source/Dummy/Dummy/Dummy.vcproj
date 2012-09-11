@@ -45,6 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)mysql\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -68,6 +69,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -125,6 +127,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(ProjectDir)mysql\include"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -148,6 +151,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -263,6 +267,42 @@
 			</File>
 			<File
 				RelativePath=".\res\Dummy.rc2"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Helper"
+			>
+			<File
+				RelativePath=".\BlackListDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BlackListDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDataAccessHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MySQLDataAccessHelper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RegistryHelper.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RegistryHelper.h"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\StringConverter.h"
 				>
 			</File>
 		</Filter>
