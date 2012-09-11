@@ -7,11 +7,11 @@
 #include "ExplorerRegInfo.h"
 
 // CDummyDlg dialog
-class CRegisterInfoDlg : public CTrayDialog
+class CDummyDlg : public CTrayDialog
 {
 // Construction
 public:
-	CRegisterInfoDlg(CWnd* pParent = NULL);	// standard constructor
+	CDummyDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
 	enum { IDD = IDD_DLG_REGISTERINFO };

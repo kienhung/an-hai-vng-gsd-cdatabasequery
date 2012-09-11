@@ -6,11 +6,11 @@
 class CDummyManager
 {
 private:
-	CRegisterInfoDlg* m_pDlgRegInfo;
+	CDummyDlg* m_pDlgRegInfo;
 
 public:
 	CDummyManager(void);
-	CDummyManager(CRegisterInfoDlg* pDlgRegInfo);
+	CDummyManager(CDummyDlg* pDlgRegInfo);
 	~CDummyManager(void);
 
 	VOID Execute();

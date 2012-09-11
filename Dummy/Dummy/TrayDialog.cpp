@@ -10,8 +10,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CTrayDialog dialog
 
 
 CTrayDialog::CTrayDialog(UINT uIDD,CWnd* pParent /*=NULL*/)
@@ -27,7 +25,7 @@ CTrayDialog::CTrayDialog(UINT uIDD,CWnd* pParent /*=NULL*/)
 	m_nidIconData.hIcon				= 0;
 	m_nidIconData.szTip[0]			= 0;	
 	m_nidIconData.uFlags			= NIF_MESSAGE;
-
+	
 	m_bTrayIconVisible				= FALSE;
 
 	m_nDefaultMenuItem				= 0;
@@ -38,11 +36,12 @@ CTrayDialog::CTrayDialog(UINT uIDD,CWnd* pParent /*=NULL*/)
 
 
 BEGIN_MESSAGE_MAP(CTrayDialog, CDialog)
-	//{{AFX_MSG_MAP(CTrayDialog)
+	
 	ON_WM_CREATE()
 	ON_WM_DESTROY()
 	ON_WM_SYSCOMMAND()
 	//}}AFX_MSG_MAP
+
 	ON_MESSAGE(WM_TRAY_ICON_NOTIFY_MESSAGE,OnTrayNotify)
 END_MESSAGE_MAP()
 
@@ -92,26 +91,8 @@ void CTrayDialog::TraySetIcon(UINT nResourceID)
 		m_nidIconData.hIcon = hIcon;
 		m_nidIconData.uFlags |= NIF_ICON;
 	}
-	else
-	{
-		TRACE0("FAILED TO LOAD ICON\n");
-	}
 }
 
-void CTrayDialog::TraySetIcon(LPCTSTR lpszResourceName)
-{
-	HICON hIcon = 0;
-	hIcon = AfxGetApp()->LoadIcon(lpszResourceName);
-	if(hIcon)
-	{
-		m_nidIconData.hIcon = hIcon;
-		m_nidIconData.uFlags |= NIF_ICON;
-	}
-	else
-	{
-		TRACE0("FAILED TO LOAD ICON\n");
-	}
-}
 
 void CTrayDialog::TraySetToolTip(LPCTSTR lpszToolTip)
 {
@@ -130,10 +111,7 @@ BOOL CTrayDialog::TrayShow()
 		if(bSuccess)
 			m_bTrayIconVisible= TRUE;
 	}
-	else
-	{
-		TRACE0("ICON ALREADY VISIBLE");
-	}
+
 	return bSuccess;
 }
 
@@ -146,10 +124,7 @@ BOOL CTrayDialog::TrayHide()
 		if(bSuccess)
 			m_bTrayIconVisible= FALSE;
 	}
-	else
-	{
-		TRACE0("ICON ALREADY HIDDEN");
-	}
+	
 	return bSuccess;
 }
 
@@ -160,10 +135,7 @@ BOOL CTrayDialog::TrayUpdate()
 	{
 		bSuccess = Shell_NotifyIcon(NIM_MODIFY,&m_nidIconData);
 	}
-	else
-	{
-		TRACE0("ICON NOT VISIBLE");
-	}
+	
 	return bSuccess;
 }
 
@@ -204,38 +176,35 @@ LRESULT CTrayDialog::OnTrayNotify(WPARAM wParam, LPARAM lParam)
 
     switch (uMsg ) 
 	{ 
-	case WM_MOUSEMOVE:
-		GetCursorPos(&pt);
-		ClientToScreen(&pt);
-		OnTrayMouseMove(pt);
-		break;
-	case WM_LBUTTONDOWN:
-		GetCursorPos(&pt);
-		ClientToScreen(&pt);
-		OnTrayLButtonDown(pt);
-		break;
+	//case WM_MOUSEMOVE:
+	//	GetCursorPos(&pt);
+	//	ClientToScreen(&pt);
+	//	OnTrayMouseMove(pt);
+	//	break;
+	//case WM_LBUTTONDOWN:
+	//	GetCursorPos(&pt);
+	//	ClientToScreen(&pt);
+	//	OnTrayLButtonDown(pt);
+	//	break;
 	case WM_LBUTTONDBLCLK:
 		GetCursorPos(&pt);
 		ClientToScreen(&pt);
 		OnTrayLButtonDblClk(pt);
 		break;
-	
 	case WM_RBUTTONDOWN:
 		GetCursorPos(&pt);
-		
 		OnTrayRButtonDown(pt);
+		
 		break;
 	case WM_CONTEXTMENU:
 		GetCursorPos(&pt);
-		//ClientToScreen(&pt);
-		//OnTrayRButtonDown(pt);
-		//m_mnuTrayMenu.DeleteMenu(0,
+
 		break;
-	case WM_RBUTTONDBLCLK:
+	/*case WM_RBUTTONDBLCLK:
 		GetCursorPos(&pt);
 		ClientToScreen(&pt);
 		OnTrayRButtonDblClk(pt);
-		break;
+		break;*/
     } 
      return 0; 
  } 
@@ -245,10 +214,8 @@ void CTrayDialog::OnSysCommand(UINT nID, LPARAM lParam)
 	{
 		if ((nID & 0xFFF0) == SC_MINIMIZE)
 		{
-		
 			TrayShow();
-			//if( TrayShow())
-				this->ShowWindow(SW_HIDE);
+			this->ShowWindow(SW_HIDE);
 		}
 		else
 			CDialog::OnSysCommand(nID, lParam);	
@@ -264,28 +231,19 @@ void CTrayDialog::TraySetMinimizeToTray(BOOL bMinimizeToTray)
 
 void CTrayDialog::OnTrayRButtonDown(CPoint pt)
 {
+	::SetForegroundWindow(this->m_hWnd);
 	m_mnuTrayMenu.GetSubMenu(0)->TrackPopupMenu(TPM_BOTTOMALIGN|TPM_LEFTBUTTON | TPM_RECURSE,pt.x,pt.y,this);
 	m_mnuTrayMenu.GetSubMenu(0)->SetDefaultItem(m_nDefaultMenuItem,TRUE);
-}
 
-void CTrayDialog::OnTrayLButtonDown(CPoint pt)
-{
-	
+	::PostMessage(this->m_hWnd, WM_NULL, 0, 0);
 }
 
 void CTrayDialog::OnTrayLButtonDblClk(CPoint pt)
 {
 	if(m_bMinimizeToTray)
-		if(TrayHide())
-			this->ShowWindow(SW_SHOW);
+	{
+		this->ShowWindow(SW_SHOW);	
+	}
 }
 
-void CTrayDialog::OnTrayRButtonDblClk(CPoint pt)
-{
-	
-}
-
-void CTrayDialog::OnTrayMouseMove(CPoint pt)
-{
-}
 

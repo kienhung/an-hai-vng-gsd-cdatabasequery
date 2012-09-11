@@ -35,18 +35,16 @@ public:
 	void TraySetToolTip(LPCTSTR lpszToolTip);
 	void TraySetIcon(HICON hIcon);
 	void TraySetIcon(UINT nResourceID);
-	void TraySetIcon(LPCTSTR lpszResourceName);
+	
 
 	BOOL TrayIsVisible();
 	CTrayDialog(UINT uIDD,CWnd* pParent = NULL);   // standard constructor
 	
-	virtual void OnTrayLButtonDown(CPoint pt);
 	virtual void OnTrayLButtonDblClk(CPoint pt);
 	
 	virtual void OnTrayRButtonDown(CPoint pt);
-	virtual void OnTrayRButtonDblClk(CPoint pt);
+	
 
-	virtual void OnTrayMouseMove(CPoint pt);
 	
 
 // Implementation
