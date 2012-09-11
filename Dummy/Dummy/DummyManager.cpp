@@ -6,7 +6,7 @@ CDummyManager::CDummyManager(void)
 {
 }
 
-CDummyManager::CDummyManager(CRegisterInfoDlg* pDlgRegInfo)
+CDummyManager::CDummyManager(CDummyDlg* pDlgRegInfo)
 {
 	m_pDlgRegInfo = pDlgRegInfo;
 }
