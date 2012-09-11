@@ -15,7 +15,16 @@ struct	BLACKLIST
 	{
 		wmemset(strURL, 0, MAX_PATH);
 		wmemset(strRecordDate, 0, MAX_STRINGDATE);
-		
+		iActive = 1;
+		iAddedBy = 1;
+	}
+	BLACKLIST(const TCHAR* strOutURL)
+	{
+		wmemset(strURL, 0, MAX_PATH);
+		wmemset(strRecordDate, 0, MAX_STRINGDATE);
+		swprintf(strURL, MAX_PATH, strOutURL);
+		iActive = 1;
+		iAddedBy = 1;
 	}
 };
 
@@ -28,6 +37,10 @@ public:
 	CBlackListDAO(void);
 	BOOL ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase);
 	BOOL AddBlackWeb(const BLACKLIST &blackList);
+	BOOL AddBlackWeb(const TCHAR* strURL);
 	BOOL CheckBlackExist(const TCHAR * strURL);
+	BOOL UpdateAddedBy(LPCTSTR strUrl, int iNewAddedBy, int iWhereAddedBy);
+	BOOL RemoveInvalidURL();
+
 	~CBlackListDAO(void);
 };
