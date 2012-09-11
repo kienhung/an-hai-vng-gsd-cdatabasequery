@@ -15,7 +15,7 @@ struct	BLACKLIST
 	{
 		wmemset(strURL, 0, MAX_PATH);
 		wmemset(strRecordDate, 0, MAX_STRINGDATE);
-
+		
 	}
 };
 
