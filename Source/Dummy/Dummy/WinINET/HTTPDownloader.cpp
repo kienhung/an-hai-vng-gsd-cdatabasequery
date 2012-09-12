@@ -20,7 +20,7 @@ BOOL CHTTPDownloader::Download( LPCTSTR strURL, LPCTSTR strFilePath )
 
 	try 
 	{
-		m_hSession = ::InternetOpen(_T("VNG"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+		m_hSession = ::InternetOpen(_T(""), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
 		if (NULL == m_hSession)
 		{
 			throw L"InternetOpen is failed";
