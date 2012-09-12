@@ -10,7 +10,7 @@ CHTTPRequester::CHTTPRequester( void )
 
 CHTTPRequester::~CHTTPRequester(void)
 {
-	::OutputDebugString(L"Huy\n");
+
 }
 
 void CHTTPRequester::Initalize()

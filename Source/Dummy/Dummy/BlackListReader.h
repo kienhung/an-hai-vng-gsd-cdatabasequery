@@ -6,7 +6,9 @@ class CBlackListReader
 public:
 	CBlackListReader(void);
 	~CBlackListReader(void);
+
 	BOOL Read(LPCTSTR strFilePath);
+	BOOL CreateTempFile(CString &cstrOut);
 
 protected:
 	BOOL ProcessURL(const char* strURL);
