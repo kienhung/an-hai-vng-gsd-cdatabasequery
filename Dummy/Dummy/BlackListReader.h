@@ -9,9 +9,9 @@ public:
 	BOOL Read(LPCTSTR strFilePath);
 
 protected:
+	BOOL ProcessURL(const char* strURL);
 
-	BOOL ProcessItem(LPCTSTR strItemText);
-
+protected:
 	CBlackListDAO m_blackListDAO;
 	BOOL m_bIsConnected;
 };
