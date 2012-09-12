@@ -314,6 +314,26 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="WinINET"
+			>
+			<File
+				RelativePath=".\WinINET\HTTPDownloader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WinINET\HTTPDownloader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WinINET\HTTPRequester.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WinINET\HTTPRequester.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
