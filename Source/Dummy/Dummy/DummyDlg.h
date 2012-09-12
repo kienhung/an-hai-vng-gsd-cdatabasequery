@@ -18,6 +18,7 @@ private:
 	void RemoveIconFromSystemTray();
 	void ShowRegisterInfo();
 	
+	
 
 // Construction
 public:

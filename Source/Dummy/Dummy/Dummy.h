@@ -20,6 +20,7 @@ private:
 	HANDLE m_hMutex;
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
+	void StartProcessDummyLaucher();
 public:
 	CDummyApp();
 
