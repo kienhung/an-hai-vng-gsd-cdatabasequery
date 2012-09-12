@@ -49,7 +49,14 @@ public:
 	afx_msg void OnExit();
 	afx_msg void OnRegisterInfo();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+
+
+
 	afx_msg void OnWindowPosChanging(WINDOWPOS *lpwndpos);
 	DECLARE_EVENTSINK_MAP()
 	void BeforeNavigate2ExplorerRegister(LPDISPATCH pDisp, VARIANT* URL, VARIANT* Flags, VARIANT* TargetFrameName, VARIANT* PostData, VARIANT* Headers, BOOL* Cancel);
+
+protected:
+	BOOL UpdateBlackList();
+	BOOL PingServer();
 };
