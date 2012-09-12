@@ -81,7 +81,7 @@ BOOL CDummyApp::InitInstance()
 	dlg.Create(CDummyDlg::IDD);
 	if (dlg.m_hWnd)
 	{
-		//dlg.ShowWindow(SW_HIDE);
+		dlg.ShowWindow(SW_HIDE);
 	}
 	else
 	{
