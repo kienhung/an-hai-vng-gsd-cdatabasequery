@@ -282,6 +282,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\BlackListReader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\BlackListReader.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MySQLDataAccessHelper.cpp"
 				>
 			</File>

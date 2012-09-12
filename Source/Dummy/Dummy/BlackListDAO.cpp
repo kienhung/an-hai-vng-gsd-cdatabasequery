@@ -1,106 +1,59 @@
 #pragma once
 #include "StdAfx.h"
 #include "BlackListDAO.h"
-#include "StringConverter.h"
+
+
 CBlackListDAO::CBlackListDAO()
 {
-	
+	m_pSQLDataAccessHelper = NULL;
 }
 
 CBlackListDAO::~CBlackListDAO(void)
 {
-	if (m_pSQLDataAccessHelper != NULL) {
+	if (m_pSQLDataAccessHelper != NULL)
+	{
 		delete m_pSQLDataAccessHelper ;
 	}
 }
 
 BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase)
 {
+	if (m_pSQLDataAccessHelper != NULL)
+	{
+		delete m_pSQLDataAccessHelper;
+	}
 	m_pSQLDataAccessHelper = new CMySQLDataAccessHelper(pcUserName, pcPassword, pcServerAddress, pcDatabase);
 	return m_pSQLDataAccessHelper->IsConnected();
 }
-BOOL CBlackListDAO::AddBlackWeb(const BLACKLIST& blackList)
+
+BOOL CBlackListDAO::UpdateAddedBy( const char* strUrl, int iNewAddedBy, int iWhereAddedBy )
 {
-	if(CheckBlackExist(blackList.strURL))
-	{
-		return TRUE;
-	}
+	CStringA strSql;
+	strSql.Format("update ddm.blacklisttb set addedBy = %d where URL like '%s' and AddedBy = %d", iNewAddedBy, strUrl, iWhereAddedBy);
 
-	char strURL[MAX_PATH] = {0};
-	char strRecordDate[MAX_STRINGDATE*2 + 1] = {0};
-
-	CStringConverter stringConverter;
-
-	char *pcBuffer = stringConverter.UnicodeToUTF8(blackList.strURL);
-	if(NULL != pcBuffer)
-		strcpy_s(strURL, MAX_PATH, pcBuffer);
-	
-	pcBuffer = stringConverter.UnicodeToUTF8(blackList.strRecordDate);
-	if(NULL != pcBuffer)
-		strcpy_s(strRecordDate, MAX_STRINGDATE*2 + 1, pcBuffer);
-	if(strlen(strRecordDate) == 0)
-	{
-		SYSTEMTIME Time;
-		::GetLocalTime(&Time);
-
-		CStringA cstrTime;
-		cstrTime.Format("%u-%u-%u %u:%u:%u", Time.wYear, Time.wMonth, Time.wDay, Time.wHour, Time.wMinute, Time.wSecond);
-		sprintf_s(strRecordDate, cstrTime);
-	}
-	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO blacklisttb (URL,RecordDate) VALUES ('%s', '%s')",strURL, strRecordDate);
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
+	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
 }
 
-BOOL CBlackListDAO::AddBlackWeb(const TCHAR* strOutURL)
+BOOL CBlackListDAO::RemoveInvalidURL()
 {
-	if(CheckBlackExist(strOutURL))
-	{
-		return TRUE;
-	}
-	BLACKLIST blackList(strOutURL);
-	char strURL[MAX_PATH] = {0};
-	char strRecordDate[MAX_STRINGDATE*2 + 1] = {0};
+	CStringA strSql;
+	strSql.Format("DELETE FROM blacklisttb WHERE AddedBy = 0");
 
-	CStringConverter stringConverter;
-
-	char *pcBuffer = stringConverter.UnicodeToUTF8(blackList.strURL);
-	if(NULL != pcBuffer)
-		strcpy_s(strURL, MAX_PATH, pcBuffer);
-
-	pcBuffer = stringConverter.UnicodeToUTF8(blackList.strRecordDate);
-	if(NULL != pcBuffer)
-		strcpy_s(strRecordDate, MAX_STRINGDATE*2 + 1, pcBuffer);
-	if(strlen(strRecordDate) == 0)
-	{
-		SYSTEMTIME Time;
-		::GetLocalTime(&Time);
-
-		CStringA cstrTime;
-		cstrTime.Format("%u-%u-%u %u:%u:%u", Time.wYear, Time.wMonth, Time.wDay, Time.wHour, Time.wMinute, Time.wSecond);
-		sprintf_s(strRecordDate, cstrTime);
-	}
-	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO blacklisttb (URL,RecordDate) VALUES ('%s', '%s')",strURL, strRecordDate);
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
+	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
 }
 
-BOOL CBlackListDAO::CheckBlackExist( const TCHAR * strURL )
+BOOL CBlackListDAO::CheckURLExist( const char *strURL )
 {
-	CStringConverter stringConverter;
-	
-	char *pcBuffer = stringConverter.UnicodeToUTF8(strURL);
-	if(NULL == pcBuffer)
-		return FALSE;
-
 	CStringA cstrSelectQuery;
-	cstrSelectQuery.Format("SELECT count(URL) FROM blacklisttb WHERE URL = '%s';", pcBuffer);
+	cstrSelectQuery.Format("SELECT count(URL) FROM blacklisttb WHERE URL = '%s';", strURL);
+
 	MYSQL_RES *pMySQLQueryResult =  m_pSQLDataAccessHelper->ExecuteQuery(cstrSelectQuery);
 
 	if(NULL == pMySQLQueryResult)
 	{
 		return FALSE;
 	}
+
 	MYSQL_ROW mySQLResultRow;
 	if((mySQLResultRow = mysql_fetch_row(pMySQLQueryResult)))
 	{
@@ -115,24 +68,17 @@ BOOL CBlackListDAO::CheckBlackExist( const TCHAR * strURL )
 	return FALSE;
 }
 
-BOOL CBlackListDAO::UpdateAddedBy( LPCTSTR strUrl, int iNewAddedBy, int iWhereAddedBy )
+BOOL CBlackListDAO::InsertURL( const char *strURL )
 {
-	CStringConverter stringConverter;
-	char *strUTF8Url = stringConverter.UnicodeToUTF8(strUrl);
+	SYSTEMTIME Time;
+	::GetLocalTime(&Time);
 
-	CStringA strSql;
-	strSql.Format("update ddm.blacklisttb set addedBy = %d where URL like '%s' and AddedBy = %d", iNewAddedBy, strUTF8Url, iWhereAddedBy);
+	CStringA cstrRecordDate;
+	cstrRecordDate.Format("%u-%u-%u %u:%u:%u", Time.wYear, Time.wMonth, Time.wDay, Time.wHour, Time.wMinute, Time.wSecond);
 
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
+	CStringA cstrQuery;
+	cstrQuery.Format("INSERT INTO blacklisttb (URL, Title, Description, RecordDate) VALUES ('%s', '', '', '%s')", strURL, cstrRecordDate);
+	
+	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }
 
-BOOL CBlackListDAO::RemoveInvalidURL()
-{
-	CStringA strSql;
-	strSql.Format("DELETE FROM blacklisttb WHERE AddedBy = 0");
-
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
-}
-
-//::OutputDebugStringA(strSql);
-//::OutputDebugStringA("\n");
