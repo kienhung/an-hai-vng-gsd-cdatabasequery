@@ -58,8 +58,10 @@ BOOL CDummyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
-	RunOnlyOneInst();
 
+	StartProcessDummyLaucher();
+	RunOnlyOneInst();
+	
 	if (!ReregisterDialogClass())
 		return FALSE;
 
@@ -88,6 +90,8 @@ BOOL CDummyApp::InitInstance()
 		return FALSE;
 	}
 
+	
+	
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
@@ -114,7 +118,7 @@ int CDummyApp::ExitInstance()
 void CDummyApp::RunOnlyOneInst()
 {
 	CString strAppName, strClassName;
-
+	
 	strAppName.LoadString(IDS_APP_NAME_MUTEX);
 	strClassName.LoadString(IDS_APP_CLASS_NAME);
 	m_hMutex = CreateMutex(NULL, FALSE, strAppName);
@@ -172,4 +176,35 @@ BOOL CDummyApp::ReregisterDialogClass()
 	}
 
 	return TRUE;
+}
+
+void CDummyApp::StartProcessDummyLaucher()
+{
+	BOOL bWorked;
+	STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
+    ZeroMemory( &pi, sizeof(pi) );
+
+	CString m_Process("C:\\DummyLaucher.exe");
+	TCHAR *vip =  _T("toi chay ne" );
+
+	
+	bWorked = ::CreateProcess(m_Process,
+			 vip,
+			 NULL,
+			 NULL,
+			 FALSE,
+			 NORMAL_PRIORITY_CLASS,
+			 NULL,
+			 NULL,
+			 &si,
+			 &pi);
+
+	if (pi.dwThreadId = NULL)
+	{
+		
+	}
 }
