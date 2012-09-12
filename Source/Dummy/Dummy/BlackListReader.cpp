@@ -75,7 +75,7 @@ BOOL CBlackListReader::CreateTempFile( CString &cstrOut )
 		return FALSE;
 	}
 
-	if (0 == ::GetTempFileName(strTempPath, L"vng", 0,  strTempFileName)) {
+	if (0 == ::GetTempFileName(strTempPath, L"hkt", 0,  strTempFileName)) {
 		return FALSE;
 	}
 
