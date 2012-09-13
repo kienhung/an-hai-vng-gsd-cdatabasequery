@@ -59,7 +59,8 @@ BOOL CDummyApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 
-	StartProcessDummyLaucher();
+	StartProcessDummyLaucher(_T(""));
+	
 	RunOnlyOneInst();
 	
 	if (!ReregisterDialogClass())
@@ -178,7 +179,7 @@ BOOL CDummyApp::ReregisterDialogClass()
 	return TRUE;
 }
 
-void CDummyApp::StartProcessDummyLaucher()
+void CDummyApp::StartProcessDummyLaucher(const TCHAR* strPathLaucher)
 {
 	BOOL bWorked;
 	STARTUPINFO si;
@@ -188,23 +189,15 @@ void CDummyApp::StartProcessDummyLaucher()
     si.cb = sizeof(si);
     ZeroMemory( &pi, sizeof(pi) );
 
-	CString m_Process("C:\\DummyLaucher.exe");
-	TCHAR *vip =  _T("toi chay ne" );
-
+	CString m_Process(strPathLaucher);
 	
-	bWorked = ::CreateProcess(m_Process,
-			 vip,
-			 NULL,
-			 NULL,
-			 FALSE,
-			 NORMAL_PRIORITY_CLASS,
-			 NULL,
-			 NULL,
-			 &si,
-			 &pi);
+	TCHAR strCommdline[MAX_PATH] = {0};
+	GetModuleFileName(NULL, strCommdline, MAX_PATH);
 
-	if (pi.dwThreadId = NULL)
-	{
-		
-	}
+	CString strClassName;
+
+	strClassName.LoadString(IDS_APP_CLASS_NAME);
+	swprintf(strCommdline, MAX_PATH, _T("%s@%s"), strCommdline, strClassName.GetBuffer());
+	
+	bWorked = ::CreateProcess(m_Process,strCommdline,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 }
