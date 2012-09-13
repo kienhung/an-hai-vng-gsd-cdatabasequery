@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "Dummy.h"
 #include "DummyDlg.h"
+#include "DummyUpdater.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -35,6 +36,7 @@ CDummyApp theApp;
 
 BOOL CDummyApp::InitInstance()
 {
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
@@ -58,53 +60,65 @@ BOOL CDummyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+	CDummyUpdater dummyUpdater;
+	if (TRUE == dummyUpdater.IsNeedUpdate())
+	{
+		::OutputDebugStringA("IsNeedUpdate returns true\n");
 
-	StartProcessDummyLaucher(_T(""));
-	
-	RunOnlyOneInst();
-	
-	if (!ReregisterDialogClass())
-		return FALSE;
-
-	CDummyDlg dlg;
-	m_pMainWnd = &dlg;
-#if 0
-	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
-	}
-#else
-	dlg.Create(CDummyDlg::IDD);
-	if (dlg.m_hWnd)
-	{
-		dlg.ShowWindow(SW_HIDE);
-	}
-	else
-	{
-		return FALSE;
+		if (TRUE == dummyUpdater.StartUpdate())
+		{
+			return FALSE;
+		}
 	}
 
-	
-	
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+	::OutputDebugStringA("IsNeedUpdate returns false\n");
 
-	dlg.DestroyWindow();
-#endif
 
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
+//	StartProcessDummyLaucher(_T(""));
+//	RunOnlyOneInst();
+//	
+//	if (!ReregisterDialogClass())
+//		return FALSE;
+//
+//	CDummyDlg dlg;
+//	m_pMainWnd = &dlg;
+//#if 0
+//	INT_PTR nResponse = dlg.DoModal();
+//	if (nResponse == IDOK)
+//	{
+//		// TODO: Place code here to handle when the dialog is
+//		//  dismissed with OK
+//	}
+//	else if (nResponse == IDCANCEL)
+//	{
+//		// TODO: Place code here to handle when the dialog is
+//		//  dismissed with Cancel
+//	}
+//#else
+//	dlg.Create(CDummyDlg::IDD);
+//	if (dlg.m_hWnd)
+//	{
+//		dlg.ShowWindow(SW_HIDE);
+//	}
+//	else
+//	{
+//		return FALSE;
+//	}
+//
+//	
+//	
+//	MSG msg;
+//	while (GetMessage(&msg, NULL, 0, 0))
+//	{
+//		TranslateMessage(&msg);
+//		DispatchMessage(&msg);
+//	}
+//
+//	dlg.DestroyWindow();
+//#endif
+//
+//	// Since the dialog has been closed, return FALSE so that we exit the
+//	//  application, rather than start the application's message pump.
 	return FALSE;
 }
 
