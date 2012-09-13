@@ -5,6 +5,8 @@
 #include "Dummy.h"
 #include "DummyDlg.h"
 #include "DummyUpdater.h"
+#include "MyUtils.h"
+#include "Registry.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,7 +66,12 @@ BOOL CDummyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-
+	if(!CheckCSMExist())
+	{
+		return FALSE;
+	}
+	
+	CString strMC = CMyUtils::GetMachineCode();
 
 	CDummyUpdater dummyUpdater;
 	if (TRUE == dummyUpdater.IsNeedUpdate())
@@ -191,5 +198,15 @@ BOOL CDummyApp::ReregisterDialogClass()
 		return FALSE;
 	}
 
+	return TRUE;
+}
+BOOL CDummyApp::CheckCSMExist()
+{
+	/*CRegistry reg(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"));
+	reg.SetValue(_T("Dummy"), "C:\\Dummy.exe")'
+
+	reg.SetKey(HKEY_LOCAL_MACHINE, "");
+	strPath[MAX_PATH] = {0};
+	reg.ReadValue(_T("Dummy"), strPath, MAX_PATH);*/
 	return TRUE;
 }
