@@ -93,7 +93,6 @@ VOID CRegistryHelper::SetStartUp()
 BOOL CRegistryHelper::CheckRegister()
 {
 	
-	
 	HKEY hKey;
 	LONG lResult = 0;
 	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy\\Data"), 0,  KEY_ALL_ACCESS, &hKey);

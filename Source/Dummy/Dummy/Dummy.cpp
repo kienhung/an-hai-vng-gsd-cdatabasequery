@@ -37,6 +37,11 @@ CDummyApp theApp;
 BOOL CDummyApp::InitInstance()
 {
 
+	CString strAppVersion;
+	strAppVersion.LoadString(IDS_APP_VERSION);
+
+	AfxMessageBox(strAppVersion);
+
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
 	// visual styles.  Otherwise, any window creation will fail.
