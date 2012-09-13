@@ -71,7 +71,6 @@ BOOL CDummyApp::InitInstance()
 		}
 	}
 
-	StartProcessDummyLaucher(_T(""));
 	RunOnlyOneInst();
 	
 	if (!ReregisterDialogClass())
@@ -188,27 +187,4 @@ BOOL CDummyApp::ReregisterDialogClass()
 	}
 
 	return TRUE;
-}
-
-void CDummyApp::StartProcessDummyLaucher(const TCHAR* strPathLaucher)
-{
-	BOOL bWorked;
-	STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-
-    ZeroMemory( &si, sizeof(si) );
-    si.cb = sizeof(si);
-    ZeroMemory( &pi, sizeof(pi) );
-
-	CString m_Process(strPathLaucher);
-	
-	TCHAR strCommdline[MAX_PATH] = {0};
-	GetModuleFileName(NULL, strCommdline, MAX_PATH);
-
-	CString strClassName;
-
-	strClassName.LoadString(IDS_APP_CLASS_NAME);
-	swprintf(strCommdline, MAX_PATH, _T("%s@%s"), strCommdline, strClassName.GetBuffer());
-	
-	bWorked = ::CreateProcess(m_Process,strCommdline,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 }
