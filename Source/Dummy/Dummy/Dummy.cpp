@@ -65,59 +65,55 @@ BOOL CDummyApp::InitInstance()
 	if (TRUE == dummyUpdater.IsNeedUpdate())
 
 	{
-		::OutputDebugStringA("IsNeedUpdate returns true\n");
-
 		if (TRUE == dummyUpdater.StartUpdate())
 		{
 			return FALSE;
 		}
 	}
-	::OutputDebugStringA("IsNeedUpdate returns false\n");
 
+	StartProcessDummyLaucher(_T(""));
+	RunOnlyOneInst();
+	
+	if (!ReregisterDialogClass())
+		return FALSE;
 
-//	StartProcessDummyLaucher(_T(""));
-//	RunOnlyOneInst();
-//	
-//	if (!ReregisterDialogClass())
-//		return FALSE;
-//
-//	CDummyDlg dlg;
-//	m_pMainWnd = &dlg;
-//#if 0
-//	INT_PTR nResponse = dlg.DoModal();
-//	if (nResponse == IDOK)
-//	{
-//		// TODO: Place code here to handle when the dialog is
-//		//  dismissed with OK
-//	}
-//	else if (nResponse == IDCANCEL)
-//	{
-//		// TODO: Place code here to handle when the dialog is
-//		//  dismissed with Cancel
-//	}
-//#else
-//	dlg.Create(CDummyDlg::IDD);
-//	if (dlg.m_hWnd)
-//	{
-//		dlg.ShowWindow(SW_HIDE);
-//	}
-//	else
-//	{
-//		return FALSE;
-//	}
-//
-//	
-//	
-//	MSG msg;
-//	while (GetMessage(&msg, NULL, 0, 0))
-//	{
-//		TranslateMessage(&msg);
-//		DispatchMessage(&msg);
-//	}
-//
-//	dlg.DestroyWindow();
-//#endif
-//
+	CDummyDlg dlg;
+	m_pMainWnd = &dlg;
+#if 0
+	INT_PTR nResponse = dlg.DoModal();
+	if (nResponse == IDOK)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with OK
+	}
+	else if (nResponse == IDCANCEL)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with Cancel
+	}
+#else
+	dlg.Create(CDummyDlg::IDD);
+	if (dlg.m_hWnd)
+	{
+		dlg.ShowWindow(SW_HIDE);
+	}
+	else
+	{
+		return FALSE;
+	}
+
+	
+	
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	dlg.DestroyWindow();
+#endif
+
 //	// Since the dialog has been closed, return FALSE so that we exit the
 //	//  application, rather than start the application's message pump.
 	return FALSE;
