@@ -62,9 +62,19 @@ BOOL CDummyLaucherApp::InitInstance()
 	
 	CString strCommand = ::GetCommandLine();
 	AfxMessageBox(strCommand);
-	if(CopyDummyApp(strCommand))
+	
+	int iIndex = strCommand.Find(L'@');
+	if(iIndex < 0 || iIndex >= strCommand.GetLength())
 	{
-		AfxMessageBox(_T("OK"));
+		return FALSE;
+	}
+	
+	CString strClassName(strCommand);
+	strClassName.Delete(0, iIndex + 1);
+	strCommand.Delete(iIndex, strCommand.GetLength() - iIndex);
+	if(CopyDummyApp(strCommand,strClassName))
+	{
+		StartProcessDummy(strCommand);
 	}
 	
 	
@@ -73,8 +83,16 @@ BOOL CDummyLaucherApp::InitInstance()
 	//  application, rather than start the application's message pump.
 	return FALSE;
 }
-BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy)
+BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy, const TCHAR* strDummyClassName)
 {		
+	while(TRUE)
+	{
+		HWND hWndDummy = ::FindWindow(strDummyClassName, NULL);
+		if(NULL == hWndDummy)
+		{
+			break;
+		}
+	}
 	TCHAR strCurrentDir[MAX_PATH] = {0};
 	GetModuleFileName(NULL, strCurrentDir, MAX_PATH);
 	CString strTemp(strCurrentDir);
@@ -108,4 +126,17 @@ BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy)
 		}
 	}
 	return TRUE;
+}
+VOID CDummyLaucherApp::StartProcessDummy(const TCHAR* strPathDummy)
+{
+	BOOL bWorked;
+	STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
+    ZeroMemory( &pi, sizeof(pi) );
+
+	CString m_Process(strPathDummy);
+	bWorked = ::CreateProcess(strPathDummy,NULL,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 }

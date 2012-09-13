@@ -18,7 +18,8 @@
 class CDummyLaucherApp : public CWinAppEx
 {
 private:
-	BOOL CopyDummyApp(const TCHAR* strPathOldDummy);
+	BOOL CopyDummyApp(const TCHAR* strPathOldDummy, const TCHAR* strDummyClassName);
+	VOID StartProcessDummy(const TCHAR* strPathDummy);
 public:
 	CDummyLaucherApp();
 
