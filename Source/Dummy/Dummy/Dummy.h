@@ -21,6 +21,7 @@ private:
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
 	CString m_strMachineCode;
+	BOOL CheckCSMExist();
 public:
 	CDummyApp();
 

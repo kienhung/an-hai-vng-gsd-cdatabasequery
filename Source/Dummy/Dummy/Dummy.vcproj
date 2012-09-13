@@ -298,6 +298,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IntOptionDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\IntOptionDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyDefine.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MySQLDataAccessHelper.cpp"
 				>
 			</File>
@@ -383,6 +395,66 @@
 			</File>
 			<File
 				RelativePath=".\Utility\XUnzip.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="NewUtility"
+			>
+			<File
+				RelativePath=".\Cipher.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Cipher.h"
+				>
+			</File>
+			<File
+				RelativePath=".\diskid32.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\diskid32.h"
+				>
+			</File>
+			<File
+				RelativePath=".\md5.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\md5.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NetCardInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NetCardInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Registry.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Registry.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Token.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Token.h"
 				>
 			</File>
 		</Filter>
