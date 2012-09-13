@@ -61,8 +61,6 @@ BOOL CDummyLaucherApp::InitInstance()
 	
 	
 	CString strCommand = ::GetCommandLine();
-	AfxMessageBox(strCommand);
-	
 	int iIndex = strCommand.Find(L'@');
 	if(iIndex < 0 || iIndex >= strCommand.GetLength())
 	{
