@@ -17,6 +17,8 @@
 
 class CDummyLaucherApp : public CWinAppEx
 {
+private:
+	BOOL CopyDummyApp(const TCHAR* strPathOldDummy);
 public:
 	CDummyLaucherApp();
 

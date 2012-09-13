@@ -49,7 +49,7 @@ BOOL CDummyLaucherApp::InitInstance()
 	CWinAppEx::InitInstance();
 
 	AfxEnableControlContainer();
-
+	
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
 	// of your final executable, you should remove from the following
@@ -58,13 +58,54 @@ BOOL CDummyLaucherApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-
+	
+	
 	CString strCommand = ::GetCommandLine();
 	AfxMessageBox(strCommand);
+	if(CopyDummyApp(strCommand))
+	{
+		AfxMessageBox(_T("OK"));
+	}
 	
 	
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
+}
+BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy)
+{		
+	TCHAR strCurrentDir[MAX_PATH] = {0};
+	GetModuleFileName(NULL, strCurrentDir, MAX_PATH);
+	CString strTemp(strCurrentDir);
+	int iIndex = strTemp.ReverseFind(L'\\');
+	if(iIndex > 0 && iIndex < strTemp.GetLength())
+	{
+		strTemp.Delete(iIndex, strTemp.GetLength() - iIndex);
+	}
+	wmemset(strCurrentDir, 0, MAX_PATH);
+	swprintf(strCurrentDir, MAX_PATH, _T("%s\\%s"), strTemp.GetBuffer(), _T("Dummy.exe"));
+	
+	if(!::CopyFile(strCurrentDir, strPathOldDummy, FALSE))
+	{
+		DWORD dwError = GetLastError();
+		if(dwError == ERROR_ACCESS_DENIED)
+		{
+			DWORD dwAttr = GetFileAttributes(strPathOldDummy);
+			if(dwAttr & FILE_ATTRIBUTE_HIDDEN)
+			{
+				dwAttr &= ~FILE_ATTRIBUTE_HIDDEN;
+			}
+			if(dwAttr & FILE_ATTRIBUTE_READONLY)
+			{
+				dwAttr &= ~FILE_ATTRIBUTE_READONLY;
+			}
+			if(::CopyFile(strCurrentDir, strPathOldDummy, FALSE))
+			{
+				return TRUE;
+			}
+			return FALSE;
+		}
+	}
+	return TRUE;
 }
