@@ -198,6 +198,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DummyUpdater.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -233,6 +237,10 @@
 			</File>
 			<File
 				RelativePath=".\DummyDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DummyUpdater.h"
 				>
 			</File>
 			<File
@@ -338,11 +346,35 @@
 			Name="Utility"
 			>
 			<File
+				RelativePath=".\Utility\FolderDeleter.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\FolderDeleter.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\FolderProcesser.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\FolderProcesser.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Utility\MyUtility.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\Utility\MyUtility.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\PathUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\PathUtility.h"
 				>
 			</File>
 			<File
