@@ -61,7 +61,7 @@ BOOL CRegistryHelper::SetValueRegistryEx(const TCHAR* strSubKey, const TCHAR* st
 	{
 		SECURITY_ATTRIBUTES sAttribs = {sizeof(SECURITY_ATTRIBUTES)};
 		DWORD dwDisposition=0;
-		lResult = RegCreateKeyEx(HKEY_LOCAL_MACHINE, strSubKey, 0, _T(""),REG_OPTION_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
+		lResult = RegCreateKeyEx(HKEY_LOCAL_MACHINE, strSubKey, 0, _T(""),REG_OPTION_NON_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
 		if(lResult != ERROR_SUCCESS)
 			return FALSE;
 	}
@@ -92,9 +92,11 @@ VOID CRegistryHelper::SetStartUp()
 
 BOOL CRegistryHelper::CheckRegister()
 {
+	
+	
 	HKEY hKey;
 	LONG lResult = 0;
-	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy"), 0,  KEY_ALL_ACCESS, &hKey);
+	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Dummy\\Data"), 0,  KEY_ALL_ACCESS, &hKey);
 	
 	TCHAR szStringValue[2] = {0};
 	DWORD dwSize=0;
@@ -103,11 +105,12 @@ BOOL CRegistryHelper::CheckRegister()
 	{
 		SECURITY_ATTRIBUTES sAttribs = {sizeof(SECURITY_ATTRIBUTES)};
 		DWORD dwDisposition=0;
-		RegCreateKeyEx(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Dummy"),0,_T(""),REG_OPTION_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
+		RegCreateKeyEx(HKEY_LOCAL_MACHINE,_T("SOFTWARE\\Dummy\\Data"),0,_T(""),REG_OPTION_NON_VOLATILE,KEY_ALL_ACCESS, &sAttribs, &hKey,&dwDisposition);
 
 		swprintf(szStringValue, 2, _T("0"));
 		RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
 		RegCloseKey(hKey);
+		
 		return FALSE;
 	}
 		
@@ -126,7 +129,7 @@ BOOL CRegistryHelper::CheckRegister()
 		return FALSE;
 	}
 	
-	swprintf(szStringValue, 2, _T("0"));	
+	swprintf(szStringValue, 2, _T("0"));
 	RegSetValueEx(hKey,_T("Registered"),0,REG_SZ,(LPBYTE)szStringValue ,sizeof(szStringValue));
 	RegCloseKey(hKey);
 	return FALSE;
@@ -142,5 +145,5 @@ VOID CRegistryHelper::UpdateRegistered(BOOL bIsRegistered)
 	else
 		swprintf(szStringValue, 2, _T("0"));
 
-	SetValueRegistryEx(_T("SOFTWARE\\Dummy"), _T("Registered"), szStringValue);
+	SetValueRegistryEx(_T("SOFTWARE\\Dummy\\Data"), _T("Registered"), szStringValue);
 }
