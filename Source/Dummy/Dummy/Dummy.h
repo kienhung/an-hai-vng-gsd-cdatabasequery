@@ -20,6 +20,7 @@ private:
 	HANDLE m_hMutex;
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
+	CString m_strMachineCode;
 public:
 	CDummyApp();
 
