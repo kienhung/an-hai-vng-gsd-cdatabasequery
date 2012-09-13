@@ -334,6 +334,26 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="Utility"
+			>
+			<File
+				RelativePath=".\Utility\MyUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\MyUtility.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\XUnzip.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Utility\XUnzip.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
