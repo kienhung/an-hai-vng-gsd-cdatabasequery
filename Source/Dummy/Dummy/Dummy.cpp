@@ -60,8 +60,10 @@ BOOL CDummyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+
 	CDummyUpdater dummyUpdater;
 	if (TRUE == dummyUpdater.IsNeedUpdate())
+
 	{
 		::OutputDebugStringA("IsNeedUpdate returns true\n");
 
@@ -70,7 +72,6 @@ BOOL CDummyApp::InitInstance()
 			return FALSE;
 		}
 	}
-
 	::OutputDebugStringA("IsNeedUpdate returns false\n");
 
 
