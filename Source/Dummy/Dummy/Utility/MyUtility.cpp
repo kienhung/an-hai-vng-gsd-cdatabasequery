@@ -51,3 +51,20 @@ BOOL CMyUtility::UnZip( LPCTSTR wcPathIn, LPCTSTR wcExtractObject, LPCTSTR wcPat
 
 	return TRUE;
 }
+
+BOOL CMyUtility::CreateTempFile( CString &cstrOut )
+{
+	TCHAR strTempFileName[MAX_PATH];  
+	TCHAR strTempPath[MAX_PATH];
+
+	if (0 == ::GetTempPath(MAX_PATH, strTempPath)) {
+		return FALSE;
+	}
+
+	if (0 == ::GetTempFileName(strTempPath, L"hkt", 0,  strTempFileName)) {
+		return FALSE;
+	}
+
+	cstrOut = strTempFileName;
+	return TRUE;
+}
