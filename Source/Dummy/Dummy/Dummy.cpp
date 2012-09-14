@@ -6,7 +6,7 @@
 #include "DummyDlg.h"
 #include "DummyUpdater.h"
 #include "MyUtils.h"
-#include "Registry.h"
+#include "MyDefine.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -71,7 +71,7 @@ BOOL CDummyApp::InitInstance()
 		return FALSE;
 	}
 	
-	CString strMC = CMyUtils::GetMachineCode();
+	m_strMachineCode = CMyUtils::GetMachineCode();
 
 	CDummyUpdater dummyUpdater;
 	if (TRUE == dummyUpdater.IsNeedUpdate())
@@ -202,11 +202,18 @@ BOOL CDummyApp::ReregisterDialogClass()
 }
 BOOL CDummyApp::CheckCSMExist()
 {
-	/*CRegistry reg(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"));
-	reg.SetValue(_T("Dummy"), "C:\\Dummy.exe")'
+	
+	HKEY hKey;
+	LONG lResult = 0;
+	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, REG_PATH_INSTALL, 0,  KEY_ALL_ACCESS, &hKey);
+	if(lResult == ERROR_SUCCESS)
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
 
-	reg.SetKey(HKEY_LOCAL_MACHINE, "");
-	strPath[MAX_PATH] = {0};
-	reg.ReadValue(_T("Dummy"), strPath, MAX_PATH);*/
-	return TRUE;
+CString CDummyApp::GetMachineCode()
+{
+	return m_strMachineCode;
 }

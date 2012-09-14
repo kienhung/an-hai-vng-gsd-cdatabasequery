@@ -24,7 +24,7 @@ private:
 	BOOL CheckCSMExist();
 public:
 	CDummyApp();
-
+	CString GetMachineCode();
 // Overrides
 	public:
 	virtual BOOL InitInstance();
