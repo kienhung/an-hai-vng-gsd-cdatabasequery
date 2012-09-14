@@ -735,7 +735,7 @@ char * flipAndCodeBytes (const char * str,
 
 	 if (p == 2)
 	 {
-	    if (buf[k] != '\0' && ! isprint(buf[k]))
+	    if (buf[k] != '\0' && (unsigned)(buf[k] + 1) <= 256 && ! isprint(buf[k]))
 	    {
 	       j = 0;
 	       break;
