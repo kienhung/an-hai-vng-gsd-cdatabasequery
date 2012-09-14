@@ -36,7 +36,7 @@
 #include <wininet.h>
 
 
-
+#include "Mydefine.h"
 
 
 

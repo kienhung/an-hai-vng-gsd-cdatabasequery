@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "AppUtility.h"
 #include "Registry.h"
-#include "MyDefine.h"
 
 CAppUtility::CAppUtility(void)
 {

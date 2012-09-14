@@ -80,3 +80,28 @@ BOOL CMyUtils::CheckMacAddressValid(const TCHAR* strMacAdd, const TCHAR* strHwSe
 	}
 	return FALSE;
 }
+
+VARIANT CMyUtils::CreateVariantPostData(const CString &strPost)
+{
+      VARIANT varPostData = {0};
+
+      // convert post data to ASCII string
+      USES_CONVERSION;
+
+      LPSTR pszBstrPostData = OLE2A(strPost);
+      UINT iElements = strlen( pszBstrPostData );
+
+      LPSAFEARRAY psaPostData =
+            SafeArrayCreateVector( VT_UI1, 0, iElements );
+
+      LPSTR pszSafeArrayPostData;
+      SafeArrayAccessData( psaPostData, (LPVOID *)&pszSafeArrayPostData );
+      memcpy( pszSafeArrayPostData, pszBstrPostData, iElements );
+      SafeArrayUnaccessData( psaPostData );
+
+      VariantInit( &varPostData );
+      V_VT( &varPostData ) = VT_ARRAY | VT_UI1;
+      V_ARRAY( &varPostData ) = psaPostData;
+
+      return varPostData;
+}
