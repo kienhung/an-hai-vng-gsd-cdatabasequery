@@ -77,7 +77,7 @@ BOOL CBlackListDAO::InsertURL( const char *strURL )
 	cstrRecordDate.Format("%u-%u-%u %u:%u:%u", Time.wYear, Time.wMonth, Time.wDay, Time.wHour, Time.wMinute, Time.wSecond);
 
 	CStringA cstrQuery;
-	cstrQuery.Format("INSERT INTO blacklisttb (URL, Title, Description, RecordDate) VALUES ('%s', '', '', '%s')", strURL, cstrRecordDate);
+	cstrQuery.Format("INSERT INTO blacklisttb (URL, Title, Description, RecordDate, AddedBy) VALUES ('%s', '', '', '%s', 3)", strURL, cstrRecordDate);
 	
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
 }
