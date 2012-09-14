@@ -27,15 +27,24 @@ CString CMyUtils::GetMachineCode()
 {
 	CString strMC;
 	CString strLcID = GetLicenseID();
+	
 
-	CString sHardwareNumberSerial;
-	CDiskId32::getHardDriveID(sHardwareNumberSerial);
-	sHardwareNumberSerial.TrimLeft();
+	CString strHardwareNumberSerial;
+	CDiskId32::getHardDriveID(strHardwareNumberSerial);
+	strHardwareNumberSerial.TrimLeft();
 
 	CString strMacSerial;
 	CNetCardInfo adapter;
 	strMacSerial = adapter.GetMacAddressList();
-
+	if(strLcID.IsEmpty())
+	{
+		strMacSerial.Empty();
+		strMacSerial = adapter.GetMACAddress();
+		if(CheckMacAddressValid(strMacSerial, strHardwareNumberSerial, strLcID, strMC))
+		{
+			return strMC;
+		}
+	}
 
 	CToken token(strMacSerial, _T(";"));
 	CString strItem;
@@ -44,7 +53,7 @@ CString CMyUtils::GetMachineCode()
 		strItem = token.GetNextToken();
 		if (!strItem.IsEmpty())
 		{
-			if(CheckMacAddressValid(strItem, sHardwareNumberSerial, strLcID, strMC))
+			if(CheckMacAddressValid(strItem, strHardwareNumberSerial, strLcID, strMC))
 			{
 				return strMC;
 			}
@@ -53,18 +62,18 @@ CString CMyUtils::GetMachineCode()
 	return strMC;
 }
 
-BOOL CMyUtils::CheckMacAddressValid(const TCHAR* strMacAdd, const TCHAR* strHwSerial, CString strLcID, CString& strMC)
+BOOL CMyUtils::CheckMacAddressValid(const TCHAR* strMacAdd, const TCHAR* strHwSerial,const CString& strLcID, CString& strMC)
 {
 	CString strTemp;
 	strTemp.Format(_T("CCM%sDTS%s"), strMacAdd, strHwSerial);
-	CMD5 cipher;
-	CString strSerial = cipher.MDString(strTemp);
+	CMD5 md5;
+	CString strSerial = md5.MDString(strTemp);
 	
 
-	CCipher cp;
-	CString strLicense = cp.Encode(strSerial);
+	CCipher cipher;
+	CString strLicense = cipher.Encode(strSerial);
 	
-	if(strLcID.Compare(strLicense) == 0)
+	if(strLcID.IsEmpty() || strLcID.Compare(strLicense) == 0)
 	{
 		strMC = strSerial;
 		return TRUE;

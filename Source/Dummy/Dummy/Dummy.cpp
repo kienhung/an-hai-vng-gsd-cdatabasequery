@@ -7,6 +7,7 @@
 #include "DummyUpdater.h"
 #include "MyUtils.h"
 #include "MyDefine.h"
+#include "AppUtility.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -66,7 +67,11 @@ BOOL CDummyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-	if(!CheckCSMExist())
+
+	RunOnlyOneInst();
+
+	CAppUtility appUtility;
+	if(!appUtility.CheckCSMExist())
 	{
 		return FALSE;
 	}
@@ -82,8 +87,6 @@ BOOL CDummyApp::InitInstance()
 			return FALSE;
 		}
 	}
-
-	RunOnlyOneInst();
 	
 	if (!ReregisterDialogClass())
 		return FALSE;
@@ -200,19 +203,6 @@ BOOL CDummyApp::ReregisterDialogClass()
 
 	return TRUE;
 }
-BOOL CDummyApp::CheckCSMExist()
-{
-	
-	HKEY hKey;
-	LONG lResult = 0;
-	lResult = RegOpenKeyEx(HKEY_LOCAL_MACHINE, REG_PATH_INSTALL, 0,  KEY_ALL_ACCESS, &hKey);
-	if(lResult == ERROR_SUCCESS)
-	{
-		return TRUE;
-	}
-	return FALSE;
-}
-
 CString CDummyApp::GetMachineCode()
 {
 	return m_strMachineCode;

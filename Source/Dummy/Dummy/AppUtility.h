@@ -8,4 +8,6 @@ public:
 
 	VOID SetStartUp();
 	BOOL CheckRegister();
+	BOOL CheckCSMExist();
+	BOOL UpdateRegistered(BOOL bIsReg);
 };

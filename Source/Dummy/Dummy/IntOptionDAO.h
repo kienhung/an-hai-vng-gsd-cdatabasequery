@@ -12,4 +12,5 @@ public:
 	BOOL ConnectToDB(char *pcUserName, char *pcPassword, char *pcServerAddress, char *pcDatabase);
 
 	CString GetLicesenID();
+	CString GetCityID();
 };

@@ -154,7 +154,6 @@ BOOL CRegistry::SaveValue(LPCTSTR lpValName, LPCTSTR lpData)
 BOOL CRegistry::CreateKey(HKEY hRootKey, const TCHAR *pcSubKey)
 {
 	HKEY hKey;
-	LONG lRet;
 
 	if (RegCreateKeyEx(hRootKey, pcSubKey, 0, NULL, 0, KEY_ALL_ACCESS, NULL, &hKey, NULL) == ERROR_SUCCESS)
 	{
