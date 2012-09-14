@@ -8,6 +8,8 @@ using namespace std;
 CBlackListReader::CBlackListReader(void)
 {
 	m_bIsConnected = m_blackListDAO.ConnectToDB("root", "", "localhost", "ddm");
+	m_iConditionID = 3;
+	m_iInvalidID = 0;
 }
 
 CBlackListReader::~CBlackListReader(void)
@@ -29,7 +31,7 @@ BOOL CBlackListReader::Read( LPCTSTR strFilePath )
 		return FALSE;
 	}
 
-	if (FALSE == m_blackListDAO.UpdateAddedBy("%%", 0, 3))
+	if (FALSE == m_blackListDAO.UpdateAddedBy("%%", m_iInvalidID, m_iConditionID))
 	{
 		return FALSE;
 	}
@@ -50,7 +52,7 @@ BOOL CBlackListReader::ProcessURL( const char* strURL )
 {
 	if (TRUE == m_blackListDAO.CheckURLExist(strURL))
 	{
-		if (FALSE == m_blackListDAO.UpdateAddedBy(strURL, 1, 0))
+		if (FALSE == m_blackListDAO.UpdateAddedBy(strURL, m_iConditionID, m_iInvalidID))
 		{
 			return FALSE;
 		}
