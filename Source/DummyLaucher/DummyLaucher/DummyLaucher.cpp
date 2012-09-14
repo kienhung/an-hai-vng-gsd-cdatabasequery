@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "DummyLaucher.h"
-#include "DummyLaucherDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -116,6 +115,7 @@ BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy, const TCHAR* s
 			{
 				dwAttr &= ~FILE_ATTRIBUTE_READONLY;
 			}
+			SetFileAttributes(strPathOldDummy, dwAttr);
 			if(::CopyFile(strCurrentDir, strPathOldDummy, FALSE))
 			{
 				return TRUE;
