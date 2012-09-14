@@ -68,6 +68,8 @@ BOOL CDummyApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+
+
 	RunOnlyOneInst();
 
 	CAppUtility appUtility;
@@ -78,15 +80,16 @@ BOOL CDummyApp::InitInstance()
 	
 	m_strMachineCode = CMyUtils::GetMachineCode();
 
-	CDummyUpdater dummyUpdater;
-	if (TRUE == dummyUpdater.IsNeedUpdate())
 
-	{
-		if (TRUE == dummyUpdater.StartUpdate())
-		{
-			return FALSE;
-		}
-	}
+	//CDummyUpdater dummyUpdater;
+	//if (TRUE == dummyUpdater.IsNeedUpdate())
+
+	//{
+	//	if (TRUE == dummyUpdater.StartUpdate())
+	//	{
+	//		return FALSE;
+	//	}
+	//}
 	
 	if (!ReregisterDialogClass())
 		return FALSE;
