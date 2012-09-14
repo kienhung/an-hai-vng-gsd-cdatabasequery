@@ -6,7 +6,6 @@
 #include "DummyDlg.h"
 #include "DummyUpdater.h"
 #include "MyUtils.h"
-#include "MyDefine.h"
 #include "AppUtility.h"
 
 #ifdef _DEBUG

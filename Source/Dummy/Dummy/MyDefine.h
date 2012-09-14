@@ -5,7 +5,11 @@
 #define REG_VALUE_NAME_REGINFO _T("RID")
 #define REG_VALUE_NAME_STARTUP _T("Dummy")
 
-#define LINK_REDIRECT_SUCCESS _T("regsuccess.aspx")
-#define LINK_REDIRECT_CLOSE _T("regclose.aspx")
+#define LINK_REDIRECT_SUCCESS	_T("regsuccess.aspx")
+#define LINK_REDIRECT_CLOSE		_T("regclose.aspx")
 
-#define REG_STARTUP _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
+#define REG_STARTUP		_T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")
+
+#define CITYID_CODE		_T("40")
+
+#define URL_REGISTER	_T("http://csm.vng.com.vn/pos/s4t/RegisterInfo.aspx")
