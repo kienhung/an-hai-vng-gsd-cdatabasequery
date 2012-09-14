@@ -19,7 +19,7 @@ void CHTTPRequester::Initalize()
 	m_hConnection = NULL;
 	m_hRequest = NULL;
 
-	m_strResponse = L"unknown";
+	m_strResponse = L"";
 }
 
 void CHTTPRequester::CleanUp()
@@ -72,10 +72,13 @@ BOOL CHTTPRequester::PostRequest( LPCTSTR strServer, LPCTSTR strObjectName, LPVO
 
 		if (FALSE == ::HttpSendRequest(m_hRequest, m_strHeader, m_strHeader.GetLength(), buffer, uiBufferSize))
 		{
-			return FALSE;
+			throw L"HttpSendRequest is failed";
 		}
 
-		bResult = ReceiveResponsedString();
+		if (FALSE == ReceiveResponsedString())
+		{
+			throw L"ReceiveResponsedString is failed";
+		}
 
 	} 
 	catch (LPCTSTR strErrorMessage)
@@ -134,25 +137,19 @@ BOOL CHTTPRequester::PostRequest( LPCTSTR strURL, LPCTSTR strData )
 }
 
 
-const CString& CHTTPRequester::GetResponsedString()
+CString CHTTPRequester::GetResponsedString()
 {
 	return m_strResponse;
 }
 
 BOOL CHTTPRequester::ReceiveResponsedString()
 {
-	DWORD dwNumberBytesReceived = 0;
-	if (FALSE == ::InternetQueryDataAvailable(m_hRequest, &dwNumberBytesReceived, 0, 0))
-	{
-		return FALSE;
-	}
-
 	const int URL_LENGTH = 256;
 	char strBuffer[URL_LENGTH] = {0};
 
 	DWORD dwByteRead;
 
-	if (::InternetReadFile(m_hRequest, strBuffer, URL_LENGTH - 1, &dwByteRead) && dwByteRead != dwNumberBytesReceived)
+	if (FALSE == ::InternetReadFile(m_hRequest, strBuffer, URL_LENGTH - 1, &dwByteRead))
 	{
 		return FALSE;
 	}

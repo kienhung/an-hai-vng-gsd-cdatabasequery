@@ -22,7 +22,7 @@ public:
 	BOOL PostRequest(LPCTSTR strServer, LPCTSTR strObjectName, LPCTSTR strData);
 	BOOL PostRequest(LPCTSTR strURL, LPCTSTR strData);
 
-	const CString& GetResponsedString();
+	CString GetResponsedString();
 
 protected:
 
