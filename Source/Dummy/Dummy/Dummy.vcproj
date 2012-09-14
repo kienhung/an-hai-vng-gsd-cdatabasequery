@@ -326,14 +326,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RegistryHelper.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RegistryHelper.h"
-				>
-			</File>
-			<File
 				RelativePath=".\StringConverter.cpp"
 				>
 			</File>

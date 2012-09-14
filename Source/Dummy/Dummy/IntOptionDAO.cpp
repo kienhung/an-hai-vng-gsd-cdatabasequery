@@ -25,8 +25,6 @@ BOOL CIntOptionDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServ
 }
 CString CIntOptionDAO::GetLicesenID()
 {
-	
-	
 	if(!ConnectToDB("root","","localhost","ddm"))
 	{
 		return NULL;
@@ -50,6 +48,36 @@ CString CIntOptionDAO::GetLicesenID()
 		CString strLicenseID(strTemp);
 		m_pSQLDataAccessHelper->FreeQueryResult(pMySQLQueryResult);
 		return strLicenseID;
+	}
+
+	m_pSQLDataAccessHelper->FreeQueryResult(pMySQLQueryResult);
+	return NULL;
+}
+CString CIntOptionDAO::GetCityID()
+{
+	if(!ConnectToDB("root","","localhost","ddm"))
+	{
+		return NULL;
+	}
+	
+
+
+	CStringA cstrSelectQuery("SELECT Value FROM intoptiontb where OptionName = 'mcl';");
+
+	MYSQL_RES *pMySQLQueryResult =  m_pSQLDataAccessHelper->ExecuteQuery(cstrSelectQuery);
+
+	if(NULL == pMySQLQueryResult)
+	{
+		return FALSE;
+	}
+
+	MYSQL_ROW mySQLResultRow;
+	if((mySQLResultRow = mysql_fetch_row(pMySQLQueryResult)))
+	{
+		CStringA strTemp(mySQLResultRow[0]);
+		CString strCityID(strTemp);
+		m_pSQLDataAccessHelper->FreeQueryResult(pMySQLQueryResult);
+		return strCityID;
 	}
 
 	m_pSQLDataAccessHelper->FreeQueryResult(pMySQLQueryResult);
