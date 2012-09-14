@@ -282,6 +282,14 @@
 			Name="Helper"
 			>
 			<File
+				RelativePath=".\AppUtility.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\AppUtility.h"
+				>
+			</File>
+			<File
 				RelativePath=".\BlackListDAO.cpp"
 				>
 			</File>
