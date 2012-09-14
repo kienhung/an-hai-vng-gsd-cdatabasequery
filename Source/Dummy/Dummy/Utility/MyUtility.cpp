@@ -68,3 +68,92 @@ BOOL CMyUtility::CreateTempFile( CString &cstrOut )
 	cstrOut = strTempFileName;
 	return TRUE;
 }
+
+BOOL CMyUtility::GetModifyTime( LPCTSTR strFileName, FILETIME &fileTime )
+{
+
+	HANDLE hFile;
+
+	hFile = CreateFile(     strFileName, 
+							GENERIC_READ, 
+							FILE_SHARE_READ, 
+							NULL, 
+							OPEN_EXISTING, 
+							FILE_ATTRIBUTE_NORMAL, 
+							NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE) 
+		return FALSE;
+
+	if (!GetFileTime(hFile, NULL, NULL, &fileTime))
+	{
+		CloseHandle(hFile);
+		return FALSE;
+	}
+
+	CloseHandle(hFile);
+
+	return TRUE;
+
+}
+
+BOOL CMyUtility::QueryMasterModifyTime( LPCTSTR strMasterFile, SYSTEMTIME *lpSysTime )
+{
+
+	// Clear output buffer
+	SecureZeroMemory(lpSysTime, sizeof(SYSTEMTIME));
+
+	DeleteUrlCacheEntry(strMasterFile);
+
+	// Open connection
+	HINTERNET hInternetSession = InternetOpen(NULL, INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+	if (!hInternetSession) 
+		return FALSE;
+
+	// Open the resource from server
+	HINTERNET hInternetFile = InternetOpenUrl(hInternetSession, strMasterFile, NULL, 0, 0, 0);
+	if (!hInternetFile)
+	{
+		InternetCloseHandle(hInternetSession);
+		return FALSE;
+	}
+
+	// Query last modify date and time
+	DWORD dwSize = sizeof(SYSTEMTIME);
+	if (!HttpQueryInfo(hInternetFile, HTTP_QUERY_LAST_MODIFIED | HTTP_QUERY_FLAG_SYSTEMTIME, lpSysTime, &dwSize, NULL))
+	{
+		InternetCloseHandle(hInternetFile);
+		InternetCloseHandle(hInternetSession);
+		return FALSE;
+	}
+
+	// Clean up...
+	InternetCloseHandle(hInternetFile);
+	InternetCloseHandle(hInternetSession);
+	return TRUE;
+
+}
+
+BOOL CMyUtility::SetModifyTime( LPCTSTR strFileName, const FILETIME &modifyTime )
+{
+
+	HANDLE      hFile;
+	BOOL  bRet;
+
+	hFile = CreateFile(     strFileName, 
+		FILE_WRITE_ATTRIBUTES, 
+		FILE_SHARE_READ, 
+		NULL, 
+		OPEN_EXISTING, 
+		FILE_ATTRIBUTE_NORMAL, 
+		NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE) 
+		return FALSE;
+
+	bRet = SetFileTime(hFile, NULL, NULL, &modifyTime);
+	CloseHandle(hFile);
+
+	return bRet;
+
+}
