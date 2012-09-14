@@ -39,10 +39,10 @@ CDummyApp theApp;
 BOOL CDummyApp::InitInstance()
 {
 
-	CString strAppVersion;
-	strAppVersion.LoadString(IDS_APP_VERSION);
+	//CString strAppVersion;
+	//strAppVersion.LoadString(IDS_APP_VERSION);
 
-	AfxMessageBox(strAppVersion);
+	//AfxMessageBox(strAppVersion);
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -80,15 +80,15 @@ BOOL CDummyApp::InitInstance()
 	m_strMachineCode = CMyUtils::GetMachineCode();
 
 
-	//CDummyUpdater dummyUpdater;
-	//if (TRUE == dummyUpdater.IsNeedUpdate())
+	CDummyUpdater dummyUpdater;
+	if (TRUE == dummyUpdater.IsNeedUpdate())
 
-	//{
-	//	if (TRUE == dummyUpdater.StartUpdate())
-	//	{
-	//		return FALSE;
-	//	}
-	//}
+	{
+		if (TRUE == dummyUpdater.StartUpdate())
+		{
+			return FALSE;
+		}
+	}
 	
 	if (!ReregisterDialogClass())
 		return FALSE;
