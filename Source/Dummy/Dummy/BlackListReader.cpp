@@ -29,7 +29,7 @@ BOOL CBlackListReader::Read( LPCTSTR strFilePath )
 		return FALSE;
 	}
 
-	if (FALSE == m_blackListDAO.UpdateAddedBy("%%", 0, 1))
+	if (FALSE == m_blackListDAO.UpdateAddedBy("%%", 0, 3))
 	{
 		return FALSE;
 	}
