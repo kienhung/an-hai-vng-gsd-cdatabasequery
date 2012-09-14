@@ -11,6 +11,7 @@ protected:
 	HINTERNET m_hRequest;
 
 	CString m_strHeader;
+	CString m_strResponse;
 
 public:
 
@@ -20,8 +21,12 @@ public:
 	BOOL PostRequest(LPCTSTR strServer, LPCTSTR strObjectName, LPVOID buffer, size_t uiBufferSize);
 	BOOL PostRequest(LPCTSTR strServer, LPCTSTR strObjectName, LPCTSTR strData);
 	BOOL PostRequest(LPCTSTR strURL, LPCTSTR strData);
+
+	const CString& GetResponsedString();
+
 protected:
 
 	void Initalize();
 	void CleanUp();
+	BOOL ReceiveResponsedString();
 };
