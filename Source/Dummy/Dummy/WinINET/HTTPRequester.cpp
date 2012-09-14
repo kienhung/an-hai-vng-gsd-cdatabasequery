@@ -18,6 +18,8 @@ void CHTTPRequester::Initalize()
 	m_hSession = NULL;
 	m_hConnection = NULL;
 	m_hRequest = NULL;
+
+	m_strResponse = L"unknown";
 }
 
 void CHTTPRequester::CleanUp()
@@ -68,7 +70,13 @@ BOOL CHTTPRequester::PostRequest( LPCTSTR strServer, LPCTSTR strObjectName, LPVO
 			throw L"HttpOpenRequest is failed";
 		}
 
-		bResult = ::HttpSendRequest(m_hRequest, m_strHeader, m_strHeader.GetLength(), buffer, uiBufferSize);
+		if (FALSE == ::HttpSendRequest(m_hRequest, m_strHeader, m_strHeader.GetLength(), buffer, uiBufferSize))
+		{
+			return FALSE;
+		}
+
+		bResult = ReceiveResponsedString();
+
 	} 
 	catch (LPCTSTR strErrorMessage)
 	{
@@ -123,4 +131,34 @@ BOOL CHTTPRequester::PostRequest( LPCTSTR strURL, LPCTSTR strData )
 	}
 
 	return PostRequest(urlComponents.lpszHostName, urlComponents.lpszUrlPath, strData);
+}
+
+
+const CString& CHTTPRequester::GetResponsedString()
+{
+	return m_strResponse;
+}
+
+BOOL CHTTPRequester::ReceiveResponsedString()
+{
+	DWORD dwNumberBytesReceived = 0;
+	if (FALSE == ::InternetQueryDataAvailable(m_hRequest, &dwNumberBytesReceived, 0, 0))
+	{
+		return FALSE;
+	}
+
+	const int URL_LENGTH = 256;
+	char strBuffer[URL_LENGTH] = {0};
+
+	DWORD dwByteRead;
+
+	if (::InternetReadFile(m_hRequest, strBuffer, URL_LENGTH - 1, &dwByteRead) && dwByteRead != dwNumberBytesReceived)
+	{
+		return FALSE;
+	}
+
+	CStringConverter stringConverter;
+	m_strResponse = stringConverter.UTF8ToUnicode(strBuffer);
+
+	return TRUE;
 }
