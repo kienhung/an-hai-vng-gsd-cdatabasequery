@@ -60,4 +60,6 @@ public:
 protected:
 	BOOL UpdateBlackList();
 	BOOL PingServer();
+	BOOL IsNeedDownloadBlackList(CString &strBlackListUrl);
+	BOOL UpdateFileTime(LPCTSTR strFileURL, LPCTSTR strFilePath);
 };
