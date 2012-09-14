@@ -13,3 +13,5 @@
 #define CITYID_CODE		_T("40")
 
 #define URL_REGISTER	_T("http://csm.vng.com.vn/pos/s4t/RegisterInfo.aspx")
+#define URL_PING_MASTER	_T("http://localhost/Dummy/PingMaster.asp")
+#define URL_CHECK_BLACK_LIST _T("http://localhost/Dummy/CheckUBL.asp")
