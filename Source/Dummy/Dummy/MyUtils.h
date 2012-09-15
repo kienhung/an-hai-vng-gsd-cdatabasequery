@@ -9,4 +9,5 @@ public:
 	static BOOL CheckMacAddressValid(const TCHAR* strMacAdd, const TCHAR* strHwSerial, const CString& strLcID, CString& strMC);
 	static CString GetMachineCode();
 	static VARIANT CreateVariantPostData(const CString &strPost);
+
 };
