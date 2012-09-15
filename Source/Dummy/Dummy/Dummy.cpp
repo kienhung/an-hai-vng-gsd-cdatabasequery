@@ -7,6 +7,7 @@
 #include "DummyUpdater.h"
 #include "MyUtils.h"
 #include "AppUtility.h"
+#include "Utility/PathUtility.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -60,17 +61,16 @@ BOOL CDummyApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
-
-
+	
 
 	RunOnlyOneInst();
-
+	
 	CAppUtility appUtility;
 	if(!appUtility.CheckCSMExist())
 	{
 		return FALSE;
 	}
-	
+	m_strExeDirectory = CPathUtility::GetExeDirectory();
 	m_strMachineCode = CMyUtils::GetMachineCode();
 
 
@@ -202,4 +202,9 @@ BOOL CDummyApp::ReregisterDialogClass()
 CString CDummyApp::GetMachineCode()
 {
 	return m_strMachineCode;
+}
+
+CString CDummyApp::GetExeDirectory()
+{
+	return m_strExeDirectory;
 }

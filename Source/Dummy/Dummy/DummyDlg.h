@@ -13,6 +13,7 @@ class CDummyDlg : public CDialog
 private:
 	BOOL m_bIsRegistered;
 	BOOL m_bIsVisibleDlg;
+	SYSTEMTIME m_stLastModifyBlackList;
 
 	void AddIconToSystemTray();
 	void RemoveIconFromSystemTray();
@@ -62,6 +63,7 @@ protected:
 	BOOL PingServer();
 	BOOL IsNeedDownloadBlackList(CString &strBlackListUrl);
 	BOOL UpdateFileTime(LPCTSTR strFileURL, LPCTSTR strFilePath);
+	BOOL UpdateFileTime(LPCTSTR strFilePath);
 public:
 	void NavigateComplete2ExplorerRegister(LPDISPATCH pDisp, VARIANT* URL);
 	void WindowClosingExplorerRegister(BOOL IsChildWindow, BOOL* Cancel);

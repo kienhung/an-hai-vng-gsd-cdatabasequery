@@ -10,4 +10,6 @@ public:
 	static CString GetMachineCode();
 	static VARIANT CreateVariantPostData(const CString &strPost);
 
+	static BOOL ConvertStringToSystemTime(SYSTEMTIME& systemTime, const CString& strTime);
+	
 };
