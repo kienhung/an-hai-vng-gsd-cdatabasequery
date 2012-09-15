@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "HTTPDownloader.h"
+#include "..\Utility\MyUtility.h"
 
 
 CHTTPDownloader::CHTTPDownloader(void)
@@ -79,6 +80,16 @@ void CHTTPDownloader::CleanUp()
 
 BOOL CHTTPDownloader::SaveFile( LPCTSTR strFilePath )
 {
+	if (TRUE == CMyUtility::CheckFileExist(strFilePath))
+	{
+		DWORD dwAttributes = ::GetFileAttributes(strFilePath);
+
+		if (dwAttributes & FILE_ATTRIBUTE_READONLY) 
+		{
+			::SetFileAttributes(strFilePath, dwAttributes & ~(FILE_ATTRIBUTE_READONLY));
+		}
+	}
+	
 	m_hFile = ::CreateFile(strFilePath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (INVALID_HANDLE_VALUE == m_hFile)
@@ -99,6 +110,5 @@ BOOL CHTTPDownloader::SaveFile( LPCTSTR strFilePath )
 			return FALSE;
 		}
 	}
-
 	return TRUE;
 }
