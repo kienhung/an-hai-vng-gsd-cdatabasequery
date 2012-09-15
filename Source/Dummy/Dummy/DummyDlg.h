@@ -62,4 +62,7 @@ protected:
 	BOOL PingServer();
 	BOOL IsNeedDownloadBlackList(CString &strBlackListUrl);
 	BOOL UpdateFileTime(LPCTSTR strFileURL, LPCTSTR strFilePath);
+public:
+	void NavigateComplete2ExplorerRegister(LPDISPATCH pDisp, VARIANT* URL);
+	void WindowClosingExplorerRegister(BOOL IsChildWindow, BOOL* Cancel);
 };
