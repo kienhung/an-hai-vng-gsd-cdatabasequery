@@ -157,3 +157,17 @@ BOOL CMyUtility::SetModifyTime( LPCTSTR strFileName, const FILETIME &modifyTime 
 	return bRet;
 
 }
+
+BOOL CMyUtility::CheckFileExist( LPCTSTR strFilePath )
+{
+	WIN32_FIND_DATA FindFileData;
+
+	HANDLE hFind = ::FindFirstFile(strFilePath, &FindFileData);
+
+	if (INVALID_HANDLE_VALUE == hFind) {
+		return FALSE;
+	}
+
+	::FindClose(hFind);
+	return TRUE;
+}
