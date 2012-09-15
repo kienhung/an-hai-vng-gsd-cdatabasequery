@@ -2,6 +2,7 @@
 #include "BlackListReader.h"
 #include <fstream>
 #include <string>
+#include "Utility\MyUtility.h"
 
 using namespace std;
 
@@ -37,11 +38,23 @@ BOOL CBlackListReader::Read( LPCTSTR strFilePath )
 	}
 
 	string strLine;
+	////int iCount = 0;
 	while (getline(input, strLine))
 	{
-		if (FALSE == ProcessURL(strLine.c_str()))
+		//iCount++;
+
+		//if (iCount == 796)
+		//{
+		//	int temp = 0;
+		//}
+
+		CMyUtility::StringTrim(strLine);
+		if (strlen(strLine.c_str()) > 0)
 		{
-			return FALSE;
+			if (FALSE == ProcessURL(strLine.c_str()))
+			{
+				return FALSE;
+			}
 		}
 	}
 
