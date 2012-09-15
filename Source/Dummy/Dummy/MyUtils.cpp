@@ -105,3 +105,4 @@ VARIANT CMyUtils::CreateVariantPostData(const CString &strPost)
 
       return varPostData;
 }
+
