@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+using namespace std;
 
 class CMyUtility
 {
@@ -12,4 +14,6 @@ public:
 	static BOOL QueryMasterModifyTime(LPCTSTR strMasterFile, SYSTEMTIME *lpSysTime);
 	static BOOL SetModifyTime(LPCTSTR strFileName, const FILETIME &modifyTime);
 	static BOOL CheckFileExist( LPCTSTR strFilePath );
+	static BOOL Decode(LPCTSTR strSource, LPCTSTR strDest);
+	static void StringTrim(string &str);
 };
