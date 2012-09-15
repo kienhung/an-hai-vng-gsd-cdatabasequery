@@ -21,10 +21,12 @@ private:
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
 	CString m_strMachineCode;
+	CString m_strExeDirectory;
 	
 public:
 	CDummyApp();
 	CString GetMachineCode();
+	CString GetExeDirectory();
 // Overrides
 	public:
 	virtual BOOL InitInstance();

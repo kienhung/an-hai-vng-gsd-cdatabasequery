@@ -6,6 +6,8 @@
 #include "md5.h"
 #include "Cipher.h"
 #include "IntOptionDAO.h"
+#include <iostream>
+using namespace std;
 
 
 CMyUtils::CMyUtils(void)
@@ -106,3 +108,45 @@ VARIANT CMyUtils::CreateVariantPostData(const CString &strPost)
       return varPostData;
 }
 
+BOOL CMyUtils::ConvertStringToSystemTime(SYSTEMTIME& systemTime, const CString& strTime)
+{
+	// Check strTime with format yyyymmddHHMMSS
+	if(strTime.GetLength() != 14)
+	{
+		return FALSE;
+	}
+	for(int i = 0; i < strTime.GetLength(); i++)
+	{
+		if(strTime[i] < _T('0') || strTime[i] > _T('9'))
+			return FALSE;
+	}
+	
+	CString strBuf;
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(0, 4));
+	systemTime.wYear = (WORD)wcstol(strBuf, NULL, 10);
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(4, 2));
+	systemTime.wMonth = (WORD)wcstol(strBuf, NULL, 10);
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(6, 2));
+	systemTime.wDay = (WORD)wcstol(strBuf, NULL, 10);
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(8, 2));
+	systemTime.wHour = (WORD)wcstol(strBuf, NULL, 10);
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(10, 2));
+	systemTime.wMinute = (WORD)wcstol(strBuf, NULL, 10);
+
+	strBuf.Empty();
+	strBuf.Append(strTime.Mid(12, 2));
+	systemTime.wSecond = (WORD)wcstol(strBuf, NULL, 10);
+	
+	
+	return TRUE;
+}
