@@ -7,6 +7,7 @@
 #include <string>
 #include "Utility/PathUtility.h"
 #include "Utility/FolderDeleter.h"
+#include "Dummy.h"
 
 
 using namespace std;
@@ -57,7 +58,14 @@ BOOL CDummyUpdater::IsNeedUpdate()
 		CStringA strAppVersion;
 		strAppVersion.LoadString(IDS_APP_VERSION);
 
-		bResult = (strAppVersion != strLine.c_str());
+		if (strLine.compare("unknown") == 0)
+		{
+			bResult = false;
+		}
+		else
+		{
+			bResult = (strAppVersion != strLine.c_str());
+		}
 
 	} 
 	catch (LPCTSTR strErrorMessage)
@@ -120,13 +128,21 @@ BOOL CDummyUpdater::StartUpdate()
 
 BOOL CDummyUpdater::DeleteTempFolder()
 {
-	CString cstrTempFolderPath = CPathUtility::GetExeDirectory() + L"\\Temp";
-
+	
+	CString cstrTempFolderPath = theApp.GetExeDirectory() + L"\\Temp";
+	AfxMessageBox(cstrTempFolderPath);
 	if (CPathUtility::IsPathDirectory(cstrTempFolderPath))
 	{
 		CFolderDeleter folderDeleter;
-		return folderDeleter.Delete(cstrTempFolderPath);
+		BOOL bresult = folderDeleter.Delete(cstrTempFolderPath);
+		if(bresult)
+			AfxMessageBox(_T("thanh cong"));
+		else
+			AfxMessageBox(_T("that bai"));
+		return bresult;
 	}
+	else
+		AfxMessageBox(_T("Khong phai thu muc"));
 
 	return TRUE;
 }

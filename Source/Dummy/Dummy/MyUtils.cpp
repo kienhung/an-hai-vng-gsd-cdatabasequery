@@ -36,8 +36,13 @@ CString CMyUtils::GetMachineCode()
 	strHardwareNumberSerial.TrimLeft();
 
 	CString strMacSerial;
+	strMacSerial.Empty();
+	CheckMacAddressValid(strMacSerial, strHardwareNumberSerial, _T(""), strMC);
+
 	CNetCardInfo adapter;
 	strMacSerial = adapter.GetMacAddressList();
+
+
 	if(strLcID.IsEmpty())
 	{
 		strMacSerial.Empty();

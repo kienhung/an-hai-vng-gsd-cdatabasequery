@@ -65,11 +65,7 @@ BOOL CDummyApp::InitInstance()
 
 	RunOnlyOneInst();
 	
-	CAppUtility appUtility;
-	if(!appUtility.CheckCSMExist())
-	{
-		return FALSE;
-	}
+	
 	m_strExeDirectory = CPathUtility::GetExeDirectory();
 	m_strMachineCode = CMyUtils::GetMachineCode();
 
@@ -89,7 +85,7 @@ BOOL CDummyApp::InitInstance()
 
 	CDummyDlg dlg;
 	m_pMainWnd = &dlg;
-#if 0
+#if 1
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{
