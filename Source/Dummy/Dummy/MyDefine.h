@@ -16,3 +16,5 @@
 #define URL_PING_MASTER	_T("http://csm.vng.com.vn/pos/s4t/PostACT.aspx")
 #define URL_LOCAL_CHECK_BLACK_LIST _T("http://localhost/Dummy/CheckUBL.asp")
 #define URL_CHECK_BLACK_LIST _T("http://csm.vng.com.vn/pos/s4t/CheckUBL.aspx")
+
+#define PRODUCTNAME _T("InfoSoft")
