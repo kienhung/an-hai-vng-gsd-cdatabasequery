@@ -99,7 +99,7 @@ BOOL CDummyLaucherApp::CopyDummyApp(const TCHAR* strPathOldDummy, const TCHAR* s
 		strTemp.Delete(iIndex, strTemp.GetLength() - iIndex);
 	}
 	wmemset(strCurrentDir, 0, MAX_PATH);
-	swprintf(strCurrentDir, MAX_PATH, _T("%s\\%s"), strTemp.GetBuffer(), _T("Dummy.exe"));
+	swprintf(strCurrentDir, MAX_PATH, _T("%s\\%s"), strTemp.GetBuffer(), _T("InfoSoft.exe"));
 	
 	if(!::CopyFile(strCurrentDir, strPathOldDummy, FALSE))
 	{
