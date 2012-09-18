@@ -28,7 +28,7 @@ BOOL CDummyUpdater::IsNeedUpdate()
 	}
 
 	CString cstrTempFilePath;
-	if (FALSE == CMyUtility::CreateTempFile(cstrTempFilePath))
+	if (FALSE == CMyUtility::CreateTempFilePath(cstrTempFilePath))
 	{
 		return FALSE;
 	}
