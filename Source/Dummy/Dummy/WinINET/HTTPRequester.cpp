@@ -144,7 +144,7 @@ BOOL CHTTPRequester::PostRequest( LPCTSTR strURL, LPCTSTR strData )
 }
 
 
-const CString& CHTTPRequester::GetResponsedString()
+CString CHTTPRequester::GetResponsedString()
 {
 	return m_strResponse;
 }
