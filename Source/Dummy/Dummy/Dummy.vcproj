@@ -68,6 +68,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\InfoSoft.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
@@ -150,6 +151,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\InfoSoft.exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(ProjectDir)mysql\lib\opt"
 				GenerateDebugInformation="true"
@@ -275,6 +277,10 @@
 			</File>
 			<File
 				RelativePath=".\res\Dummy.rc2"
+				>
+			</File>
+			<File
+				RelativePath=".\res\InfoSoft_Icon-256.ico"
 				>
 			</File>
 		</Filter>
