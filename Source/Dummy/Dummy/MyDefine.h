@@ -17,4 +17,8 @@
 #define URL_LOCAL_CHECK_BLACK_LIST _T("http://localhost/Dummy/CheckUBL.asp")
 #define URL_CHECK_BLACK_LIST _T("http://csm.vng.com.vn/pos/s4t/CheckUBL.aspx")
 
+#define URL_VERSION _T("http://localhost/Dummy/Download/dmver.dat")
+#define URL_UPDATE_PACKAGE _T("http://localhost/Dummy/Download/dmup.zip")
+
+
 #define PRODUCTNAME _T("InfoSoft")

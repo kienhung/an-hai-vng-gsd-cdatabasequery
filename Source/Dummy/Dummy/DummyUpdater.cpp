@@ -37,10 +37,9 @@ BOOL CDummyUpdater::IsNeedUpdate()
 
 	try 
 	{
-		LPCTSTR strVersionFileURL = L"http://localhost/Dummy/Download/dmver.dat";
 		CHTTPDownloader httpDownloader;
 
-		if (FALSE == httpDownloader.Download(strVersionFileURL, cstrTempFilePath))
+		if (FALSE == httpDownloader.Download(URL_VERSION, cstrTempFilePath))
 		{
 			throw L"To Download dmver.dat is failed";
 		}
@@ -91,8 +90,6 @@ BOOL CDummyUpdater::StartUpdate()
 	}
 
 	CString cstrUpdatePackageFilePath = cstrTempFolderPath+ L"\\dmup.zip";
-	LPCTSTR strUpdatePackageURL =  L"http://localhost/Dummy/Download/dmup.zip";
-
 
 	BOOL bResult = TRUE;
 
@@ -100,7 +97,7 @@ BOOL CDummyUpdater::StartUpdate()
 	{
 		CHTTPDownloader httpDownloader;
 
-		if (FALSE == httpDownloader.Download(strUpdatePackageURL,  cstrUpdatePackageFilePath))
+		if (FALSE == httpDownloader.Download(URL_UPDATE_PACKAGE,  cstrUpdatePackageFilePath))
 		{
 			throw L"To Download dmver.dat is failed";
 		}
