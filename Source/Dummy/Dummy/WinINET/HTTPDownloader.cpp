@@ -34,7 +34,17 @@ BOOL CHTTPDownloader::Download( LPCTSTR strURL, LPCTSTR strFilePath )
 		{
 			throw L"InternetOpenUrl is failed";
 		}
+		
+		DWORD dwStatusCode = 0;
+		DWORD dwLength = sizeof(DWORD);
 
+		HttpQueryInfo(m_hConnection, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER , &dwStatusCode,	&dwLength, NULL);
+		
+		if (dwStatusCode != HTTP_STATUS_OK)
+		{
+			throw L"The request didn't complete successfully.";
+		}
+		
 		if (FALSE == SaveFile(strFilePath))
 		{
 			throw L"SaveFile is failed";
