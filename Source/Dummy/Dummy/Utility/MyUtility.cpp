@@ -52,7 +52,7 @@ BOOL CMyUtility::UnZip( LPCTSTR wcPathIn, LPCTSTR wcExtractObject, LPCTSTR wcPat
 	return TRUE;
 }
 
-BOOL CMyUtility::CreateTempFile( CString &cstrOut )
+BOOL CMyUtility::CreateTempFilePath( CString &cstrOut )
 {
 	TCHAR strTempFileName[MAX_PATH];  
 	TCHAR strTempPath[MAX_PATH];
