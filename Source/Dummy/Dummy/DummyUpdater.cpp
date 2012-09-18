@@ -130,19 +130,14 @@ BOOL CDummyUpdater::DeleteTempFolder()
 {
 	
 	CString cstrTempFolderPath = theApp.GetExeDirectory() + L"\\Temp";
-	AfxMessageBox(cstrTempFolderPath);
+	
 	if (CPathUtility::IsPathDirectory(cstrTempFolderPath))
 	{
 		CFolderDeleter folderDeleter;
-		BOOL bresult = folderDeleter.Delete(cstrTempFolderPath);
-		if(bresult)
-			AfxMessageBox(_T("thanh cong"));
-		else
-			AfxMessageBox(_T("that bai"));
-		return bresult;
+		return folderDeleter.Delete(cstrTempFolderPath);
+		
 	}
-	else
-		AfxMessageBox(_T("Khong phai thu muc"));
+	
 
 	return TRUE;
 }
