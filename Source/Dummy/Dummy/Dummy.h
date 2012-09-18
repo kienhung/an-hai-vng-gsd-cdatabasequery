@@ -20,12 +20,10 @@ private:
 	HANDLE m_hMutex;
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
-	CString m_strMachineCode;
 	CString m_strExeDirectory;
 	
 public:
 	CDummyApp();
-	CString GetMachineCode();
 	CString GetExeDirectory();
 // Overrides
 	public:
@@ -38,3 +36,4 @@ public:
 };
 
 extern CDummyApp theApp;
+extern CString g_strMachineCode;

@@ -13,6 +13,7 @@
 #define new DEBUG_NEW
 #endif
 
+CString g_strMachineCode;
 
 // CDummyApp
 
@@ -67,7 +68,7 @@ BOOL CDummyApp::InitInstance()
 	
 	
 	m_strExeDirectory = CPathUtility::GetExeDirectory();
-	m_strMachineCode = CMyUtils::GetMachineCode();
+	g_strMachineCode = CMyUtils::GetMachineCode(TRUE);
 
 
 	CDummyUpdater dummyUpdater;
@@ -194,10 +195,6 @@ BOOL CDummyApp::ReregisterDialogClass()
 	}
 
 	return TRUE;
-}
-CString CDummyApp::GetMachineCode()
-{
-	return m_strMachineCode;
 }
 
 CString CDummyApp::GetExeDirectory()

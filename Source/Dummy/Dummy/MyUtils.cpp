@@ -25,15 +25,22 @@ CString CMyUtils::GetLicenseID()
 	strLCID = intOptionDAO.GetLicesenID();
 	return strLCID;
 }
-CString CMyUtils::GetMachineCode()
+CString CMyUtils::GetMachineCode(BOOL bFirst)
 {
+	CString strTemp(_T("LicenseID = "));
 	CString strMC;
 	CString strLcID = GetLicenseID();
 	
-
+	if(bFirst && strLcID.IsEmpty())
+	{
+		bFirst = FALSE;
+		return strMC;
+	}
+	
 	CString strHardwareNumberSerial;
 	CDiskId32::getHardDriveID(strHardwareNumberSerial);
 	strHardwareNumberSerial.TrimLeft();
+
 
 	CString strMacSerial;
 	strMacSerial.Empty();
@@ -47,6 +54,7 @@ CString CMyUtils::GetMachineCode()
 	{
 		strMacSerial.Empty();
 		strMacSerial = adapter.GetMACAddress();
+
 		if(CheckMacAddressValid(strMacSerial, strHardwareNumberSerial, strLcID, strMC))
 		{
 			return strMC;
