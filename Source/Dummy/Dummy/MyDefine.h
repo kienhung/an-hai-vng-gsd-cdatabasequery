@@ -14,11 +14,10 @@
 
 #define URL_REGISTER	_T("http://csm.vng.com.vn/pos/s4t/RegisterInfo.aspx")
 #define URL_PING_MASTER	_T("http://csm.vng.com.vn/pos/s4t/PostACT.aspx")
-#define URL_LOCAL_CHECK_BLACK_LIST _T("http://localhost/Dummy/CheckUBL.asp")
 #define URL_CHECK_BLACK_LIST _T("http://csm.vng.com.vn/pos/s4t/CheckUBL.aspx")
 
-#define URL_VERSION _T("http://localhost/Dummy/Download/dmver.dat")
-#define URL_UPDATE_PACKAGE _T("http://localhost/Dummy/Download/dmup.vcs")
+#define URL_VERSION _T("http://csm.vng.com.vn/download/s4t/%s/dmver.vcs")
+#define URL_UPDATE_PACKAGE _T("http://csm.vng.com.vn/download/s4t/%s/dmup.vcs")
 
 
 #define PRODUCTNAME _T("InfoSoft")
