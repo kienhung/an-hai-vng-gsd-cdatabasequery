@@ -39,7 +39,10 @@ BOOL CDummyUpdater::IsNeedUpdate()
 	{
 		CHTTPDownloader httpDownloader;
 
-		if (FALSE == httpDownloader.Download(URL_VERSION, cstrTempFilePath))
+		CString strVersionFileURL;
+		strVersionFileURL.Format(URL_VERSION, CITYID_CODE);
+
+		if (FALSE == httpDownloader.Download(strVersionFileURL, cstrTempFilePath))
 		{
 			throw L"To Download dmver.dat is failed";
 		}
@@ -97,7 +100,10 @@ BOOL CDummyUpdater::StartUpdate()
 	{
 		CHTTPDownloader httpDownloader;
 
-		if (FALSE == httpDownloader.Download(URL_UPDATE_PACKAGE,  cstrUpdatePackageFilePath))
+		CString strUpdatePackageURL;
+		strUpdatePackageURL.Format(URL_UPDATE_PACKAGE, CITYID_CODE);
+
+		if (FALSE == httpDownloader.Download(strUpdatePackageURL,  cstrUpdatePackageFilePath))
 		{
 			throw L"To Download dmver.dat is failed";
 		}
