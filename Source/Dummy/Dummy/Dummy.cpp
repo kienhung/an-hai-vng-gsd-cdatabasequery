@@ -65,7 +65,11 @@ BOOL CDummyApp::InitInstance()
 	
 
 	RunOnlyOneInst();
-	
+	CAppUtility appUtility;
+	if(!appUtility.CheckCSMExist())
+	{
+		return FALSE;
+	}
 	
 	m_strExeDirectory = CPathUtility::GetExeDirectory();
 	g_strMachineCode = CMyUtils::GetMachineCode(TRUE);
