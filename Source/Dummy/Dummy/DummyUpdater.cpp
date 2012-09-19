@@ -158,6 +158,7 @@ void CDummyUpdater::StartProcessDummyLaucher( const TCHAR* strPathLaucher )
 
 	strClassName.LoadString(IDS_APP_CLASS_NAME);
 	swprintf(strCommdline, MAX_PATH, _T("%s@%s"), strCommdline, strClassName.GetBuffer());
+	//_stprintf(strCommdline + _tcslen(strCommdline), _T("@%s"), strClassName.GetBuffer());
 
 	bWorked = ::CreateProcess(m_Process,strCommdline,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 }

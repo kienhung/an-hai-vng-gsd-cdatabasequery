@@ -72,9 +72,7 @@ BOOL CDummyApp::InitInstance()
 	}
 	
 	m_strExeDirectory = CPathUtility::GetExeDirectory();
-	g_strMachineCode = CMyUtils::GetMachineCode(TRUE);
-
-
+	
 	CDummyUpdater dummyUpdater;
 	if (TRUE == dummyUpdater.IsNeedUpdate())
 
@@ -84,6 +82,8 @@ BOOL CDummyApp::InitInstance()
 			return FALSE;
 		}
 	}
+
+	g_strMachineCode = CMyUtils::GetMachineCode(TRUE);
 	
 	if (!ReregisterDialogClass())
 		return FALSE;
