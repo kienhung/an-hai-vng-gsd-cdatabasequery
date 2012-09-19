@@ -13,11 +13,13 @@ CAppUtility::~CAppUtility(void)
 VOID CAppUtility::SetStartUp()
 {
 	TCHAR szPath[MAX_PATH] = {0};
+	TCHAR szVale[MAX_PATH] = {0};
 	DWORD dwSize=0;
 	GetModuleFileName(NULL, szPath, MAX_PATH);
 	
+	_stprintf(szVale, _T("\"%s\" /autostart"), szPath);
 	CRegistry reg(HKEY_LOCAL_MACHINE, REG_STARTUP);
-	reg.SaveValue(REG_VALUE_NAME_STARTUP, szPath);
+	reg.SaveValue(REG_VALUE_NAME_STARTUP, szVale);
 }
 
 BOOL CAppUtility::CheckRegister()
