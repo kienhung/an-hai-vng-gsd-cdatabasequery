@@ -30,6 +30,7 @@
 
 #include "StdAfx.h"
 #include "SQLite.h"
+#include <pthread.h>
 
 namespace SQLite
 {
@@ -47,7 +48,7 @@ namespace SQLite
 	int Database::Open( LPCTSTR strFileName )
 	{
 		Close();
-
+		
 		int iErr=sqlite3_open(UTF8MBSTR(strFileName), &m_sqlite3);
 		
 		if (iErr!=SQLITE_OK) m_iLastError=iErr;
