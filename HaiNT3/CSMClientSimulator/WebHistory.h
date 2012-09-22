@@ -24,7 +24,6 @@ private:
 	SQLite::Database db;
 
 	BOOL GetLastID();
-	BOOL GetLastIDForChrome();
 public:
 	CWebHistory(void);
 	~CWebHistory(void);
