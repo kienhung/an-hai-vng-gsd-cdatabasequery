@@ -212,10 +212,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\PopupDialogThread.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\PopupDlg.cpp"
 				>
 			</File>
@@ -275,10 +271,6 @@
 			</File>
 			<File
 				RelativePath=".\MyUtils.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PopupDialogThread.h"
 				>
 			</File>
 			<File
