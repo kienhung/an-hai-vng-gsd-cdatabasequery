@@ -23,6 +23,9 @@ protected:
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
+
+	void Initialize();
+
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -30,16 +33,15 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnDestroy();
-	afx_msg void OnBnClickedOk();
 
-
-protected:
-	BOOL ShowPopupDlg();
 
 
 protected:
 	CPopupDlg m_popupDialog;
+
 	BOOL m_bIsPopupDialogExist;
+	BOOL m_bIsMovePopupDialogThreadRunning;
+	BOOL m_bIsMovePopupDialogThreadPausing;
 
 	int m_iXPopupDialog;
 	int m_iYPopupDialog;
@@ -48,20 +50,21 @@ protected:
 
 	int m_iStep;
 	int m_iCurrentHeight;
-	int m_bIsPopupDialogUping;
 
+	BOOL m_bIsUp;
+	HANDLE m_hMovePopupDialogThread;
 public:
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
 	static DWORD WINAPI MovePopupDialogThreadFunction(PVOID pvParam);
-	afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	BOOL SetPopupDialogCoordinates();
 
-	void SetPopupDialogCoordinates();
-
-	void AdjustPopupDialogPosition();
 
 	afx_msg void OnBnClickedBtnDown();
 	afx_msg void OnBnClickedBtnUp();
+	afx_msg void OnBnClickedBtnKillthread();
+	afx_msg void OnClose();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnNcRButtonDown(UINT nHitTest, CPoint point);
 };
