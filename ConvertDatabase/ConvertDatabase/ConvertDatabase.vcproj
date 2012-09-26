@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\DialogCoincideUser.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\FileHelper.cpp"
 				>
 			</File>
@@ -238,6 +242,10 @@
 			</File>
 			<File
 				RelativePath=".\ConvertDatabaseDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DialogCoincideUser.h"
 				>
 			</File>
 			<File
@@ -320,6 +328,14 @@
 			</File>
 			<File
 				RelativePath=".\UserDAO.h"
+				>
+			</File>
+			<File
+				RelativePath=".\WebHistoryDAO.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\WebHistoryDAO.h"
 				>
 			</File>
 		</Filter>

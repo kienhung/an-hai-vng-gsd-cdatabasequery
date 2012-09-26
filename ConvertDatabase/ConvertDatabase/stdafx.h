@@ -47,6 +47,7 @@
 #include <atlctl.h>
 
 #include <mysql.h>
+#include <afxdhtml.h>
 #pragma comment(lib, "libmysql")
 
 

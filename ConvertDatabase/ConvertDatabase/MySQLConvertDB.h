@@ -23,6 +23,7 @@ public:
 	virtual BOOL ConvertBlackList();
 	virtual BOOL ConvertUser();
 	virtual BOOL ConvertService();
+	BOOL ConvertWebHistory();
 
 	BOOL CheckPathInDataMySQL(const TCHAR* strPathDirectory);
 	
