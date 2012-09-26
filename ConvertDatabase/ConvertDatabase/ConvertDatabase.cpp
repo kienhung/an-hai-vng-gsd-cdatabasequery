@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "ConvertDatabase.h"
 #include "ConvertDatabaseDlg.h"
+#include "DialogCoincideUser.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

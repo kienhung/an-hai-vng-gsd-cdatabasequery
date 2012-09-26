@@ -78,6 +78,23 @@ struct	CSM_USER
 		wmemset(strFreeMoney, 0, MAX_MONEY);
 		wmemset(strActive, 0, 3);
 	};
+	
+};
+
+struct CSM_WEBHISTORY	
+{
+	TCHAR strURL[MAX_PATH];
+	TCHAR strRecordDate[MAX_STRINGDATE];
+	TCHAR strMachine[MAX_NAME];
+	int iUserId;
+
+	CSM_WEBHISTORY()
+	{
+		wmemset(strURL, 0, MAX_PATH);
+		wmemset(strRecordDate, 0, MAX_STRINGDATE);
+		wmemset(strMachine, 0, MAX_NAME);
+		iUserId = 0;
+	}
 };
 
 
