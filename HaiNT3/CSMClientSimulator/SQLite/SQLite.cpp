@@ -30,7 +30,6 @@
 
 #include "StdAfx.h"
 #include "SQLite.h"
-#include <pthread.h>
 
 namespace SQLite
 {
