@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "AppUtility.h"
 #include "Registry.h"
+#pragma warning(disable: 4996)
 
 CAppUtility::CAppUtility(void)
 {
