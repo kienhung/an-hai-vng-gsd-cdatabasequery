@@ -386,7 +386,7 @@ BOOL CConnect::CreateConnection()
 	{
 		return FALSE;
 	}
-	
+
 	if (WSAAsyncSelect(m_ConnSock, m_hWnd, WM_SOCKET, FD_CONNECT|FD_WRITE|FD_READ|FD_CLOSE) == SOCKET_ERROR)
 	{
 		shutdown(m_ConnSock, SD_BOTH);
@@ -395,7 +395,6 @@ BOOL CConnect::CreateConnection()
 		return FALSE;
 	}
 	m_bConnect = TRUE;
-	AfxMessageBox(_T("Connect to server"));
 	return TRUE;	
 }
 

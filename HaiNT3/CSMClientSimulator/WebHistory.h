@@ -15,6 +15,7 @@ private:
 	CString m_strLastID;
 	
 	CString m_strSelectName;
+	CString m_strSelectDatetime;
 	CString m_strHistoryTable;
 	CString m_strWebAddressTable;
 	CString m_strHistoryTableWebID;
