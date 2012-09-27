@@ -48,6 +48,7 @@
 
 #include <mysql.h>
 #include <afxdhtml.h>
+#include <errmsg.h>
 #pragma comment(lib, "libmysql")
 
 
