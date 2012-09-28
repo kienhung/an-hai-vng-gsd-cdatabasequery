@@ -163,3 +163,27 @@ BOOL CMyUtils::ConvertStringToSystemTime(SYSTEMTIME& systemTime, const CString& 
 	
 	return TRUE;
 }
+
+int CMyUtils::GetNumClientActive()
+{
+	int         iNumClient = 0;
+	TCHAR strDLLPath[MAX_PATH] = {0};
+	HMODULE hTrackerDll;
+
+	GetSystemDirectory(strDLLPath, MAX_PATH);
+	_stprintf(strDLLPath + _tcslen(strDLLPath), _T("\\csmstck.dll"));
+
+	hTrackerDll = LoadLibrary(strDLLPath);
+	if (hTrackerDll)
+	{
+		int   (*fnGetNCA)();
+		fnGetNCA = (int (*)())GetProcAddress(hTrackerDll, "GetNCA");
+		if (fnGetNCA)
+		{
+			iNumClient = fnGetNCA();
+		}
+		FreeLibrary(hTrackerDll);
+	}
+
+	return iNumClient;
+}

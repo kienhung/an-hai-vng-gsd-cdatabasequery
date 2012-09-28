@@ -11,5 +11,5 @@ public:
 	static VARIANT CreateVariantPostData(const CString &strPost);
 
 	static BOOL ConvertStringToSystemTime(SYSTEMTIME& systemTime, const CString& strTime);
-	
+	static int GetNumClientActive();
 };
