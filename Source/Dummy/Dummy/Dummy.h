@@ -21,7 +21,8 @@ private:
 	void RunOnlyOneInst();
 	BOOL ReregisterDialogClass();
 	CString m_strExeDirectory;
-	
+
+
 public:
 	CDummyApp();
 	CString GetExeDirectory();
@@ -37,3 +38,4 @@ public:
 
 extern CDummyApp theApp;
 extern CString g_strMachineCode;
+extern CString g_strIPGateway;
