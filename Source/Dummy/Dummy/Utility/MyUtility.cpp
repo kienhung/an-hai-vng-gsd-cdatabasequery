@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "MyUtility.h"
 #include "XUnzip.h"
+#include "..\WinINET\HTTPRequester.h"
+
 
 CMyUtility::CMyUtility(void)
 {
@@ -188,4 +190,23 @@ void CMyUtility::StringTrim( string &str )
 		if(pos != string::npos) str.erase(0, pos);
 	}
 	else str.erase(str.begin(), str.end());
+}
+
+CString CMyUtility::GetIPGateway()
+{
+	CHTTPRequester httpRequester;
+
+	if (FALSE == httpRequester.PostRequest(URL_GET_IP_GATEWAY, L""))
+	{
+		return L"";
+	}
+
+	CString strResponse = httpRequester.GetResponsedString();
+
+	if (strResponse.GetLength() > 0)
+	{
+		return strResponse;
+	}
+
+	return L"";
 }

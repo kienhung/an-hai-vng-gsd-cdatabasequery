@@ -16,4 +16,5 @@ public:
 	static BOOL CheckFileExist( LPCTSTR strFilePath );
 	static BOOL Decode(LPCTSTR strSource, LPCTSTR strDest);
 	static void StringTrim(string &str);
+	static CString GetIPGateway();
 };
