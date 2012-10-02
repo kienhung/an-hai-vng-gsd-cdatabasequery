@@ -26,26 +26,29 @@ BOOL CBlackListDAO::ConnectToDB(char *pcUserName, char *pcPassword, char *pcServ
 	return m_pSQLDataAccessHelper->IsConnected();
 }
 
-BOOL CBlackListDAO::UpdateAddedBy( const char* strUrl, int iNewAddedBy, int iWhereAddedBy )
-{
-	CStringA strSql;
-	strSql.Format("update ddm.blacklisttb set addedBy = %d where URL like '%s' and AddedBy = %d", iNewAddedBy, strUrl, iWhereAddedBy);
+//BOOL CBlackListDAO::UpdateAddedBy( const char* strUrl, int iNewAddedBy, int iWhereAddedBy )
+//{
+//	CStringA strSql;
+//	strSql.Format("update ddm.blacklisttb set addedBy = %d where URL like '%s' and AddedBy = %d", iNewAddedBy, strUrl, iWhereAddedBy);
+//
+//	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
+//}
 
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
-}
-
-BOOL CBlackListDAO::RemoveInvalidURL()
-{
-	CStringA strSql;
-	strSql.Format("DELETE FROM blacklisttb WHERE AddedBy = 0");
-
-	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
-}
+//BOOL CBlackListDAO::RemoveInvalidURL()
+//{
+//	CStringA strSql;
+//	strSql.Format("DELETE FROM blacklisttb WHERE AddedBy = 0");
+//
+//	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
+//}
 
 BOOL CBlackListDAO::CheckURLExist( const char *strURL )
 {
 	CStringA cstrSelectQuery;
-	cstrSelectQuery.Format("SELECT count(URL) FROM blacklisttb WHERE URL = '%s';", strURL);
+	//cstrSelectQuery.Format("SELECT count(URL) FROM blacklisttb WHERE URL = '%s';", strURL);
+
+	cstrSelectQuery.Format("SELECT count(URL) FROM blacklisttb 	WHERE URL like '%s' and (addedBy = 3 or (addedBy != 3 and Active = 1))", strURL);
+	::OutputDebugStringA(cstrSelectQuery + "\n");
 
 	MYSQL_RES *pMySQLQueryResult =  m_pSQLDataAccessHelper->ExecuteQuery(cstrSelectQuery);
 
@@ -80,5 +83,23 @@ BOOL CBlackListDAO::InsertURL( const char *strURL )
 	cstrQuery.Format("INSERT INTO blacklisttb (URL, Title, Description, RecordDate, AddedBy) VALUES ('%s', '', '', '%s', 3)", strURL, cstrRecordDate);
 	
 	return m_pSQLDataAccessHelper->ExecuteNonQuery(cstrQuery);
+}
+
+BOOL CBlackListDAO::UpdateActive( const char *strUrl, int iNewActive )
+{
+	CStringA strSql;
+	strSql.Format("UPDATE blacklisttb SET Active = %d WHERE URL like '%s' and AddedBy = %d ", iNewActive, strUrl, INFO_SOFT_ADDED_BY);
+
+	::OutputDebugStringA(strSql + "\n");
+
+	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
+}
+
+BOOL CBlackListDAO::RemoveInactiveURL()
+{
+	CStringA strSql;
+	strSql.Format("DELETE FROM blacklisttb WHERE AddedBy = %d and Active = 0", INFO_SOFT_ADDED_BY);
+
+	return m_pSQLDataAccessHelper->ExecuteNonQuery(strSql);
 }
 

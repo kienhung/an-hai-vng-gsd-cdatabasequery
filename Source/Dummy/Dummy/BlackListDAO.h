@@ -6,6 +6,7 @@ class CBlackListDAO
 {
 private:
 	CMySQLDataAccessHelper *m_pSQLDataAccessHelper;
+	const static int INFO_SOFT_ADDED_BY = 3;
 
 public:
 	CBlackListDAO(void);
@@ -13,8 +14,12 @@ public:
 
 	BOOL InsertURL(const char *strURL);
 	BOOL CheckURLExist(const char *strURL);
-	BOOL UpdateAddedBy(const char* strUrl, int iNewAddedBy, int iWhereAddedBy);
-	BOOL RemoveInvalidURL();
+
+	//BOOL UpdateAddedBy(const char* strUrl, int iNewAddedBy, int iWhereAddedBy);
+	//BOOL RemoveInvalidURL();
+
+	BOOL UpdateActive(const char *strUrl, int iNewActive);
+	BOOL RemoveInactiveURL();
 
 	~CBlackListDAO(void);
 };

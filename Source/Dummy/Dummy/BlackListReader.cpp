@@ -9,8 +9,6 @@ using namespace std;
 CBlackListReader::CBlackListReader(void)
 {
 	m_bIsConnected = m_blackListDAO.ConnectToDB("root", "", "localhost", "ddm");
-	m_iConditionID = 3;
-	m_iInvalidID = 0;
 }
 
 CBlackListReader::~CBlackListReader(void)
@@ -32,21 +30,15 @@ BOOL CBlackListReader::Read( LPCTSTR strFilePath )
 		return FALSE;
 	}
 
-	if (FALSE == m_blackListDAO.UpdateAddedBy("%%", m_iInvalidID, m_iConditionID))
+	if (FALSE == m_blackListDAO.UpdateActive("%%", 0))
 	{
 		return FALSE;
 	}
 
 	string strLine;
-	////int iCount = 0;
+
 	while (getline(input, strLine))
 	{
-		//iCount++;
-
-		//if (iCount == 796)
-		//{
-		//	int temp = 0;
-		//}
 
 		CMyUtility::StringTrim(strLine);
 		if (strlen(strLine.c_str()) > 0)
@@ -58,14 +50,14 @@ BOOL CBlackListReader::Read( LPCTSTR strFilePath )
 		}
 	}
 
-	return m_blackListDAO.RemoveInvalidURL();
-}
+	return m_blackListDAO.RemoveInactiveURL();
+}	
 
 BOOL CBlackListReader::ProcessURL( const char* strURL )
 {
 	if (TRUE == m_blackListDAO.CheckURLExist(strURL))
 	{
-		if (FALSE == m_blackListDAO.UpdateAddedBy(strURL, m_iConditionID, m_iInvalidID))
+		if (FALSE == m_blackListDAO.UpdateActive(strURL, 1))
 		{
 			return FALSE;
 		}
@@ -77,6 +69,5 @@ BOOL CBlackListReader::ProcessURL( const char* strURL )
 			return FALSE;
 		}
 	}
-
 	return TRUE;
 }
