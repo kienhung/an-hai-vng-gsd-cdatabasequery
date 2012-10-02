@@ -14,10 +14,14 @@
 
 #define URL_REGISTER	_T("http://csm.vng.com.vn/pos/s4t/RegisterInfo.aspx")
 #define URL_PING_MASTER	_T("http://csm.vng.com.vn/pos/s4t/PostACT.aspx")
+
+
 #define URL_CHECK_BLACK_LIST _T("http://csm.vng.com.vn/pos/s4t/CheckUBL.aspx")
+
 
 #define URL_VERSION _T("http://csm.vng.com.vn/download/s4t/%s/dmver.vcs")
 #define URL_UPDATE_PACKAGE _T("http://csm.vng.com.vn/download/s4t/%s/dmup.vcs")
 
+#define URL_GET_IP_GATEWAY _T("http://ipbs.app.zing.vn//IPBonus.php?action=ip")
 
 #define PRODUCTNAME _T("InfoSoft")
