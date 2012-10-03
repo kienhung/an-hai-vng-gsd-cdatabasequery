@@ -15,9 +15,6 @@ public:
 	BOOL InsertURL(const char *strURL);
 	BOOL CheckURLExist(const char *strURL);
 
-	//BOOL UpdateAddedBy(const char* strUrl, int iNewAddedBy, int iWhereAddedBy);
-	//BOOL RemoveInvalidURL();
-
 	BOOL UpdateActive(const char *strUrl, int iNewActive);
 	BOOL RemoveInactiveURL();
 
