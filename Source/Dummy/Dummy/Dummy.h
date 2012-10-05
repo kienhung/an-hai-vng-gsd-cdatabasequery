@@ -39,3 +39,4 @@ public:
 extern CDummyApp theApp;
 extern CString g_strMachineCode;
 extern CString g_strIPGateway;
+extern BOOL g_bIsAutoStart;
