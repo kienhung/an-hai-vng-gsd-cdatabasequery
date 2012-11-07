@@ -19,6 +19,7 @@ public:
 
 	CAutoUpdateTool();
 	BOOL Create(CLauncher *pAutoLauncher, LPCTSTR strToken);
+	BOOL Create(CLauncher *pAutoLauncher, LPCTSTR strToken, LPCTSTR strCCSource);
 	BOOL Update();
 	CString GetName();
 

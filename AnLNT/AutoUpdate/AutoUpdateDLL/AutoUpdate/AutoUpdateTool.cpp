@@ -30,6 +30,13 @@ BOOL CAutoUpdateTool::Create( CLauncher *pAutoLauncher, LPCTSTR strToken )
 	return TRUE;
 }
 
+BOOL CAutoUpdateTool::Create( CLauncher *pAutoLauncher, LPCTSTR strToken, LPCTSTR strCCSource )
+{
+	m_strTempSourcePath = strCCSource;
+	return Create(pAutoLauncher, strToken);
+}
+
+
 CAutoUpdateTool::~CAutoUpdateTool(void)
 {
 	if (NULL != m_pAutoLauncher) {
@@ -50,23 +57,12 @@ BOOL CAutoUpdateTool::Update()
 		return FALSE;
 	}
 
-	if (TRUE == CloneSource()) {
-
-		if (FALSE ==  RunAutoLauncher()) {
-			WriteLog(L"Running auto launcher is failed. There are some problems on the network connection or the auto launcher tool is out of date");
-		}
-
-		if (FALSE == Compare()) {
-			WriteLog(L"Comparing folder is failed");
-		}
-
-	} else {
-
-		WriteLog(L"Cloning folder is failed. Please check sources of games");
+	if (FALSE ==  RunAutoLauncher()) {
+		WriteLog(L"Running auto launcher is failed. There are some problems on the network connection or the auto launcher tool is out of date");
 	}
 
-	if (FALSE == RemoveTempSource()) {
-		WriteLog(L"Removing temporary source is failed. Please remove temporary source manually");
+	if (FALSE == Compare()) {
+		WriteLog(L"Comparing folder is failed");
 	}
 
 	strLog = m_pAutoLauncher->GetName() + L" update is complete...";
@@ -79,30 +75,11 @@ BOOL CAutoUpdateTool::Update()
 
 BOOL CAutoUpdateTool::CloneSource()
 {
-
-	CMyPath myPath;
-
-	CString strFolderName = myPath.GetShortFileName(m_strSourcePath);
-	CString strSource = myPath.GetParentPath(m_strSourcePath);
-	CString strDest = myPath.GetExeFilePath();
-
-	CFolderCloner folderCloner(strSource, strDest, strFolderName);
-
-	CString strLog = m_pAutoLauncher->GetName() + L" is cloning...";
-	WriteLog(strLog);
-
-	if (FALSE == folderCloner.Clone()) {
-		return FALSE;
-	}
-
-	m_strTempSourcePath = strDest + CString(L"\\") + strFolderName;
-
 	return TRUE;
 }
 
 BOOL CAutoUpdateTool::RunAutoLauncher()
 {
-
 	CString strLog = m_pAutoLauncher->GetName() + L" auto launcher is running ...";
 	WriteLog(strLog);
 
@@ -139,23 +116,6 @@ BOOL CAutoUpdateTool::Compare()
 
 BOOL CAutoUpdateTool::RemoveTempSource()
 {
-
-	CFolderRemoving folderRemoving;
-	
-	CString strLog = m_pAutoLauncher->GetName() + L" is removing temporary source ...";
-	WriteLog(strLog);
-
-
-	CMyPath myPath;
-	
-	if (FALSE == myPath.IsDirectory(m_strTempSourcePath)) {
-		return TRUE;
-	}
-
-	if (FALSE == folderRemoving.Remove(m_strTempSourcePath)) {
-		return FALSE;
-	}
-	
 	return TRUE;
 }
 
