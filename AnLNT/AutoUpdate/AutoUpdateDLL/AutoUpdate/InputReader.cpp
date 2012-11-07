@@ -22,13 +22,51 @@ CInputReader::CInputReader( LPCTSTR strInputFileName )
 
 BOOL CInputReader::Read()
 {
-	ReadSR();
-	ReadWOT();
-	ReadTLBB();
-	ReadAudition();
-	ReadCrossfire();
-	ReadFifaonline2();
-	
+	//new game here
+	const TCHAR * arrStrGameList[] = {L"TLBB", L"Audition", L"Crossfire", L"Fifaonline2", L"SR", L"WOT"};
+	size_t stNumberOfGamels = sizeof(arrStrGameList)/sizeof(const char*);
+	for (size_t i = 0; i < stNumberOfGamels; i++)
+	{
+		TCHAR strSourcePath[MAX_PATH] = {0};
+		TCHAR strCCSourcePath[MAX_PATH] = {0};
+
+		if (TRUE == ReadSection(arrStrGameList[i], strSourcePath, strCCSourcePath))
+		{
+			CLauncher *pAutoLauncher = NULL;
+
+			if (lstrcmpi(arrStrGameList[i], L"TLBB") == 0)
+			{
+				pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
+			} 
+			else if (lstrcmpi(arrStrGameList[i], L"Audition") == 0)
+			{
+				pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
+			}
+			else if (lstrcmpi(arrStrGameList[i], L"Crossfire") == 0)
+			{
+				pAutoLauncher = new CCrossfireAutoLauncher(strSourcePath);
+			}
+			else if (lstrcmpi(arrStrGameList[i], L"Fifaonline2") == 0)
+			{
+				pAutoLauncher = new CFifa2AutoLauncher(strSourcePath);
+			}
+			else if (lstrcmpi(arrStrGameList[i], L"SR") == 0)
+			{
+				pAutoLauncher = new CSilkroadAutoLauncher(strSourcePath);
+			}
+			else if (lstrcmpi(arrStrGameList[i], L"WOT") == 0)
+			{
+				pAutoLauncher = new CWOTAutoLauncher(strSourcePath);
+
+			}
+			//new game here
+
+			if (pAutoLauncher != NULL)
+			{
+				AddItem(pAutoLauncher, strCCSourcePath);
+			}
+		}
+	}
 	Run();
 	return TRUE;
 }
@@ -37,7 +75,6 @@ BOOL CInputReader::Read()
 
 CInputReader::~CInputReader(void)
 {
-
 
 	list<CAutoUpdateTool*>::iterator it;
 
@@ -53,67 +90,10 @@ CInputReader::~CInputReader(void)
 	}
 }
 
-BOOL CInputReader::ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath )
-{
-	DWORD dwCount = ::GetPrivateProfileString(strSectionName, L"source", NULL, strSourcePath, MAX_PATH, m_strInput);
-
-	if (dwCount <= 0) {
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-BOOL CInputReader::ReadAudition()
-{
-
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"Audition", strSourcePath)) {
-		return FALSE;
-	}
-	
-	CLauncher *pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
-
-	AddItem(pAutoLauncher);
-
-	return TRUE;
-}
-
-BOOL CInputReader::ReadCrossfire()
-{
-
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"Crossfire", strSourcePath)) {
-		return FALSE;
-	}
-
-	CLauncher *pAutoLauncher = new CCrossfireAutoLauncher(strSourcePath);
-	AddItem(pAutoLauncher);
-
-	return TRUE;
-}
-
-BOOL CInputReader::ReadFifaonline2()
-{
-
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"Fifaonline2", strSourcePath)) {
-		return FALSE;
-	}
-
-	CLauncher *pAutoLauncher = new CFifa2AutoLauncher(strSourcePath);
-	AddItem(pAutoLauncher);
-
-	return TRUE;
-}
-
-void CInputReader::AddItem( CLauncher * pAutoLauncher )
+void CInputReader::AddItem( CLauncher * pAutoLauncher , LPCTSTR strCCSourcePath )
 {
 	CAutoUpdateTool *pAutoUpdateTool = new CAutoUpdateTool();
-	pAutoUpdateTool->Create(pAutoLauncher, m_strToken);
+	pAutoUpdateTool->Create(pAutoLauncher, m_strToken, strCCSourcePath);
 	m_listAutoUpdateTool.push_back(pAutoUpdateTool);
 }
 
@@ -127,59 +107,32 @@ BOOL CInputReader::Run()
 		CAutoUpdateTool *pAutoUpdateTool = *it;
 
 		if (NULL != pAutoUpdateTool) {
-			
+
 			if (pAutoUpdateTool->Update() == FALSE) {
 				_tprintf(L"%s Fail\n", pAutoUpdateTool->GetName());
 			}
-			
 		}
 	}
 
 	return TRUE;
 }
 
-BOOL CInputReader::ReadTLBB()
+BOOL CInputReader::ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath, LPTSTR strCCSource )
 {
+	DWORD dwCount = ::GetPrivateProfileString(strSectionName, L"source", NULL, strSourcePath, MAX_PATH, m_strInput);
 
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"TLBB", strSourcePath)) {
+	if (dwCount <= 0) 
+	{
 		return FALSE;
 	}
 
-	CLauncher *pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
-	AddItem(pAutoLauncher);
+	dwCount = ::GetPrivateProfileString(strSectionName, L"cc", NULL, strCCSource, MAX_PATH, m_strInput);
 
-	return TRUE;
-
-}
-
-BOOL CInputReader::ReadWOT()
-{
-
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"WOT", strSourcePath)) {
+	if (dwCount <= 0)
+	{
 		return FALSE;
 	}
-
-	CLauncher *pAutoLauncher = new CWOTAutoLauncher(strSourcePath);
-	AddItem(pAutoLauncher);
 
 	return TRUE;
 }
 
-BOOL CInputReader::ReadSR()
-{
-
-	TCHAR strSourcePath[MAX_PATH];
-
-	if (FALSE == ReadSection(L"SR", strSourcePath)) {
-		return FALSE;
-	}
-
-	CLauncher *pAutoLauncher = new CSilkroadAutoLauncher(strSourcePath);
-	AddItem(pAutoLauncher);
-
-	return TRUE;
-}
