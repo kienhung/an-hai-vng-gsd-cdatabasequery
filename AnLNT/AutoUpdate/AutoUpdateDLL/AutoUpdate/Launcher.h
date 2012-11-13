@@ -1,6 +1,9 @@
 #pragma once
 
-class AFX_EXT_CLASS CLauncher
+//class AFX_EXT_CLASS CLauncher
+class CGameSourceCompare;
+
+class CLauncher
 {
 protected:
 
@@ -11,7 +14,9 @@ protected:
 	int m_iTimeoutSeconds;
 
 	HWND m_hMainWindow;
-
+	DWORD m_dwLauncherTimeOut;
+	//09/11/2012
+	CGameSourceCompare *m_Comparer;
 public:
 
 	CLauncher(LPCTSTR strSource);
@@ -21,6 +26,8 @@ public:
 	CString GetSourcePath();
 
 	virtual ~CLauncher(void);
+
+	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
 protected:
 	virtual BOOL StartLauncherProcess();
 	virtual HWND StartLauncherWindow(LPCTSTR strClassName, LPCTSTR strWindowName);

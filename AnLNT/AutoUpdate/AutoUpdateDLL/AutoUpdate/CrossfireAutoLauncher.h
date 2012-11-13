@@ -21,4 +21,5 @@ public:
 	static BOOL CALLBACK EnumChildWindowsProc(HWND hwnd, LPARAM lParam );
 	static DWORD WINAPI MonitorThreadFunction(PVOID pvParam);
 
-};
+	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
+};	
