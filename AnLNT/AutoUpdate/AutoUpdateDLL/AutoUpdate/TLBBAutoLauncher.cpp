@@ -23,7 +23,7 @@ CTLBBAutoLauncher::~CTLBBAutoLauncher(void)
 CString CTLBBAutoLauncher::GetName()
 {
 
-	return L"Thien Long Bat Bo";
+	return L"TLBB";
 }
 
 BOOL CTLBBAutoLauncher::Run()
@@ -151,5 +151,10 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 		return FALSE;
 	}
 
+	return TRUE;
+}
+
+BOOL CTLBBAutoLauncher::Compare( LPCTSTR strSourcePath, LPCTSTR strTempSourcePath )
+{
 	return TRUE;
 }

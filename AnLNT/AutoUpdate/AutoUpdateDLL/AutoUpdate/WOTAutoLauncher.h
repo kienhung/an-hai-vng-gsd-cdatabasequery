@@ -19,7 +19,7 @@ public:
 
 	virtual CString GetName();
 	virtual BOOL Run();
-
+	virtual BOOL Compare(LPCTSTR strSourcePath, LPCTSTR strTempSourcePath);
 protected:
 	
 	virtual BOOL StartLauncherProcess();
