@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "MyUtils.h"
 #include <shlwapi.h>
+#include <strsafe.h>
 
 CMyUtils::CMyUtils(void)
 {
@@ -105,4 +106,38 @@ BOOL CMyUtils::KillWindowProcess( HWND hWindow )
 	::Sleep(dwWait);
 
 	return TRUE;
+}
+
+BOOL CMyUtils::IsFileInDirectory( LPCTSTR strFileName, LPCTSTR strDirectoryName )
+{
+	TCHAR strTempPath[MAX_PATH] = {0};
+	HRESULT hResult = ::StringCchCopy(strTempPath, MAX_PATH, strFileName);
+	if (hResult != S_OK)
+	{
+		return FALSE;
+	}
+	if (FALSE == ::PathRemoveFileSpec(strTempPath))
+	{
+		return FALSE;
+	}
+	PTSTR strTempDirectoryName = ::PathFindFileName(strTempPath);
+	if (lstrcmpi(strDirectoryName, strTempDirectoryName) != 0)
+	{
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL CMyUtils::DeleteFile( LPCTSTR lpFileName )
+{
+	if (FileExists(lpFileName))
+	{
+		DWORD dwAttr = GetFileAttributes(lpFileName);
+		if (dwAttr & FILE_ATTRIBUTE_READONLY)
+			SetFileAttributes(lpFileName, FILE_ATTRIBUTE_NORMAL);
+		return ::DeleteFile(lpFileName);
+	}
+
+	return FALSE;
 }

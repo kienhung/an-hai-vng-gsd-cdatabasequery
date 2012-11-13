@@ -12,5 +12,6 @@ public:
 	static BOOL KillWindowProcess(LPCTSTR strClassName, LPCTSTR strWindowName);
 
 	static BOOL KillWindowProcess( HWND hWindow );
-
+	static BOOL IsFileInDirectory(LPCTSTR strFileName, LPCTSTR strDirectoryName);
+	static BOOL DeleteFile(LPCTSTR lpFileName);
 };

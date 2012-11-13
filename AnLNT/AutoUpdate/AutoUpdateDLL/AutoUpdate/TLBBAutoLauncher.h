@@ -10,23 +10,22 @@ protected:
 	int m_iConfirmButtonID;
 	int m_iFinishedWhenFailedButtonID;
 
-	DWORD m_LoginServerFileLowWriteTime;
-	DWORD m_LoginServerFileHighWriteTime;
 
 	int m_iDelayTime;
 	BOOL m_bIsFailed;
 	BOOL m_bIsComplete;
 
+	CString m_strLoginServerFilePath;
 public:
 	CTLBBAutoLauncher(LPCTSTR strSource);
 
 	virtual BOOL Run();
 	virtual CString GetName();
 	virtual ~CTLBBAutoLauncher(void);
-	virtual BOOL Compare(LPCTSTR strSourcePath, LPCTSTR strTempSourcePath);
 
+	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
 protected:
-	BOOL GetLoginServerFileWriteTime(DWORD *pLowWriteTime, DWORD *pHighWriteTime);
+	BOOL GetFileWriteTime(DWORD *pLowWriteTime, DWORD *pHighWriteTime);
 	BOOL WaitForComplete();
 	static DWORD WINAPI MonitorThreadFunction(PVOID pvParam);
 	static BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam );
