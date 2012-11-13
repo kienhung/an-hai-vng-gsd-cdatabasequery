@@ -1,6 +1,9 @@
 #include "StdAfx.h"
+#include "GameSourceCompare.h"
 #include "Fifa2AutoLauncher.h"
 #include <tlhelp32.h>
+#include "Fifa2Compare.h"
+#include "MyUtils.h"
 
 CFifa2AutoLauncher::CFifa2AutoLauncher(LPCTSTR strSource)
 	:CLauncher(strSource)
@@ -17,6 +20,9 @@ CFifa2AutoLauncher::CFifa2AutoLauncher(LPCTSTR strSource)
 	m_strClassName = L"#32770";
 
 	m_state = UNKNOWN;
+
+	m_bIsNeedMonitor = TRUE;
+	m_bIsFailed = FALSE;
 }
 
 CFifa2AutoLauncher::~CFifa2AutoLauncher(void)
@@ -50,6 +56,12 @@ BOOL CFifa2AutoLauncher::Run()
 		return FALSE;
 	}
 
+	HANDLE hThread = ::CreateThread(NULL, 0, MonitorThreadFunction, this, 0, NULL);
+
+	if (NULL == hThread) {
+		return FALSE;
+	}
+
 	while (hStartButton != NULL) {
 	
 		if (FALSE == ClickButton(m_iStartButtonID)) {
@@ -63,17 +75,23 @@ BOOL CFifa2AutoLauncher::Run()
 		return FALSE;
 	}
 
+	::WaitForSingleObject(hThread, INFINITE);
+	::CloseHandle(hThread);
+
+	if (TRUE == m_bIsFailed)
+	{
+		return FALSE;
+	}
 	return TRUE;
 }
 
 CString CFifa2AutoLauncher::GetName()
 {
-	return L"Fifa Online 2";
+	return L"FF";
 }
 
 BOOL CFifa2AutoLauncher::WaitForComplete()
 {
-
 	HANDLE hProcessSnap = ::CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0);
 
 	if (INVALID_HANDLE_VALUE == hProcessSnap) {
@@ -81,6 +99,11 @@ BOOL CFifa2AutoLauncher::WaitForComplete()
 	}
 
 	while (true) {
+
+		if (TRUE == m_bIsFailed )
+		{
+			return TRUE;
+		}
 
 		PROCESSENTRY32 pe32;
 		pe32.dwSize = sizeof(PROCESSENTRY32);
@@ -106,6 +129,7 @@ BOOL CFifa2AutoLauncher::WaitForComplete()
 				::CloseHandle(hProcess);
 				::CloseHandle( hProcessSnap );
 
+				m_bIsNeedMonitor = FALSE;
 				return TRUE;
 			}
 
@@ -188,5 +212,49 @@ BOOL CALLBACK CFifa2AutoLauncher::EnumChildWindowsProc( HWND hwnd, LPARAM lParam
 		return FALSE;
 	}
 
+	return TRUE;
+}
+
+CGameSourceCompare * CFifa2AutoLauncher::GetComparer( LPCTSTR strNewSource, LPCTSTR strOldSource )
+{
+	if (m_Comparer != NULL)
+	{
+		delete m_Comparer;
+	}
+
+	m_Comparer = new CFifa2Compare(strNewSource, strOldSource);
+
+	if (m_Comparer != NULL)
+	{
+		return m_Comparer;
+	}
+
+	return NULL;
+}
+
+DWORD WINAPI CFifa2AutoLauncher::MonitorThreadFunction( PVOID pvParam )
+{
+	CFifa2AutoLauncher* pLaucher = (CFifa2AutoLauncher*)pvParam;
+
+	DWORD dwStartTime = GetTickCount ();
+
+	while(TRUE == pLaucher->m_bIsNeedMonitor)
+	{
+		DWORD dwEndTime = GetTickCount () - dwStartTime ;
+
+		if (dwEndTime > pLaucher->m_dwLauncherTimeOut)
+		{
+			pLaucher->m_bIsFailed = TRUE;
+
+			CMyUtils::WriteLog(L"FF Launcher timeout");
+
+			if (FALSE == CMyUtils::KillWindowProcess(pLaucher->m_hMainWindow))
+			{
+				CMyUtils::WriteLog(L"To kill FF update process is failed");
+			}
+
+			return TRUE;
+		}
+	}
 	return TRUE;
 }

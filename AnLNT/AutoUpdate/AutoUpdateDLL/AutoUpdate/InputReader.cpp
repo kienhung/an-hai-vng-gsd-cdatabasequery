@@ -7,7 +7,6 @@
 #include "TLBBAutoLauncher.h"
 #include "Launcher.h"
 #include "WOTAutoLauncher.h"
-#include "SilkroadAutoLauncher.h"
 
 CInputReader::CInputReader( LPCTSTR strInputFileName )
 {
@@ -17,13 +16,14 @@ CInputReader::CInputReader( LPCTSTR strInputFileName )
 	SYSTEMTIME time;
 	GetLocalTime(&time);
 
-	m_strToken.Format(L"%u-%02u-%02u %02uh%02u",  time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute);
+	//m_strToken.Format(L"%u-%02u-%02u %02uh%02u",  time.wYear, time.wMonth, time.wDay, time.wHour, time.wMinute);
+	m_strToken.Format(L"%u-%02u-%02u", time.wDay , time.wMonth, time.wYear);
 }
 
 BOOL CInputReader::Read()
 {
 	//new game here
-	const TCHAR * arrStrGameList[] = {L"TLBB", L"Audition", L"Crossfire", L"Fifaonline2", L"SR", L"WOT"};
+	const TCHAR * arrStrGameList[] = {L"TLBB", L"AU2", L"CF", L"FF", L"WOT"};
 	size_t stNumberOfGamels = sizeof(arrStrGameList)/sizeof(const char*);
 	for (size_t i = 0; i < stNumberOfGamels; i++)
 	{
@@ -38,26 +38,21 @@ BOOL CInputReader::Read()
 			{
 				pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
 			} 
-			else if (lstrcmpi(arrStrGameList[i], L"Audition") == 0)
+			else if (lstrcmpi(arrStrGameList[i], L"AU2") == 0)
 			{
 				pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
 			}
-			else if (lstrcmpi(arrStrGameList[i], L"Crossfire") == 0)
+			else if (lstrcmpi(arrStrGameList[i], L"CF") == 0)
 			{
 				pAutoLauncher = new CCrossfireAutoLauncher(strSourcePath);
 			}
-			else if (lstrcmpi(arrStrGameList[i], L"Fifaonline2") == 0)
+			else if (lstrcmpi(arrStrGameList[i], L"FF") == 0)
 			{
 				pAutoLauncher = new CFifa2AutoLauncher(strSourcePath);
-			}
-			else if (lstrcmpi(arrStrGameList[i], L"SR") == 0)
-			{
-				pAutoLauncher = new CSilkroadAutoLauncher(strSourcePath);
 			}
 			else if (lstrcmpi(arrStrGameList[i], L"WOT") == 0)
 			{
 				pAutoLauncher = new CWOTAutoLauncher(strSourcePath);
-
 			}
 			//new game here
 

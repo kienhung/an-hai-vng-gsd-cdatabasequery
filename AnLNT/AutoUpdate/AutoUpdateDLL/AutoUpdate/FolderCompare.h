@@ -15,8 +15,11 @@ public:
 	CFolderCompare(LPCTSTR strNewSource, LPCTSTR strOldSource);
 
 	virtual ~CFolderCompare(void);
-	BOOL Compare(LPCTSTR strResultFilePath);
 
+	void Commit();
+
+	virtual BOOL Compare(LPCTSTR strResultFilePath);
+	
 
 protected:
 	virtual BOOL ProcessFile(LPCTSTR strFileName);

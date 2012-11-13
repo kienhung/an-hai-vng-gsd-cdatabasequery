@@ -17,16 +17,6 @@ protected:
 	BOOL Run();
 	BOOL ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath, LPTSTR strCCSource);
 	void AddItem( CLauncher * pAutoLauncher , LPCTSTR strCCSourcePath);
-
-	//void AddItem( CLauncher * pAutoLauncher );
-	//BOOL ReadSection( LPCTSTR strSectionName, LPTSTR strSourcePath);
-	//BOOL ReadSR();
-	//BOOL ReadWOT();
-	//BOOL ReadTLBB();
-	//BOOL ReadAudition();
-	//BOOL ReadCrossfire();
-	//BOOL ReadFifaonline2();	
-
 public:
 
 	CInputReader(LPCTSTR strInputFileName);

@@ -1,5 +1,8 @@
 #include "StdAfx.h"
 #include "Launcher.h"
+#include "MyUtils.h"
+#include "GameSourceCompare.h"
+#include "MyPath.h"
 
 CLauncher::CLauncher( LPCTSTR strSource )
 {
@@ -7,11 +10,22 @@ CLauncher::CLauncher( LPCTSTR strSource )
 
 	m_iTimeoutCount = 3600;
 	m_iTimeoutSeconds = 1000;
+
+	m_Comparer = NULL;
+	//m_dwLauncherTimeOut = 15*60*1000;
+
+	CMyPath path;
+	CString strConfFilePath = path.GetExeFilePath() + CString(L"\\conf.ini");
+	UINT uiTimeOut = ::GetPrivateProfileInt(L"conf", L"launcherTimeOut", 14, strConfFilePath);
+	m_dwLauncherTimeOut = uiTimeOut*60*1000;
 }
 
 CLauncher::~CLauncher(void)
 {
-
+	if (NULL != m_Comparer)
+	{
+		delete m_Comparer;
+	}
 }
 
 BOOL CLauncher::StartLauncherProcess()
@@ -136,4 +150,22 @@ CString CLauncher::GetSourcePath()
 {
 
 	return m_strSource;
+}
+
+
+CGameSourceCompare * CLauncher::GetComparer( LPCTSTR strNewSource, LPCTSTR strOldSource )
+{
+	if (m_Comparer != NULL)
+	{
+		delete m_Comparer;
+	}
+
+	m_Comparer = new CGameSourceCompare(strNewSource, strOldSource);
+
+	if (m_Comparer != NULL)
+	{
+		return m_Comparer;
+	}
+
+	return NULL;
 }
