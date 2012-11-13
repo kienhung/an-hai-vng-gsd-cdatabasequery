@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 #include "TLBBAutoLauncher.h"
+#include "MyUtils.h"
+#include "TLBBCompare.h"
 
 CTLBBAutoLauncher::CTLBBAutoLauncher(LPCTSTR strSource)
 :CLauncher(strSource)
@@ -14,6 +16,8 @@ CTLBBAutoLauncher::CTLBBAutoLauncher(LPCTSTR strSource)
 
 	m_bIsFailed = FALSE;
 	m_bIsComplete = FALSE;
+
+	m_strLoginServerFilePath = m_strSource + L"\\Patch\\loginserver.txt";
 }
 
 CTLBBAutoLauncher::~CTLBBAutoLauncher(void)
@@ -28,13 +32,18 @@ CString CTLBBAutoLauncher::GetName()
 
 BOOL CTLBBAutoLauncher::Run()
 {
+	if (CMyUtils::FileExists(m_strLoginServerFilePath) == TRUE)
+	{
+		if (CMyUtils::DeleteFile(m_strLoginServerFilePath) == FALSE)
+		{
+			CMyUtils::WriteLog(L"TO delete serverlogin file is failed");
+			return FALSE;
+		}
+	}
+
 	HWND hMainWnd = StartLauncherWindow(L"#32770", L"TLBB2");
 
 	if (NULL == hMainWnd) {
-		return FALSE;
-	}
-
-	if (FALSE == GetLoginServerFileWriteTime(&m_LoginServerFileLowWriteTime, &m_LoginServerFileHighWriteTime)) {
 		return FALSE;
 	}
 
@@ -45,7 +54,7 @@ BOOL CTLBBAutoLauncher::Run()
 	}
 
 	::CloseHandle(hThread);
-
+	
 	if (FALSE == WaitForComplete()) {
 		return FALSE;
 	}
@@ -59,49 +68,18 @@ BOOL CTLBBAutoLauncher::Run()
 	if (TRUE == m_bIsFailed) {
 		return FALSE;
 	}
-
-	return TRUE;
-}
-
-BOOL CTLBBAutoLauncher::GetLoginServerFileWriteTime( DWORD *pLowWriteTime, DWORD *pHighWriteTime )
-{
-
-	CString strLoginServerFilePath = m_strSource + L"\\Patch\\LoginServer.txt";
-
-	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind = ::FindFirstFile(strLoginServerFilePath, &FindFileData);
-
-	if (INVALID_HANDLE_VALUE == hFind) {
-		return FALSE;
-	}
-
-	*pLowWriteTime = FindFileData.ftLastWriteTime.dwLowDateTime;
-	*pHighWriteTime = FindFileData.ftLastWriteTime.dwHighDateTime;
-
-	::FindClose(hFind);
-
 	return TRUE;
 }
 
 BOOL CTLBBAutoLauncher::WaitForComplete()
 {
-
-	DWORD dwNewLoginServerFileLowWriteTime;
-	DWORD dwNewLoginServerFileHighWriteTime;
-
 	while (FALSE == m_bIsComplete && FALSE == m_bIsFailed) {
-
-		if (FALSE == GetLoginServerFileWriteTime(&dwNewLoginServerFileLowWriteTime, &dwNewLoginServerFileHighWriteTime)) {
-			return FALSE;
-		}
-
-		if (m_LoginServerFileLowWriteTime != dwNewLoginServerFileLowWriteTime || m_LoginServerFileHighWriteTime != dwNewLoginServerFileHighWriteTime) {
+		if (CMyUtils::FileExists(m_strLoginServerFilePath) == TRUE)
+		{
 			m_bIsComplete = TRUE;
-		}
-
+		}			
 		::Sleep(m_iDelayTime);
 	}
-
 	return TRUE;
 }
 
@@ -110,7 +88,19 @@ DWORD WINAPI CTLBBAutoLauncher::MonitorThreadFunction( PVOID pvParam )
 
 	CTLBBAutoLauncher *pLauncher = (CTLBBAutoLauncher*)pvParam;
 
+	DWORD dwStartTime = GetTickCount ();
+
 	while(FALSE == pLauncher->m_bIsFailed && FALSE == pLauncher->m_bIsComplete) {
+
+		DWORD dwEndTime = GetTickCount () - dwStartTime ;
+	
+		if (dwEndTime > pLauncher->m_dwLauncherTimeOut)
+		{
+			pLauncher->m_bIsFailed = TRUE;
+			CMyUtils::WriteLog(L"TLBB Launcher timeout");
+
+			return TRUE;
+		}
 
 		EnumWindows(CTLBBAutoLauncher::EnumWindowsProc, (LPARAM)pLauncher);
 	}
@@ -136,7 +126,7 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 		if (0 == lstrcmpi(strWindowName, L"TLBB2")) {
 
 			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iConfirmButtonID)) {
-				printf("nhan button xac nhan that bai\n");
+				CMyUtils::WriteLog(L"To click cofirmation button is failed");
 			}
 
 			pLauncher->m_bIsFailed = TRUE;
@@ -144,8 +134,9 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 
 		if (0 == lstrcmpi(strWindowName, L"????")) {
 			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iFinishedWhenFailedButtonID)) {
-				printf("nhan button failed that bai\n");
+				CMyUtils::WriteLog(L"To click finish button is failed");
 			}
+			pLauncher->m_bIsFailed = TRUE;
 		}
 
 		return FALSE;
@@ -154,7 +145,19 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 	return TRUE;
 }
 
-BOOL CTLBBAutoLauncher::Compare( LPCTSTR strSourcePath, LPCTSTR strTempSourcePath )
+CGameSourceCompare * CTLBBAutoLauncher::GetComparer( LPCTSTR strNewSource, LPCTSTR strOldSource )
 {
-	return TRUE;
+	if (m_Comparer != NULL)
+	{
+		delete m_Comparer;
+	}
+
+	m_Comparer = new CTLBBCompare(strNewSource, strOldSource);
+
+	if (m_Comparer != NULL)
+	{
+		return m_Comparer;
+	}
+
+	return NULL;
 }

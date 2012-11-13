@@ -185,27 +185,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AuditionAutoLauncher.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\AutoUpdate.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\AutoUpdate.def"
-				>
-			</File>
-			<File
-				RelativePath=".\AutoUpdateTool.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CrossfireAutoLauncher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\CrossfireCompare.cpp"
 				>
 			</File>
 			<File
@@ -235,58 +219,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Fifa2AutoLauncher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Fifa2Compare.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FileServices.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderCloner.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderCompare.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderProcesser.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderRemoving.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\GameSourceCompare.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\InputReader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Launcher.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\md5.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyPath.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyUtils.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -306,14 +238,106 @@
 					/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath=".\TLBBAutoLauncher.cpp"
+			<Filter
+				Name="Launcher"
 				>
-			</File>
-			<File
-				RelativePath=".\WOTAutoLauncher.cpp"
+				<File
+					RelativePath=".\AuditionAutoLauncher.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CrossfireAutoLauncher.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Fifa2AutoLauncher.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Launcher.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TLBBAutoLauncher.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WOTAutoLauncher.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Compare"
 				>
-			</File>
+				<File
+					RelativePath=".\CrossfireCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Fifa2Compare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\GameSourceCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TLBBCompare.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Utils"
+				>
+				<File
+					RelativePath=".\FileServices.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\md5.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyPath.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyUtils.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="FolderRecursion"
+				>
+				<File
+					RelativePath=".\FolderCloner.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderProcesser.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderRemoving.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Tools"
+				>
+				<File
+					RelativePath=".\AutoUpdateTool.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\InputReader.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -321,75 +345,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\AuditionAutoLauncher.h"
-				>
-			</File>
-			<File
-				RelativePath=".\AutoUpdateTool.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CrossfireAutoLauncher.h"
-				>
-			</File>
-			<File
-				RelativePath=".\CrossfireCompare.h"
-				>
-			</File>
-			<File
 				RelativePath=".\ExportFunctions.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Fifa2AutoLauncher.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Fifa2Compare.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FileServices.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderCloner.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderCompare.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderProcesser.h"
-				>
-			</File>
-			<File
-				RelativePath=".\FolderRemoving.h"
-				>
-			</File>
-			<File
-				RelativePath=".\GameSourceCompare.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InputReader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Launcher.h"
-				>
-			</File>
-			<File
-				RelativePath=".\md5.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyPath.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyUtils.h"
 				>
 			</File>
 			<File
@@ -404,14 +360,106 @@
 				RelativePath=".\targetver.h"
 				>
 			</File>
-			<File
-				RelativePath=".\TLBBAutoLauncher.h"
+			<Filter
+				Name="Launcher"
 				>
-			</File>
-			<File
-				RelativePath=".\WOTAutoLauncher.h"
+				<File
+					RelativePath=".\AuditionAutoLauncher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CrossfireAutoLauncher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Fifa2AutoLauncher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Launcher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TLBBAutoLauncher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\WOTAutoLauncher.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Compare"
 				>
-			</File>
+				<File
+					RelativePath=".\CrossfireCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Fifa2Compare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GameSourceCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TLBBCompare.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Utils"
+				>
+				<File
+					RelativePath=".\FileServices.h"
+					>
+				</File>
+				<File
+					RelativePath=".\md5.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MyPath.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MyUtils.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="FolderRecursion"
+				>
+				<File
+					RelativePath=".\FolderCloner.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderProcesser.h"
+					>
+				</File>
+				<File
+					RelativePath=".\FolderRemoving.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Tools"
+				>
+				<File
+					RelativePath=".\AutoUpdateTool.h"
+					>
+				</File>
+				<File
+					RelativePath=".\InputReader.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
