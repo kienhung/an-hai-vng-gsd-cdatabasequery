@@ -205,6 +205,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CrossfireCompare.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\dllmain.cpp"
 				>
 				<FileConfiguration
@@ -227,7 +231,15 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\ExportFunctions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Fifa2AutoLauncher.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Fifa2Compare.cpp"
 				>
 			</File>
 			<File
@@ -251,6 +263,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GameSourceCompare.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InputReader.cpp"
 				>
 			</File>
@@ -267,7 +283,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SilkroadAutoLauncher.cpp"
+				RelativePath=".\MyUtils.cpp"
 				>
 			</File>
 			<File
@@ -317,7 +333,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CrossfireCompare.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ExportFunctions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Fifa2AutoLauncher.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Fifa2Compare.h"
 				>
 			</File>
 			<File
@@ -341,6 +369,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GameSourceCompare.h"
+				>
+			</File>
+			<File
 				RelativePath=".\InputReader.h"
 				>
 			</File>
@@ -357,11 +389,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Resource.h"
+				RelativePath=".\MyUtils.h"
 				>
 			</File>
 			<File
-				RelativePath=".\SilkroadAutoLauncher.h"
+				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File

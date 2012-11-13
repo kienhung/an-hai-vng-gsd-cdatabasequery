@@ -25,7 +25,7 @@ CAuditionAutoLauncher::~CAuditionAutoLauncher(void)
 CString CAuditionAutoLauncher::GetName()
 {
 
-	return L"Audition";
+	return L"AU";
 }
 
 BOOL CAuditionAutoLauncher::Run()
@@ -138,5 +138,10 @@ BOOL CAuditionAutoLauncher::SelectAudition()
 	if (FALSE == TreeView_SelectItem(hTreeCtrl, hTreeItem)) {
 		return FALSE;
 	}
+	return TRUE;
+}
+
+BOOL CAuditionAutoLauncher::Compare( LPCTSTR strSourcePath, LPCTSTR strTempSourcePath )
+{
 	return TRUE;
 }
