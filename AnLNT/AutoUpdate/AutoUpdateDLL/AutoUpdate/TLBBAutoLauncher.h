@@ -23,6 +23,7 @@ public:
 	virtual BOOL Run();
 	virtual CString GetName();
 	virtual ~CTLBBAutoLauncher(void);
+	virtual BOOL Compare(LPCTSTR strSourcePath, LPCTSTR strTempSourcePath);
 
 protected:
 	BOOL GetLoginServerFileWriteTime(DWORD *pLowWriteTime, DWORD *pHighWriteTime);

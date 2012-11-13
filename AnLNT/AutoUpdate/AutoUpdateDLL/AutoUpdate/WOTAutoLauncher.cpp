@@ -19,7 +19,7 @@ CWOTAutoLauncher::~CWOTAutoLauncher(void)
 CString CWOTAutoLauncher::GetName()
 {
 
-	return L"World of Tank";
+	return L"WOT";
 }
 
 BOOL CWOTAutoLauncher::Run()
@@ -167,5 +167,10 @@ BOOL CWOTAutoLauncher::KillProcess()
 	::WaitForSingleObject(m_hProcess, INFINITE);
 	::CloseHandle(m_hProcess);
 
+	return TRUE;
+}
+
+BOOL CWOTAutoLauncher::Compare( LPCTSTR strSourcePath, LPCTSTR strTempSourcePath )
+{
 	return TRUE;
 }
