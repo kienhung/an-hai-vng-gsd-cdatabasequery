@@ -3,4 +3,4 @@
 LIBRARY      "AutoUpdate"
 
 EXPORTS
-    ; Explicit exports can go here
+AutoDetectGameUpdate

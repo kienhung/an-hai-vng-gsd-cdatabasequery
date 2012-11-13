@@ -27,5 +27,5 @@ public:
 
 	static DWORD WINAPI MonitorThreadFunction(PVOID pvParam);
 	static BOOL CALLBACK EnumWindowProc(HWND hwnd, LPARAM lParam);
-
+	virtual BOOL Compare(LPCTSTR strSourcePath, LPCTSTR strTempSourcePath);
 };
