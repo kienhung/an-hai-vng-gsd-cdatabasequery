@@ -141,3 +141,36 @@ BOOL CMyUtils::DeleteFile( LPCTSTR lpFileName )
 
 	return FALSE;
 }
+
+BOOL CMyUtils::DeleteDir( LPCTSTR lpDirPath )
+{
+	CFileFind	finder;
+	BOOL		bFind;
+	TCHAR		strFindPath[MAX_PATH];
+
+	_stprintf(strFindPath, _T("%s\\*"), lpDirPath);
+	bFind = finder.FindFile(strFindPath);
+	while (bFind)   
+	{
+		bFind = finder.FindNextFile();
+		if (!finder.IsDirectory())
+		{
+			if (!CMyUtils::DeleteFile(finder.GetFilePath()))
+			{
+				finder.Close();
+				return FALSE;
+			}
+		}
+		else if (!finder.IsDots())
+		{
+			if (!DeleteDir(finder.GetFilePath()))
+			{
+				finder.Close();
+				return FALSE;
+			}
+		}
+	}
+	finder.Close();
+
+	return RemoveDirectory(lpDirPath);
+}

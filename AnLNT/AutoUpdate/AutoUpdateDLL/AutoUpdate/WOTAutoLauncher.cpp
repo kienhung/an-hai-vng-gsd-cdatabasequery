@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 #include "WOTAutoLauncher.h"
+#include "MyUtils.h"
+#include "WOTCompare.h"
 
 CWOTAutoLauncher::CWOTAutoLauncher(LPCTSTR strSource)
 :CLauncher(strSource)
@@ -7,9 +9,10 @@ CWOTAutoLauncher::CWOTAutoLauncher(LPCTSTR strSource)
 	m_strLauncher = strSource + CString(L"\\WOTLauncher.exe");
 	m_strConfigFilePath = strSource + CString(L"\\WOTLauncher.cfg");
 	m_strLogFilePath = strSource + CString(L"\\WOTLauncher.log");
+	m_strTempUpdateDirectoryPath = strSource + CString(L"\\Updates");
 
 	m_iDelayTime = 10000;
-
+	m_bIsFailed = FALSE;
 }
 
 CWOTAutoLauncher::~CWOTAutoLauncher(void)
@@ -24,23 +27,39 @@ CString CWOTAutoLauncher::GetName()
 
 BOOL CWOTAutoLauncher::Run()
 {
+	if (TRUE == CMyUtils::FileExists(m_strTempUpdateDirectoryPath))
+	{
+		if (FALSE == CMyUtils::DeleteDir(m_strTempUpdateDirectoryPath))
+		{
+			CMyUtils::WriteLog(L"WOT fails to remove the update directory");
+			return FALSE;
+		}
+	}
 
 	if (FALSE == GetConfigFileLastWriteTime()) {
+		CMyUtils::WriteLog(L"WOTLauncher.cfg not found");
 		return FALSE;
 	}
 
 	if (FALSE == StartLauncherProcess()) {
+		CMyUtils::WriteLog(L"Unable to start WOTLauncher.exe");
 		return FALSE;
 	}
 
 	if (FALSE == WaitForUpdateBeginning()) {
+		CMyUtils::WriteLog(L"WaitForUpdateBeginning failed");
 		return FALSE;
 	}
 
 	if (FALSE == WaitForComplate()) {
+		CMyUtils::WriteLog(L"WaitForComplate failed");
 		return FALSE;
 	}
-
+	
+	if (TRUE == m_bIsFailed)
+	{
+		return FALSE;
+	}
 	
 	return TRUE;
 }
@@ -110,7 +129,18 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 
 		BOOL bIsComplete = FALSE;
 
+		DWORD ullStartTime = GetTickCount ();
+
 		while (FALSE == bIsComplete) {
+
+			DWORD ullEndTime = GetTickCount () - ullStartTime ;
+
+			if (ullEndTime > m_dwLauncherTimeOut)
+			{
+				CMyUtils::WriteLog(L"WOTLauncher Timeout");
+				ProcessError();
+				return TRUE;
+			}
 
 			CString strPrevious = L"Nothing";
 			CString strCurrent;
@@ -119,10 +149,10 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 
 				if (strCurrent.Find(L"ERROR") != -1) {
 					ProcessError();
-					return FALSE;
+					return TRUE;
 				}
 
-				if (strCurrent.Find(L"update complete") != -1 && strPrevious.Find(L"initialize clear process") != -1) {
+				if (strCurrent.Find(L"Update complete") != -1 && strPrevious.Find(L"Clear old/temp files") != -1) {
 					bIsComplete = TRUE;	
 				}
 
@@ -142,6 +172,7 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 
 BOOL CWOTAutoLauncher::ProcessError()
 {
+	m_bIsFailed = TRUE;
 	if (FALSE == KillProcess()) {
 		return FALSE;
 	}
@@ -167,10 +198,24 @@ BOOL CWOTAutoLauncher::KillProcess()
 	::WaitForSingleObject(m_hProcess, INFINITE);
 	::CloseHandle(m_hProcess);
 
+	DWORD dwWait = 5000;
+	::Sleep(dwWait);
 	return TRUE;
 }
 
-BOOL CWOTAutoLauncher::Compare( LPCTSTR strSourcePath, LPCTSTR strTempSourcePath )
+CGameSourceCompare * CWOTAutoLauncher::GetComparer( LPCTSTR strNewSource, LPCTSTR strOldSource )
 {
-	return TRUE;
+	if (m_Comparer != NULL)
+	{
+		delete m_Comparer;
+	}
+
+	m_Comparer = new CWOTCompare(strNewSource, strOldSource);
+
+	if (m_Comparer != NULL)
+	{
+		return m_Comparer;
+	}
+
+	return NULL;
 }
