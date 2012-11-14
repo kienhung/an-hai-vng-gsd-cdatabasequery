@@ -10,8 +10,10 @@ protected:
 	FILETIME m_ftConfigFileLastWriteTime;
 	CString m_strConfigFilePath;
 	CString m_strLogFilePath;
+	CString m_strTempUpdateDirectoryPath;
 
 	int m_iDelayTime;
+	BOOL m_bIsFailed;
 
 public:
 	CWOTAutoLauncher(LPCTSTR strSource);
@@ -19,7 +21,8 @@ public:
 
 	virtual CString GetName();
 	virtual BOOL Run();
-	virtual BOOL Compare(LPCTSTR strSourcePath, LPCTSTR strTempSourcePath);
+
+	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
 protected:
 	
 	virtual BOOL StartLauncherProcess();
@@ -30,4 +33,5 @@ protected:
 	BOOL ProcessError();
 	BOOL KillProcess();
 	BOOL ProcessComplete();
+
 };

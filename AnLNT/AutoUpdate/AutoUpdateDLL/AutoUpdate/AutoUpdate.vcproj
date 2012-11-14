@@ -289,6 +289,10 @@
 					RelativePath=".\TLBBCompare.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\WOTCompare.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Utils"
@@ -344,10 +348,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath=".\ExportFunctions.h"
-				>
-			</File>
 			<File
 				RelativePath=".\Resource.h"
 				>
@@ -411,6 +411,10 @@
 					RelativePath=".\TLBBCompare.h"
 					>
 				</File>
+				<File
+					RelativePath=".\WOTCompare.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Utils"
@@ -453,6 +457,10 @@
 				>
 				<File
 					RelativePath=".\AutoUpdateTool.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ExportFunctions.h"
 					>
 				</File>
 				<File
