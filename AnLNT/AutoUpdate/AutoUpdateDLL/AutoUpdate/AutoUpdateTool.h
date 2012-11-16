@@ -29,5 +29,6 @@ protected:
 	BOOL RunAutoLauncher();
 	BOOL Compare();
 	BOOL RemoveTempSource();
-	void WriteLog(const CString &strLog);
+	void WriteDebugLog(const CString &strLog);
+	void WriteErrorLog(const CString &strLog);
 };
