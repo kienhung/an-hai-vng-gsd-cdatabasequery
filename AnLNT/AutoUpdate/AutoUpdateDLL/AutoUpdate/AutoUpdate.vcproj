@@ -302,6 +302,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\GlobalClass.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\md5.cpp"
 					>
 				</File>
@@ -421,6 +425,14 @@
 				>
 				<File
 					RelativePath=".\FileServices.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GlobalClass.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\LogWriter.h"
 					>
 				</File>
 				<File

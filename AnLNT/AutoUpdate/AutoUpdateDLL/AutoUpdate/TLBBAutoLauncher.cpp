@@ -36,7 +36,7 @@ BOOL CTLBBAutoLauncher::Run()
 	{
 		if (CMyUtils::DeleteFile(m_strLoginServerFilePath) == FALSE)
 		{
-			CMyUtils::WriteLog(L"TO delete serverlogin file is failed");
+			CMyUtils::WriteErrorLog(L"TO delete serverlogin file is failed");
 			return FALSE;
 		}
 	}
@@ -97,7 +97,7 @@ DWORD WINAPI CTLBBAutoLauncher::MonitorThreadFunction( PVOID pvParam )
 		if (dwEndTime > pLauncher->m_dwLauncherTimeOut)
 		{
 			pLauncher->m_bIsFailed = TRUE;
-			CMyUtils::WriteLog(L"TLBB Launcher timeout");
+			CMyUtils::WriteErrorLog(L"TLBB Launcher timeout");
 
 			return TRUE;
 		}
@@ -126,7 +126,7 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 		if (0 == lstrcmpi(strWindowName, L"TLBB2")) {
 
 			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iConfirmButtonID)) {
-				CMyUtils::WriteLog(L"To click cofirmation button is failed");
+				CMyUtils::WriteErrorLog(L"To click cofirmation button is failed");
 			}
 
 			pLauncher->m_bIsFailed = TRUE;
@@ -134,7 +134,7 @@ BOOL CALLBACK CTLBBAutoLauncher::EnumWindowsProc( HWND hwnd, LPARAM lParam )
 
 		if (0 == lstrcmpi(strWindowName, L"????")) {
 			if (FALSE == pLauncher->ClickButton(hwnd, pLauncher->m_iFinishedWhenFailedButtonID)) {
-				CMyUtils::WriteLog(L"To click finish button is failed");
+				CMyUtils::WriteErrorLog(L"To click finish button is failed");
 			}
 			pLauncher->m_bIsFailed = TRUE;
 		}

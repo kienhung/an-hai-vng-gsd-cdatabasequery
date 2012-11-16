@@ -8,7 +8,7 @@ public:
 
 	static BOOL FileExists(LPCTSTR lpFilePath);
 	static BOOL CopyFile(LPCTSTR lpExistingFileName, LPCTSTR lpNewFileName, BOOL bFailIfExists = FALSE);
-	static BOOL WriteLog( LPCTSTR lpstrData );
+	static BOOL WriteErrorLog( LPCTSTR lpstrData );
 	static BOOL KillWindowProcess(LPCTSTR strClassName, LPCTSTR strWindowName);
 
 	static BOOL KillWindowProcess( HWND hWindow );

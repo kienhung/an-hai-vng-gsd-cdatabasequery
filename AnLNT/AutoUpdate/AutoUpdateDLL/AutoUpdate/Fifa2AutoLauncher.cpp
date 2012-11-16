@@ -246,11 +246,11 @@ DWORD WINAPI CFifa2AutoLauncher::MonitorThreadFunction( PVOID pvParam )
 		{
 			pLaucher->m_bIsFailed = TRUE;
 
-			CMyUtils::WriteLog(L"FF Launcher timeout");
+			CMyUtils::WriteErrorLog(L"FF Launcher timeout");
 
 			if (FALSE == CMyUtils::KillWindowProcess(pLaucher->m_hMainWindow))
 			{
-				CMyUtils::WriteLog(L"To kill FF update process is failed");
+				CMyUtils::WriteErrorLog(L"To kill FF update process is failed");
 			}
 
 			return TRUE;

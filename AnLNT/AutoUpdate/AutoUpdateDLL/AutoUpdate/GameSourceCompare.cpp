@@ -30,7 +30,7 @@ BOOL CGameSourceCompare::Compare( LPCTSTR strResultFilePath )
 	{
 		CString strError;
 		strError.Format(L"Failure to compare source game with Error %u", GetLastError());
-		CMyUtils::WriteLog(strError);
+		CMyUtils::WriteErrorLog(strError);
 
 		return FALSE;
 	}
@@ -48,7 +48,7 @@ BOOL CGameSourceCompare::DeleteResultFile()
 	{
 		CString strError;
 		strError.Format(L"Failure to delete result file with Error %u", GetLastError());
-		CMyUtils::WriteLog(strError);
+		CMyUtils::WriteErrorLog(strError);
 
 		return FALSE;
 	}

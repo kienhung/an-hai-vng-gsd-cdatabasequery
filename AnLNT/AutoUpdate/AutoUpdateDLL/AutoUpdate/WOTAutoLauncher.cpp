@@ -31,28 +31,28 @@ BOOL CWOTAutoLauncher::Run()
 	{
 		if (FALSE == CMyUtils::DeleteDir(m_strTempUpdateDirectoryPath))
 		{
-			CMyUtils::WriteLog(L"WOT fails to remove the update directory");
+			CMyUtils::WriteErrorLog(L"WOT fails to remove the update directory");
 			return FALSE;
 		}
 	}
 
 	if (FALSE == GetConfigFileLastWriteTime()) {
-		CMyUtils::WriteLog(L"WOTLauncher.cfg not found");
+		CMyUtils::WriteErrorLog(L"WOTLauncher.cfg not found");
 		return FALSE;
 	}
 
 	if (FALSE == StartLauncherProcess()) {
-		CMyUtils::WriteLog(L"Unable to start WOTLauncher.exe");
+		CMyUtils::WriteErrorLog(L"Unable to start WOTLauncher.exe");
 		return FALSE;
 	}
 
 	if (FALSE == WaitForUpdateBeginning()) {
-		CMyUtils::WriteLog(L"WaitForUpdateBeginning failed");
+		CMyUtils::WriteErrorLog(L"WaitForUpdateBeginning failed");
 		return FALSE;
 	}
 
 	if (FALSE == WaitForComplate()) {
-		CMyUtils::WriteLog(L"WaitForComplate failed");
+		CMyUtils::WriteErrorLog(L"WaitForComplate failed");
 		return FALSE;
 	}
 	
@@ -137,7 +137,7 @@ BOOL CWOTAutoLauncher::WaitForComplate()
 
 			if (ullEndTime > m_dwLauncherTimeOut)
 			{
-				CMyUtils::WriteLog(L"WOTLauncher Timeout");
+				CMyUtils::WriteErrorLog(L"WOTLauncher Timeout");
 				ProcessError();
 				return TRUE;
 			}

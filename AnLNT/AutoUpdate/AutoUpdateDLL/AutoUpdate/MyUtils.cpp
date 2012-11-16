@@ -2,6 +2,7 @@
 #include "MyUtils.h"
 #include <shlwapi.h>
 #include <strsafe.h>
+#include "GlobalClass.h"
 
 CMyUtils::CMyUtils(void)
 {
@@ -35,37 +36,10 @@ BOOL CMyUtils::FileExists( LPCTSTR lpFilePath )
 	return FALSE;
 }
 
-BOOL CMyUtils::WriteLog( LPCTSTR lpstrData )
+BOOL CMyUtils::WriteErrorLog( LPCTSTR lpstrData )
 {
-	TCHAR strModulePath[MAX_PATH]={0};
-
-	if (0 == ::GetModuleFileName(NULL, strModulePath, MAX_PATH)) {
-		return FALSE;
-	}
-
-	if (FALSE == ::PathRemoveFileSpec(strModulePath)) {
-		return FALSE;
-	}
-
-	CStdioFile fileWriter;
-	CFileException fileException;
-	CString strLogPath = CString(strModulePath) + L"\\AutoDetectError.sys";
-
-
-	if (fileWriter.Open(strLogPath, CFile::modeCreate | CFile::modeNoTruncate | CFile::modeWrite | CFile::typeBinary , &fileException)) {
-
-		fileWriter.SeekToEnd();
-
-		COleDateTime oleDateTime = COleDateTime::GetCurrentTime();
-		CString strText;
-		strText.Format(L"%s - %s\r\n", oleDateTime.Format(_T("%Y-%m-%d %H:%M:%S")), lpstrData);
-
-		fileWriter.WriteString(strText);
-		fileWriter.Close();
-
-		return TRUE;
-	} 
-	return FALSE;
+	CGlobalClass::GetInstance()->GetLogWriter()->WriteLog(LOG_TYPE_ERROR, lpstrData);
+	return TRUE;
 }
 
 BOOL CMyUtils::KillWindowProcess( LPCTSTR strClassName, LPCTSTR strWindowName )
