@@ -258,6 +258,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LauncherEx.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\LMHTAutoLauncher.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\TLBBAutoLauncher.cpp"
 					>
 				</File>
@@ -283,6 +291,10 @@
 				</File>
 				<File
 					RelativePath=".\GameSourceCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\LMHTCompare.cpp"
 					>
 				</File>
 				<File
@@ -315,6 +327,14 @@
 				</File>
 				<File
 					RelativePath=".\MyUtils.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\pugixml.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WindowFinder.cpp"
 					>
 				</File>
 			</Filter>
@@ -384,6 +404,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\LauncherEx.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LMHTAutoLauncher.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TLBBAutoLauncher.h"
 					>
 				</File>
@@ -409,6 +437,10 @@
 				</File>
 				<File
 					RelativePath=".\GameSourceCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\LMHTCompare.h"
 					>
 				</File>
 				<File
@@ -445,6 +477,18 @@
 				</File>
 				<File
 					RelativePath=".\MyUtils.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\pugiconfig.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Include\pugixml.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\WindowFinder.h"
 					>
 				</File>
 			</Filter>
