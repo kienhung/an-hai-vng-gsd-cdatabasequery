@@ -148,3 +148,93 @@ BOOL CMyUtils::DeleteDir( LPCTSTR lpDirPath )
 
 	return RemoveDirectory(lpDirPath);
 }
+
+void CMyUtils::SimulateLeftMouseClick( HWND hWnd, int x, int y )
+{
+	::SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	::PostMessage(hWnd, WM_LBUTTONDOWN, MK_LBUTTON, MAKELPARAM(x, y));
+	::PostMessage(hWnd, WM_LBUTTONUP, 00000, MAKELPARAM(x, y));
+}
+
+void CMyUtils::SimulateLeftMouseClick( const vector<HWND> &vWnd, int x, int y )
+{
+	for (size_t i = 0; i < vWnd.size(); i++)
+	{
+		SimulateLeftMouseClick(vWnd[i], x, y);
+	}
+}
+
+wchar_t* CMyUtils::ConvertUTF8ToWideChar( const char *strUTF8 )
+{
+	wchar_t	*strWideChar = NULL;
+	int		iLen,
+		iNumChar = 0;
+
+	iLen = strlen(strUTF8);
+	if (iLen <= 0)
+	{
+		strWideChar = new wchar_t[1];
+		if (strWideChar)
+			strWideChar[0] = 0;
+	}
+	else
+	{
+		// Get the required buffer size for WideChar string (the 6th parameter is set to 0)
+		iNumChar = MultiByteToWideChar(CP_UTF8, 0, strUTF8, iLen, NULL, 0);
+		if (iNumChar > 0)
+		{
+			strWideChar = new wchar_t[iNumChar + 1];
+			if (strWideChar)
+			{
+				memset(strWideChar, 0, (iNumChar + 1)*2);
+				iNumChar = MultiByteToWideChar(CP_UTF8, 0, strUTF8, iLen, strWideChar, iNumChar);
+				if (iNumChar <= 0)
+				{
+					// Mapping string doesn't succeed
+					delete []strWideChar;
+					strWideChar = NULL;
+				}
+			}
+		}
+	}
+
+	return strWideChar;
+}
+
+char* CMyUtils::ConvertWideCharToUTF8( const wchar_t *strWideChar )
+{
+
+	char	*strUTF8 = NULL;
+	int		iLen,
+		iNumByte = 0;
+
+	iLen = wcslen(strWideChar);
+	if (iLen <= 0)
+	{
+		strUTF8 = new char[1];
+		if (strUTF8)
+			strUTF8[0] = 0;
+	}
+	else
+	{
+		// Get the required buffer size for UTF8 string (the 6th parameter is set to 0)
+		iNumByte = WideCharToMultiByte(CP_UTF8, 0, strWideChar, iLen, NULL, 0, NULL, NULL);
+		if (iNumByte > 0)
+		{
+			strUTF8 = new char[iNumByte + 1];
+			if (strUTF8)
+			{
+				memset(strUTF8, 0, iNumByte + 1);
+				iNumByte = WideCharToMultiByte(CP_UTF8, 0, strWideChar, iLen, strUTF8, iNumByte, NULL, NULL);
+				if (iNumByte <= 0)
+				{
+					// Mapping string doesn't succeed
+					delete []strUTF8;
+					strUTF8 = NULL;
+				}
+			}
+		}
+	}
+
+	return strUTF8;
+}

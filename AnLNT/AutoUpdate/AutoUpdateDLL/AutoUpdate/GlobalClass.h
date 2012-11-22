@@ -34,11 +34,19 @@ public:
 	static CGlobalClass* GetInstance();
 
 	CLogWriter *GetLogWriter();
+	const CString& GetExeDirectory();
+	const CString& GetConfigDirectory();
 
 protected:
 
 	CGlobalClass(void);
 	CLogWriter m_logWriter;
 
+	CString m_strExeDirectory;
+	CString m_strConfigDirectory;
+
 	static CMyCriticalSection m_sCrriticalSection;
+
+protected:
+	CString PrepareExeDirectory();
 };
