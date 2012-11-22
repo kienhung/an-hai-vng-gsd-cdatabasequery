@@ -6,6 +6,7 @@ class CTLBBCompare:
 {
 protected:
 	virtual BOOL IsNeedCompare(LPCTSTR strFileName);
+	CString m_strNoCheckDirectory;
 public:
 	CTLBBCompare(LPCTSTR strNewSource, LPCTSTR strOldSource);
 	virtual ~CTLBBCompare(void);
