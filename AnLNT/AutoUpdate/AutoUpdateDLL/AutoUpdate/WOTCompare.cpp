@@ -18,7 +18,9 @@ CWOTCompare::~CWOTCompare(void)
 BOOL CWOTCompare::IsNeedCompare( LPCTSTR strFileName )
 {
 	PTSTR strExtesion = ::PathFindExtension(strFileName);
-	if (lstrcmpi(strExtesion, L".bak") == 0 || lstrcmpi(strExtesion, L".log") == 0)
+	if (lstrcmpi(strExtesion, L".log") == 0 ||
+		lstrcmpi(strExtesion, L".bak") == 0 || 
+		lstrcmpi(strExtesion, L".killme") == 0)
 	{
 		return FALSE;
 	}

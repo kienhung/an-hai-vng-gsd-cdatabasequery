@@ -69,8 +69,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,11
- PRODUCTVERSION 1,0,0,11
+ FILEVERSION 1,0,0,19
+ PRODUCTVERSION 1,0,0,19
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -86,13 +86,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "Launch TLBB - Ko check folder gamepatch"
-            VALUE "FileVersion", "1.0.0.11"
+            VALUE "FileDescription", "Viet them ham kiem tra 1 file la khong can thiet check cho tat ca game (fix bug)"
+            VALUE "FileVersion", "1.0.0.19"
             VALUE "InternalName", "AutoUpdate.dll"
             VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
             VALUE "OriginalFilename", "AutoUpdate.dll"
             VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "1.0.0.11"
+            VALUE "ProductVersion", "1.0.0.19"
         END
     END
     BLOCK "VarFileInfo"

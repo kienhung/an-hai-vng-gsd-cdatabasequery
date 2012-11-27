@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "LauncherEx.h"
+#include "GlobalClass.h"
 
 
 
@@ -7,6 +8,14 @@ CLauncherEx::CLauncherEx( LPCTSTR strSource )
 :CLauncher(strSource)
 {
 	ZeroMemory(&m_processInfo, sizeof(PROCESS_INFORMATION));
+
+	CString strConfigDirectory = CGlobalClass::GetInstance()->GetConfigDirectory();
+
+	CString strLauncherConfig;
+	strLauncherConfig.Format(L"%s\\%s", strConfigDirectory, L"launcherconfig.xml");
+
+	m_ConfigLoadingResult = m_launcherConfig.load_file(strLauncherConfig);
+
 }
 
 CLauncherEx::~CLauncherEx(void)
@@ -83,4 +92,18 @@ HWND CLauncherEx::StartLauncherWindow( LPCTSTR strClassName, LPCTSTR strWindowNa
 	m_hMainWindow = CLauncherEx::WaitForWindow(strClassName,  strWindowName, dwWait);
 
 	return m_hMainWindow;
+}
+
+BOOL CLauncherEx::WaitForWindowDisappeared( HWND hWnd, DWORD dwTimeout )
+{
+	DWORD dwStartTime = GetTickCount ();
+	while(IsWindowShowed(hWnd) == TRUE)
+	{
+		DWORD dwSpentTime = GetTickCount () - dwStartTime;
+		if (dwSpentTime > dwTimeout)
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
 }

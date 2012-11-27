@@ -25,12 +25,16 @@ protected:
 
 	DWORD m_dwSleep;
 	BOOL Init();
-protected:
+	virtual HWND StartLauncherWindow(LPCTSTR strClassName, LPCTSTR strWindowName);
+
+public:
 	virtual CString GetName();
 	virtual BOOL Run();
-public:
+
 	CLMHTAutoLauncher(LPCTSTR strSource);
 	virtual ~CLMHTAutoLauncher(void);
 	static BOOL CALLBACK EnumChildWindowsProc(HWND hwnd, LPARAM lParam );
 	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
+	static HWND WaitForWindow(LPCTSTR strClassName, LPCTSTR strWindowName, DWORD dwTimeout);
+
 };

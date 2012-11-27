@@ -3,6 +3,7 @@
 #include <shlwapi.h>
 #include <strsafe.h>
 #include "GlobalClass.h"
+#include "WindowFinder.h"
 
 CMyUtils::CMyUtils(void)
 {
@@ -237,4 +238,15 @@ char* CMyUtils::ConvertWideCharToUTF8( const wchar_t *strWideChar )
 	}
 
 	return strUTF8;
+}
+
+void CMyUtils::KillWindowProcessEx( LPCTSTR strClassName, LPCTSTR strWindowName )
+{
+	CWindowFinder windowFinder;
+	vector<HWND> listMainWnd = windowFinder.GetListWindow(strClassName, strWindowName);
+	
+	for (size_t i = 0; i < listMainWnd.size(); i++)
+	{
+		KillWindowProcess(listMainWnd[i]);
+	}
 }

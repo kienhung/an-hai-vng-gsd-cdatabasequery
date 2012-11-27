@@ -22,4 +22,5 @@ public:
 	static BOOL DeleteDir(LPCTSTR lpDirPath);
 	static void SimulateLeftMouseClick(HWND hWnd, int x, int y);
 	static void SimulateLeftMouseClick(const vector<HWND> &vWnd, int x, int y);
+	static void KillWindowProcessEx(LPCTSTR strClassName, LPCTSTR strWindowName);
 };
