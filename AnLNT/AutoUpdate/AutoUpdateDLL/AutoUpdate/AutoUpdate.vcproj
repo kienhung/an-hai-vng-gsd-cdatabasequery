@@ -254,6 +254,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\GAPAutoLauncher.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Launcher.cpp"
 					>
 				</File>
@@ -397,6 +401,10 @@
 				</File>
 				<File
 					RelativePath=".\Fifa2AutoLauncher.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GAPAutoLauncher.h"
 					>
 				</File>
 				<File

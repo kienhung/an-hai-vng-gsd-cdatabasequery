@@ -12,6 +12,7 @@ protected:
 	BOOL Init();
 	virtual BOOL IsNeedCompare(LPCTSTR strFileName);
 	virtual BOOL ProcessFile(LPCTSTR strFileName);
+	virtual BOOL IsUnnecessaryToCheckForAllGames(LPCTSTR strFileName);
 public:
 	CGameSourceCompare(LPCTSTR strNewSource, LPCTSTR strOldSource);
 	virtual ~CGameSourceCompare(void);

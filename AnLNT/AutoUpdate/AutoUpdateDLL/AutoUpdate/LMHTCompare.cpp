@@ -22,6 +22,12 @@ BOOL CLMHTCompare::IsNeedCompare( LPCTSTR strFileName )
 		return FALSE;
 	}
 
+	PTSTR strSub = ::PathFindFileName(strFileName);
+	if (lstrcmpi(strSub, L"lol.properties") == 0)
+	{
+		return FALSE;
+	}
+
 	if (lstrcmpi(strExtesion, L".properties") == 0 )
 	{
 		if (TRUE == CMyUtils::IsFileInDirectory(strFileName, L"preferences")

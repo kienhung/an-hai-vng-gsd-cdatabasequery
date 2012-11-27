@@ -2,6 +2,7 @@
 #include "GameSourceCompare.h"
 #include "MyUtils.h"
 #include "MyPath.h"
+#include <shlwapi.h>
 
 CGameSourceCompare::CGameSourceCompare( LPCTSTR strNewSource, LPCTSTR strOldSource )
 :CFolderCompare(strNewSource, strOldSource)
@@ -67,6 +68,11 @@ BOOL CGameSourceCompare::ProcessFile( LPCTSTR strFileName )
 		return TRUE;
 	}
 
+	if (TRUE == IsUnnecessaryToCheckForAllGames(strFileName))
+	{
+		return TRUE;
+	}
+
 	if (FALSE == IsNeedCompare(strFileName))
 	{
 		return TRUE;
@@ -95,4 +101,27 @@ BOOL CGameSourceCompare::ProcessFile( LPCTSTR strFileName )
 		}
 	}
 	return TRUE;
+}
+
+BOOL CGameSourceCompare::IsUnnecessaryToCheckForAllGames( LPCTSTR strFileName )
+{
+	if (TRUE == CMyUtils::IsFileInDirectory(strFileName, L"logs"))
+	{
+		return TRUE;
+	}
+	PTSTR strSub = ::PathFindFileName(strFileName);
+	if (lstrcmpi(strSub, L"gmautoupdate.fls") == 0 ||
+		lstrcmpi(strSub, L"autoupdate.fls") == 0 ||
+		lstrcmpi(strSub, L"rootfolder.enc") == 0)
+	{
+		return TRUE;
+	}
+
+	PTSTR strExtesion = ::PathFindExtension(strFileName);
+	if (lstrcmpi(strExtesion, L".torrent") == 0)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
 }
