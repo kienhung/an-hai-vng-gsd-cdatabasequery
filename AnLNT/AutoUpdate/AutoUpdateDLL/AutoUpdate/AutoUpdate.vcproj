@@ -270,6 +270,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\TBVAutoLauncher.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\TLBBAutoLauncher.cpp"
 					>
 				</File>
@@ -299,6 +303,10 @@
 				</File>
 				<File
 					RelativePath=".\LMHTCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TBVCompare.cpp"
 					>
 				</File>
 				<File
@@ -420,6 +428,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\TBVAutoLauncher.h"
+					>
+				</File>
+				<File
 					RelativePath=".\TLBBAutoLauncher.h"
 					>
 				</File>
@@ -449,6 +461,10 @@
 				</File>
 				<File
 					RelativePath=".\LMHTCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TBVCompare.h"
 					>
 				</File>
 				<File

@@ -250,3 +250,19 @@ void CMyUtils::KillWindowProcessEx( LPCTSTR strClassName, LPCTSTR strWindowName 
 		KillWindowProcess(listMainWnd[i]);
 	}
 }
+
+void CMyUtils::KillProcess( PROCESS_INFORMATION *processInfo )
+{
+	if (FALSE == ::TerminateThread(processInfo->hThread, 0))
+	{
+		CGlobalClass::GetInstance()->GetLogWriter()->WriteLogFormat(LOG_TYPE_WARN, L"Unable to kill %u thread", processInfo->dwThreadId);
+	}
+	::WaitForSingleObject(processInfo->hThread, INFINITE);
+	if (FALSE == ::TerminateProcess(processInfo->hProcess, 0))
+	{
+		CGlobalClass::GetInstance()->GetLogWriter()->WriteLogFormat(LOG_TYPE_WARN, L"Unable to kill %u thread", processInfo->dwProcessId);
+	}
+	::WaitForSingleObject(processInfo->hProcess, INFINITE);
+	DWORD dwWait = 5000;
+	::Sleep(dwWait);
+}

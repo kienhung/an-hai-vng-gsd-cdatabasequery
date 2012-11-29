@@ -23,7 +23,7 @@ public:
 
 	virtual BOOL Run() = 0;
 	virtual CString GetName() = 0;
-	CString GetSourcePath();
+	virtual CString GetSourcePath();
 
 	virtual ~CLauncher(void);
 

@@ -15,6 +15,12 @@ CTLBBCompare::~CTLBBCompare(void)
 
 BOOL CTLBBCompare::IsNeedCompare( LPCTSTR strFileName )
 {
+	PTSTR strExtesion = ::PathFindExtension(strFileName);
+	if (lstrcmpi(strExtesion, L".log") == 0)
+	{
+		return FALSE;
+	}
+
 	CString strTemp = CString(strFileName).Left(m_strNoCheckDirectory.GetLength());
 	if (strTemp.CompareNoCase(m_strNoCheckDirectory) == 0)
 	{

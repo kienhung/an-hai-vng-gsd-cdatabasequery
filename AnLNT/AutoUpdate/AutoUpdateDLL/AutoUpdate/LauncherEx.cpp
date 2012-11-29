@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "LauncherEx.h"
 #include "GlobalClass.h"
+#include "MyUtils.h"
 
 
 
@@ -20,6 +21,8 @@ CLauncherEx::CLauncherEx( LPCTSTR strSource )
 
 CLauncherEx::~CLauncherEx(void)
 {
+	ReleaseProcess();
+
 }
 
 BOOL CLauncherEx::StartLauncherProcess()
@@ -106,4 +109,32 @@ BOOL CLauncherEx::WaitForWindowDisappeared( HWND hWnd, DWORD dwTimeout )
 		}
 	}
 	return TRUE;
+}
+
+void CLauncherEx::ReleaseProcess()
+{
+	::CloseHandle(m_processInfo.hThread);
+	::CloseHandle(m_processInfo.hProcess);
+}
+
+CString CLauncherEx::ExtractStringConfig( LPCSTR strGameNode, LPCSTR strChildNode, LPCSTR strAttr )
+{
+	string strTempUTF8 = m_launcherConfig.child(strGameNode).child(strChildNode).attribute(strAttr).value();
+	TCHAR *pTempWidechar =  CMyUtils::ConvertUTF8ToWideChar(strTempUTF8.c_str());
+	CString strResult;
+	if (pTempWidechar != NULL)
+	{
+		strResult = CString(pTempWidechar);
+		delete[] pTempWidechar;
+	}
+	return strResult;
+}
+
+void CLauncherEx::KillAll()
+{
+	if (m_hMainWindow != NULL)
+	{
+		CMyUtils::KillWindowProcess(m_hMainWindow);
+	}
+	CMyUtils::KillProcess(&m_processInfo);
 }
