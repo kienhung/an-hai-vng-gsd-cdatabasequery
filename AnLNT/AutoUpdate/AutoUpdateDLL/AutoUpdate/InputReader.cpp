@@ -9,6 +9,8 @@
 #include "WOTAutoLauncher.h"
 #include "LMHTAutoLauncher.h"
 #include "TBVAutoLauncher.h"
+#include "AHKLauncher.h"
+#include "ZSLauncher.h"
 
 CInputReader::CInputReader( LPCTSTR strInputFileName )
 {
@@ -25,7 +27,7 @@ CInputReader::CInputReader( LPCTSTR strInputFileName )
 BOOL CInputReader::Read()
 {
 	//new game here
-	const TCHAR * arrStrGameList[] = {L"TLBB", L"AU2", L"CF", L"FF", L"WOT", L"LOL", L"TBV"};
+	const TCHAR * arrStrGameList[] = {L"TLBB", L"AU2", L"CF", L"FF", L"WOT", L"LOL", L"TBV", L"ZS"};
 	size_t stNumberOfGamels = sizeof(arrStrGameList)/sizeof(const char*);
 	for (size_t i = 0; i < stNumberOfGamels; i++)
 	{
@@ -63,6 +65,10 @@ BOOL CInputReader::Read()
 			else if(lstrcmpi(arrStrGameList[i], L"TBV") == 0)
 			{
 				pAutoLauncher = new CTBVAutoLauncher(strSourcePath);
+			}
+			else if(lstrcmpi(arrStrGameList[i], L"ZS") == 0)
+			{
+				pAutoLauncher = new CZSLauncher(strSourcePath, arrStrGameList[i]);
 			}
 			//new game here
 
