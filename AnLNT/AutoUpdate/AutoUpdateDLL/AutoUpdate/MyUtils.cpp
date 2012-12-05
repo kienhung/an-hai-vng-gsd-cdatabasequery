@@ -266,3 +266,20 @@ void CMyUtils::KillProcess( PROCESS_INFORMATION *processInfo )
 	DWORD dwWait = 5000;
 	::Sleep(dwWait);
 }
+
+void CMyUtils::ReadINISectionNames( LPCTSTR strINIPath, CStringArray &arrResult )
+{
+	arrResult.RemoveAll();
+
+	const int MAX_SIZE = 256;
+	TCHAR lpszReturnBuffer[MAX_SIZE] = {0};
+
+	::GetPrivateProfileSectionNames(lpszReturnBuffer, MAX_SIZE, strINIPath);
+	TCHAR* pNextSection = lpszReturnBuffer;
+
+	while (lstrlen(pNextSection) > 0)
+	{
+		arrResult.Add(pNextSection);
+		pNextSection = pNextSection + lstrlen(pNextSection) + 1;
+	}
+}

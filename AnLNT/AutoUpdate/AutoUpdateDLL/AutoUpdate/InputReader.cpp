@@ -11,6 +11,7 @@
 #include "TBVAutoLauncher.h"
 #include "AHKLauncher.h"
 #include "ZSLauncher.h"
+#include "MyUtils.h"
 
 CInputReader::CInputReader( LPCTSTR strInputFileName )
 {
@@ -26,9 +27,11 @@ CInputReader::CInputReader( LPCTSTR strInputFileName )
 
 BOOL CInputReader::Read()
 {
-	//new game here
-	const TCHAR * arrStrGameList[] = {L"TLBB", L"AU2", L"CF", L"FF", L"WOT", L"LOL", L"TBV", L"ZS"};
-	size_t stNumberOfGamels = sizeof(arrStrGameList)/sizeof(const char*);
+	CStringArray arrStrGameList;
+
+	CMyUtils::ReadINISectionNames(m_strInput, arrStrGameList);
+	size_t stNumberOfGamels =  arrStrGameList.GetCount();
+
 	for (size_t i = 0; i < stNumberOfGamels; i++)
 	{
 		TCHAR strSourcePath[MAX_PATH] = {0};
