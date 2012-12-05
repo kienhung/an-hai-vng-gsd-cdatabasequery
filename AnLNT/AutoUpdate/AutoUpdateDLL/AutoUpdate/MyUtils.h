@@ -24,4 +24,5 @@ public:
 	static void SimulateLeftMouseClick(const vector<HWND> &vWnd, int x, int y);
 	static void KillWindowProcessEx(LPCTSTR strClassName, LPCTSTR strWindowName);
 	static void KillProcess(PROCESS_INFORMATION *processInfo);
+	static void ReadINISectionNames(LPCTSTR strINIPath, CStringArray &arrResult);
 };
