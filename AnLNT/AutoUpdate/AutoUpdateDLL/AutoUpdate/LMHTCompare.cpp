@@ -23,7 +23,9 @@ BOOL CLMHTCompare::IsNeedCompare( LPCTSTR strFileName )
 	}
 
 	PTSTR strSub = ::PathFindFileName(strFileName);
-	if (lstrcmpi(strSub, L"lol.properties") == 0)
+	if (lstrcmpi(strSub, L"lol.properties") == 0 ||
+		lstrcmpi(strSub, L"locale.properties") == 0 ||
+		lstrcmpi(strSub, L"locale.cfg") == 0)
 	{
 		return FALSE;
 	}

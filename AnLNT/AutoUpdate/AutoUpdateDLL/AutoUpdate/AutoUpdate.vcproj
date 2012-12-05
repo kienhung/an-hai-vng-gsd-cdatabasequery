@@ -242,6 +242,10 @@
 				Name="Launcher"
 				>
 				<File
+					RelativePath=".\AHKLauncher.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\AuditionAutoLauncher.cpp"
 					>
 				</File>
@@ -281,6 +285,10 @@
 					RelativePath=".\WOTAutoLauncher.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\ZSLauncher.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Compare"
@@ -315,6 +323,10 @@
 				</File>
 				<File
 					RelativePath=".\WOTCompare.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ZSCompare.cpp"
 					>
 				</File>
 			</Filter>
@@ -400,6 +412,10 @@
 				Name="Launcher"
 				>
 				<File
+					RelativePath=".\AHKLauncher.h"
+					>
+				</File>
+				<File
 					RelativePath=".\AuditionAutoLauncher.h"
 					>
 				</File>
@@ -439,6 +455,10 @@
 					RelativePath=".\WOTAutoLauncher.h"
 					>
 				</File>
+				<File
+					RelativePath=".\ZSLauncher.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Compare"
@@ -473,6 +493,10 @@
 				</File>
 				<File
 					RelativePath=".\WOTCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ZSCompare.h"
 					>
 				</File>
 			</Filter>

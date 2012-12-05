@@ -46,7 +46,7 @@ BOOL CTBVAutoLauncher::Run()
 		return FALSE;
 	}
 
-	::SendMessage(m_hMainWindow, WM_CLOSE, 0, 0);
+	CMyUtils::KillWindowProcess(m_hMainWindow);
 
 	CreateSourceAndLauncherPath(L"BaVuong2", L"ga2.exe");
 	ReleaseProcess();
