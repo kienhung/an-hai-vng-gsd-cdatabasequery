@@ -9,6 +9,13 @@ protected:
 	CString m_strAHKLauncher;
 	CString m_strGameAlias;
 	int m_iExtraMinute;
+	BOOL m_bResult;
+
+protected:
+	BOOL PrepareForAll();
+	virtual BOOL BeforeRun();
+	virtual BOOL AfterRun();
+
 public:
 
 	CAHKLauncher(LPCTSTR strSource, LPCTSTR strAHKLauncher);
