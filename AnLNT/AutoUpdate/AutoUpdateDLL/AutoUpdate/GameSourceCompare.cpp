@@ -8,6 +8,7 @@ CGameSourceCompare::CGameSourceCompare( LPCTSTR strNewSource, LPCTSTR strOldSour
 :CFolderCompare(strNewSource, strOldSource)
 {
 	Init();
+	
 }
 
 CGameSourceCompare::~CGameSourceCompare(void)
@@ -18,6 +19,7 @@ BOOL CGameSourceCompare::Init()
 {
 	m_bHasUpdate = FALSE;
 	m_strResultFilePath = L"";
+	m_strGamePatchDirectory.Format(L"%s\\%s", m_strNewSource, L"gamepatch");
 
 	return TRUE;
 }
@@ -119,6 +121,12 @@ BOOL CGameSourceCompare::IsUnnecessaryToCheckForAllGames( LPCTSTR strFileName )
 
 	PTSTR strExtesion = ::PathFindExtension(strFileName);
 	if (lstrcmpi(strExtesion, L".torrent") == 0)
+	{
+		return TRUE;
+	}
+
+	CString strTemp = CString(strFileName).Left(m_strGamePatchDirectory.GetLength());
+	if (strTemp.CompareNoCase(m_strGamePatchDirectory) == 0)
 	{
 		return TRUE;
 	}

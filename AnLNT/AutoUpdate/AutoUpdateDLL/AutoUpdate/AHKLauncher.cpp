@@ -22,6 +22,18 @@ CString CAHKLauncher::GetName()
 
 BOOL CAHKLauncher::Run()
 {
+	if (PrepareForAll() == FALSE)
+	{
+		CGlobalClass::GetInstance()->GetLogWriter()->WriteLog(LOG_TYPE_ERROR, L"Failed to call prepareForAll method");
+		return FALSE;
+	}
+
+	if (BeforeRun() == FALSE)
+	{
+		CGlobalClass::GetInstance()->GetLogWriter()->WriteLog(LOG_TYPE_ERROR, L"Failed to call BeforeRun method");
+		return FALSE;
+	}
+
 	STARTUPINFO si = { sizeof(si) };
 	PROCESS_INFORMATION pi;
 
@@ -57,19 +69,35 @@ BOOL CAHKLauncher::Run()
 	}
 
 	DWORD dwExitCode = 1;
-	BOOL bResult = TRUE;
+	m_bResult = TRUE;
 
 	if (FALSE == GetExitCodeProcess(pi.hProcess, &dwExitCode) || 0 != dwExitCode)
 	{
-		bResult =  FALSE;
+		m_bResult =  FALSE;
 	}
 
 	Clean(pi);
-	return bResult;
+	AfterRun();
+	return m_bResult;
 }
 
 void CAHKLauncher::Clean( PROCESS_INFORMATION &pi )
 {
 	::CloseHandle(pi.hThread);
 	::CloseHandle(pi.hProcess);
+}
+
+BOOL CAHKLauncher::PrepareForAll()
+{
+	return TRUE;
+}
+
+BOOL CAHKLauncher::BeforeRun()
+{
+	return TRUE;
+}
+
+BOOL CAHKLauncher::AfterRun()
+{
+	return TRUE;
 }

@@ -7,6 +7,7 @@ class CGameSourceCompare :
 protected:
 	CString m_strResultFilePath;
 	BOOL m_bHasUpdate;
+	CString m_strGamePatchDirectory;
 
 protected:
 	BOOL Init();
