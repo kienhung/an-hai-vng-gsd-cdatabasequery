@@ -60,6 +60,12 @@ BOOL CGameSourceCompare::DeleteResultFile()
 
 BOOL CGameSourceCompare::IsNeedCompare( LPCTSTR strFileName )
 {
+	PTSTR strExtesion = ::PathFindExtension(strFileName);
+	if (lstrcmpi(strExtesion, L".log") == 0)
+	{
+		return FALSE;
+	}
+
 	return TRUE;
 }
 

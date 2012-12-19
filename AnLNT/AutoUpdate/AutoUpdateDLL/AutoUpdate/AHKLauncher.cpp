@@ -3,11 +3,11 @@
 #include "GlobalClass.h"
 
 
-CAHKLauncher::CAHKLauncher( LPCTSTR strSource, LPCTSTR strAHKLauncher )
+CAHKLauncher::CAHKLauncher( LPCTSTR strSource, LPCTSTR strGameAlias )
 :CLauncher(strSource)
 {
-	m_strGameAlias = strAHKLauncher;
-	m_strAHKLauncher.Format(L"%s\\%s", CGlobalClass::GetInstance()->GetExeDirectory(), strAHKLauncher);
+	m_strGameAlias = strGameAlias;
+	m_strAHKLauncher.Format(L"%s\\%s", CGlobalClass::GetInstance()->GetExeDirectory(), strGameAlias);
 	m_iExtraMinute = 3;
 }
 

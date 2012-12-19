@@ -314,6 +314,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SASEACompare.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\TBVCompare.cpp"
 					>
 				</File>
@@ -481,6 +485,10 @@
 				</File>
 				<File
 					RelativePath=".\LMHTCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\SASEACompare.h"
 					>
 				</File>
 				<File
