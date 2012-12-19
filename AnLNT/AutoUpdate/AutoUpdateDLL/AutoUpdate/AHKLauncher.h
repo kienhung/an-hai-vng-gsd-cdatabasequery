@@ -18,7 +18,7 @@ protected:
 
 public:
 
-	CAHKLauncher(LPCTSTR strSource, LPCTSTR strAHKLauncher);
+	CAHKLauncher(LPCTSTR strSource, LPCTSTR strGameAlias);
 	virtual ~CAHKLauncher(void);
 	virtual CString GetName();
 	virtual BOOL Run();
