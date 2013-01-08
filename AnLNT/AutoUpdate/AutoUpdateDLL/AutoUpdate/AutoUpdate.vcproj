@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="..\..\..\..\..\..\..\..\UpdateGame\TestAutoUpdate_NoCloning"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="2"
@@ -96,7 +96,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="..\..\..\..\..\..\..\..\UpdateGame\TestAutoUpdate_NoCloning"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="2"
@@ -213,10 +213,6 @@
 						CompileAsManaged="0"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\ExportFunctions.cpp"
-				>
 			</File>
 			<File
 				RelativePath=".\stdafx.cpp"
@@ -390,7 +386,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ExportFunctions.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\InputReader.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Diagnostics"
+				>
+				<File
+					RelativePath=".\Process.cpp"
 					>
 				</File>
 			</Filter>
@@ -577,6 +585,14 @@
 				</File>
 				<File
 					RelativePath=".\InputReader.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Diagnostics"
+				>
+				<File
+					RelativePath=".\Process.h"
 					>
 				</File>
 			</Filter>
