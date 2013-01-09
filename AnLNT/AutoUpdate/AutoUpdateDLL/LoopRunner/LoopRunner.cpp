@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "LoopRunner.h"
 #include "..\AutoUpdate\MyPath.h"
+
 typedef BOOL (*AutoDetectGameUpdate)(LPCTSTR strInput);
 
 #ifdef _DEBUG
@@ -35,10 +36,11 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		CString strExeFilePath = myPath.GetExeFilePath();
 		CString strInputFilePath = strExeFilePath + L"\\input.ini";
 
-		DWORD dwDelay = 4*60*60*1000;
+		DWORD dwFourHoursInMiliSeconds = 4*60*60*1000;
 
 		while(true)
 		{
+			DWORD dwStartTime = GetTickCount ();
 			HINSTANCE hLib = ::LoadLibrary(L"AutoUpdate");
 			if (NULL != hLib)
 			{
@@ -49,11 +51,16 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 				}
 				::FreeLibrary(hLib);
 			}
-			printf("Tam dung %uh\n", dwDelay/(60*60*1000));
-			::Sleep(dwDelay);
+			DWORD dwProgressTime = GetTickCount () - dwStartTime ;
+
+			printf("Delay....\n");
+			if (dwProgressTime < dwFourHoursInMiliSeconds)
+			{
+				::Sleep(dwFourHoursInMiliSeconds - dwProgressTime);
+			}
+			//printf("Delay %uh\n", dwDelay/(60*60*1000));
+			//::Sleep(dwDelay);
 		}
-		
-		system("pause");
 	}
 
 	return nRetCode;
