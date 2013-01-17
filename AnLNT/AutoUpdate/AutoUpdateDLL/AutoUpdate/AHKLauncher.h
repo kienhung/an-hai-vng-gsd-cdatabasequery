@@ -16,6 +16,7 @@ protected:
 	virtual BOOL BeforeRun();
 	virtual BOOL AfterRun();
 
+	virtual CGameSourceCompare * GetComparer (LPCTSTR strNewSource, LPCTSTR strOldSource);
 public:
 
 	CAHKLauncher(LPCTSTR strSource, LPCTSTR strGameAlias);
