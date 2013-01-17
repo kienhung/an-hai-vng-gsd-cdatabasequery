@@ -117,6 +117,7 @@ BOOL CGameSourceCompare::IsUnnecessaryToCheckForAllGames( LPCTSTR strFileName )
 	{
 		return TRUE;
 	}
+
 	PTSTR strSub = ::PathFindFileName(strFileName);
 	if (lstrcmpi(strSub, L"gmautoupdate.fls") == 0 ||
 		lstrcmpi(strSub, L"autoupdate.fls") == 0 ||
@@ -126,7 +127,8 @@ BOOL CGameSourceCompare::IsUnnecessaryToCheckForAllGames( LPCTSTR strFileName )
 	}
 
 	PTSTR strExtesion = ::PathFindExtension(strFileName);
-	if (lstrcmpi(strExtesion, L".torrent") == 0)
+	if (lstrcmpi(strExtesion, L".torrent") == 0
+		|| lstrcmpi(strExtesion, L".log") == 0)
 	{
 		return TRUE;
 	}

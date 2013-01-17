@@ -76,6 +76,11 @@ BOOL CInputReader::Read()
 			else if(lstrcmpi(arrStrGameList[i], L"SASEA") == 0)
 			{
 				pAutoLauncher = new CAHKLauncher(strSourcePath, arrStrGameList[i]);
+
+			} 
+			else
+			{
+				pAutoLauncher = new CAHKLauncher(strSourcePath, arrStrGameList[i]);
 			}
 			//new game here
 

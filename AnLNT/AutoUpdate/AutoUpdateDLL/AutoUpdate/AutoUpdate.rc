@@ -69,8 +69,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,0,0,2
- PRODUCTVERSION 4,0,0,2
+ FILEVERSION 4,0,0,4
+ PRODUCTVERSION 4,0,0,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -86,13 +86,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "Gui toan bo noi dung file log"
-            VALUE "FileVersion", "4, 0, 0, 2"
+            VALUE "FileDescription", "HTD. Don't compare config.ini"
+            VALUE "FileVersion", "4, 0, 0, 4"
             VALUE "InternalName", "AutoUpdate.dll"
             VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
             VALUE "OriginalFilename", "AutoUpdate.dll"
             VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "4, 0, 0, 2"
+            VALUE "ProductVersion", "4, 0, 0, 4"
         END
     END
     BLOCK "VarFileInfo"

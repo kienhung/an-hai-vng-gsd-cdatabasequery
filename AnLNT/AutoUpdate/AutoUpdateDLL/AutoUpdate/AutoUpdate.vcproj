@@ -306,6 +306,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\HTDCompare.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\LMHTCompare.cpp"
 					>
 				</File>
@@ -489,6 +493,10 @@
 				</File>
 				<File
 					RelativePath=".\GameSourceCompare.h"
+					>
+				</File>
+				<File
+					RelativePath=".\HTDCompare.h"
 					>
 				</File>
 				<File
