@@ -27,5 +27,10 @@ BOOL CTBVCompare::IsNeedCompare( LPCTSTR strFileName )
 		}
 	}
 
+	if (lstrcmpi(strSub, L"amped.exe") == 0)
+	{
+		return FALSE;
+	}
+
 	return TRUE;
 }

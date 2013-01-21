@@ -8,7 +8,7 @@ class CHTDCompare :
 	public CGameSourceCompare
 {
 protected:
-	vector<CString> lstFilesNoCheck;
+	
 	virtual BOOL IsNeedCompare(LPCTSTR strFileName);
 public:
 	CHTDCompare(LPCTSTR strNewSource, LPCTSTR strOldSource);

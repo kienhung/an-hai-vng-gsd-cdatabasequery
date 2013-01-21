@@ -3,6 +3,7 @@
 #include "MyUtils.h"
 #include "MyPath.h"
 #include <shlwapi.h>
+#include <algorithm>
 
 CGameSourceCompare::CGameSourceCompare( LPCTSTR strNewSource, LPCTSTR strOldSource )
 :CFolderCompare(strNewSource, strOldSource)
@@ -135,6 +136,20 @@ BOOL CGameSourceCompare::IsUnnecessaryToCheckForAllGames( LPCTSTR strFileName )
 
 	CString strTemp = CString(strFileName).Left(m_strGamePatchDirectory.GetLength());
 	if (strTemp.CompareNoCase(m_strGamePatchDirectory) == 0)
+	{
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+BOOL CGameSourceCompare::IsFileInListFilesNoCheck( LPCTSTR strFileName )
+{
+	CString strSubFileName = ::PathFindFileName(strFileName);
+	vector<CString>::iterator it = find (lstFilesNoCheck.begin(), lstFilesNoCheck.end(), strSubFileName);
+
+	if (it != lstFilesNoCheck.end())
 	{
 		return TRUE;
 	}
