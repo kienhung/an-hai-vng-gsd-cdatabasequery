@@ -2,6 +2,7 @@
 #include "AHKLauncher.h"
 #include "GlobalClass.h"
 #include "HTDCompare.h"
+#include "C9DGCompare.h"
 
 
 CAHKLauncher::CAHKLauncher( LPCTSTR strSource, LPCTSTR strGameAlias )
@@ -113,6 +114,10 @@ CGameSourceCompare * CAHKLauncher::GetComparer( LPCTSTR strNewSource, LPCTSTR st
 	if (m_strGameAlias.CompareNoCase(L"HTD") == 0)
 	{
 		m_Comparer = new CHTDCompare(strNewSource, strOldSource);
+	}
+	else if (m_strGameAlias.CompareNoCase(L"9DG") == 0)
+	{
+		m_Comparer = new C9DGCompare(strNewSource, strOldSource);
 	}
 	else
 	{

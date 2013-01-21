@@ -290,6 +290,10 @@
 				Name="Compare"
 				>
 				<File
+					RelativePath=".\C9DGCompare.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\CrossfireCompare.cpp"
 					>
 				</File>
@@ -479,6 +483,10 @@
 			<Filter
 				Name="Compare"
 				>
+				<File
+					RelativePath=".\C9DGCompare.h"
+					>
+				</File>
 				<File
 					RelativePath=".\CrossfireCompare.h"
 					>
