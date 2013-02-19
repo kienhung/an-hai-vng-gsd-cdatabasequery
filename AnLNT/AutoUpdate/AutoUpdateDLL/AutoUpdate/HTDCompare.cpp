@@ -7,7 +7,7 @@ CHTDCompare::CHTDCompare( LPCTSTR strNewSource, LPCTSTR strOldSource )
 :CGameSourceCompare(strNewSource, strOldSource)
 
 {
-	LPCTSTR arrFilesNoCheck[] = {L"flist.xml", L"feeling.ini", L"pluginadr.txt", L"config.ini"};
+	LPCTSTR arrFilesNoCheck[] = {L"flist.xml", L"feeling.ini", L"pluginadr.txt", L"config.ini", L"game.ini"};
 	int iCount = sizeof(arrFilesNoCheck)/sizeof(arrFilesNoCheck[0]);
 
 	lstFilesNoCheck.assign(arrFilesNoCheck, arrFilesNoCheck + iCount);

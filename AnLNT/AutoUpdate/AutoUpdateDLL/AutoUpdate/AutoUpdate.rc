@@ -69,8 +69,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,0,0,5
- PRODUCTVERSION 4,0,0,5
+ FILEVERSION 4,0,0,7
+ PRODUCTVERSION 4,0,0,7
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -86,13 +86,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "Thêm 9DG;khong check file amped.exe TBV"
-            VALUE "FileVersion", "4, 0, 0, 5"
+            VALUE "FileDescription", "Khong check file game.ini game HTD"
+            VALUE "FileVersion", "4, 0, 0, 7"
             VALUE "InternalName", "AutoUpdate.dll"
             VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
             VALUE "OriginalFilename", "AutoUpdate.dll"
             VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "4, 0, 0, 5"
+            VALUE "ProductVersion", "4, 0, 0, 7"
         END
     END
     BLOCK "VarFileInfo"

@@ -29,7 +29,8 @@ BOOL CZSCompare::IsNeedCompare( LPCTSTR strFileName )
 	}
 
 	PTSTR strSub = ::PathFindFileName(strFileName);
-	if (lstrcmpi(strSub, L"QQLogin.dat") == 0 )
+	if (lstrcmpi(strSub, L"QQLogin.dat") == 0 
+		|| lstrcmpi(strSub, L"ScriptError.txt") == 0 )
 	{
 		return FALSE;
 	}
