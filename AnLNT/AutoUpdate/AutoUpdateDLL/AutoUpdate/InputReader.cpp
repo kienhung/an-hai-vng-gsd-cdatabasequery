@@ -41,15 +41,17 @@ BOOL CInputReader::Read()
 		{
 			CLauncher *pAutoLauncher = NULL;
 
-			if (lstrcmpi(arrStrGameList[i], L"TLBB") == 0)
-			{
-				pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
-			} 
-			else if (lstrcmpi(arrStrGameList[i], L"AU2") == 0)
-			{
-				pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
-			}
-			else if (lstrcmpi(arrStrGameList[i], L"CF") == 0)
+			//if (lstrcmpi(arrStrGameList[i], L"TLBB") == 0)
+			//{
+			//	pAutoLauncher = new CTLBBAutoLauncher(strSourcePath);
+			//} 
+			//else 
+			//if (lstrcmpi(arrStrGameList[i], L"AU2") == 0)
+			//{
+			//	pAutoLauncher = new CAuditionAutoLauncher(strSourcePath);
+			//}
+			//else 
+			if (lstrcmpi(arrStrGameList[i], L"CF") == 0)
 			{
 				pAutoLauncher = new CCrossfireAutoLauncher(strSourcePath);
 			}

@@ -35,5 +35,12 @@ BOOL CTLBBCompare::IsNeedCompare( LPCTSTR strFileName )
 			return FALSE;
 		}
 	}
+
+	PTSTR strSub = ::PathFindFileName(strFileName);
+	if (lstrcmpi(strSub, L"System.cfg") == 0)
+	{
+		return FALSE;
+	}
+
 	return TRUE;
 }

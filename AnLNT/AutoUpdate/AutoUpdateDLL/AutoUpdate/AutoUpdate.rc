@@ -69,8 +69,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,0,0,7
- PRODUCTVERSION 4,0,0,7
+ FILEVERSION 4,0,0,9
+ PRODUCTVERSION 4,0,0,9
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -86,13 +86,13 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "TODO: <Company name>"
-            VALUE "FileDescription", "Khong check file game.ini game HTD"
-            VALUE "FileVersion", "4, 0, 0, 7"
+            VALUE "FileDescription", "TLBB doesn't check System.cfg"
+            VALUE "FileVersion", "4, 0, 0, 9"
             VALUE "InternalName", "AutoUpdate.dll"
             VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
             VALUE "OriginalFilename", "AutoUpdate.dll"
             VALUE "ProductName", "TODO: <Product name>"
-            VALUE "ProductVersion", "4, 0, 0, 7"
+            VALUE "ProductVersion", "4, 0, 0, 9"
         END
     END
     BLOCK "VarFileInfo"
